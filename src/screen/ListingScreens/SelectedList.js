@@ -3,9 +3,9 @@ import { PropTypes } from 'prop-types';
 import {
   View,
   TouchableOpacity,
-  ScrollView, Platform, AsyncStorage
+  ScrollView, Platform, AsyncStorage, Image
 } from 'react-native';
-import Image from 'react-native-image-progress';
+import FastImage from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar';
 import Modal from 'react-native-modal'
 import colors from '../styles/colors';
@@ -13,8 +13,10 @@ import styles from '../styles/CreateList';
 import { Icon, Header, Container, Left, Button, Right, Body, Title, List, ListItem, Text, H1, H2, H3, Thumbnail, Content, Item, Label, Input } from 'native-base';
 import Stars from '../../components/Stars';
 import headStyle from '../styles/HeaderSetting';
+import firestore from '@react-native-firebase/firestore'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import NoImage from '../../components/explore/NoImage';
+import Loader from '../../components/Loader';
 
 export default class SelectedListItem extends React.Component{
     static navigationOptions = ({ navigation }) => ({
@@ -39,6 +41,8 @@ export default class SelectedListItem extends React.Component{
             listing:[],
             editData:false,
             location:"",
+            loading: false,
+            showPreview:false,
             price:"",
             title:"",
             detail:"",
@@ -48,23 +52,71 @@ export default class SelectedListItem extends React.Component{
       }
 
     componentDidMount(){
+
         this.setState({
-            listing: this.props.route.params.result,
-            location:this.props.route.params.result.location,
-            price:this.props.route.params.result.price,
-            title:this.props.route.params.result.title,
-            detail:this.props.route.params.result.detail,
-            type:this.props.route.params.result.type,
+            loading: true
         })
+        
+        setTimeout(()=>{
+            this.setState({
+                listing: this.props.route.params.result,
+                location:this.props.route.params.result.location,
+                price:this.props.route.params.result.price,
+                title:this.props.route.params.result.title,
+                detail:this.props.route.params.result.detail,
+                type:this.props.route.params.result.type,
+                loading: false
+            })
+        }, 1000)
     }
 
     goBack = () =>{
       this.props.navigation.goBack()
     }
 
-    checkAvail = () =>{
-        // const { location, price,title, detail, type } = this.state
-        console.log("here")
+    checkAvail = async() =>{
+        const { location, price,title, detail, type } = this.state
+        if(location && price && title && detail && type){
+            this.setState({
+                showPreview: true,
+                editData: false
+            })
+        }
+    }
+
+    getDoc = async() =>{
+        const { listing } = this.state
+        console.log("here", listing.id)
+        return new Promise((resolve, reject)=>{
+            firestore().collection('ItemList').where('id', '==', listing.id).get()
+            .then(function(querySnapshot) {
+              querySnapshot.forEach(function(doc) {
+                resolve(doc.id)
+              });
+            })
+          })
+    }
+
+    uploadData = async() =>{
+        this.setState({
+            loading: true
+        })
+        const { location, price,title, detail, type } = this.state
+        const getDoc = await this.getDoc()
+        if(getDoc){
+            firestore().collection('ItemList').doc(getDoc).update({ 
+                title: title,
+                type: type,
+                location: location,
+                price: price,
+                detail: detail
+            })
+            .then(()=>{
+                this.setState({
+                    loading: false
+                })
+            })
+        }
     }
 
     saveData = () =>{
@@ -87,13 +139,13 @@ export default class SelectedListItem extends React.Component{
                 !this.state.editData
                 ?
                 <ScrollView>
-                <View style={{width:'100%', marginTop: Platform.OS === "android" ? 20 : 0}}>
-                <ScrollView horizontal style={{flex:1}} showsHorizontalScrollIndicator={false}>
+                <View style={{width:'100%', backgroundColor:'red', marginTop: Platform.OS === "android" ? 20 : 0}}>
+                <ScrollView horizontal style={{flex:1, backgroundColor:'red'}} showsHorizontalScrollIndicator={false}>
                         {
                             listing.photo !== undefined
                             ?
                             listing.photo.map((i,ind)=>(
-                                <Image 
+                                <FastImage 
                                   source={i && {uri: i}}
                                   key={ind}
                                   indicator={ProgressBar} 
@@ -101,7 +153,11 @@ export default class SelectedListItem extends React.Component{
                                 />
                             ))
                             :
-                            <NoImage />
+                            <Image
+                            style={{ height: hp('40%'),flex:1,width:wp('100%')}}
+                            source={require('../../img/noImage.jpeg')}
+                            resizeMode="cover"
+                            />                                
                         }
                     </ScrollView>
                     <View style={headStyle.leftHeader}>
@@ -114,7 +170,7 @@ export default class SelectedListItem extends React.Component{
                 <List>
                         <ListItem>
                             <Body>
-                                <Text style={{fontSize:24}}>{listing.title}</Text>
+                                <Text style={{fontSize:24}}>{this.state.showPreview === false ? listing.title : this.state.title}</Text>
                                 {listing.stars> 0
                                 ? (
                                     <Stars
@@ -124,7 +180,7 @@ export default class SelectedListItem extends React.Component{
                                     />
                                     )
                                 : null}
-                                <Text style={{marginTop:10, marginBottom:10}}>{listing.location}</Text>
+                                <Text style={{marginTop:10, marginBottom:10}}>{this.state.showPreview === false ? listing.location : this.state.location}</Text>
                             </Body>
                             <Right />
                         </ListItem>
@@ -132,7 +188,7 @@ export default class SelectedListItem extends React.Component{
                         <Left>
                             <Body>
                                 <Text style={{fontWeight:'normal'}}>
-                                    {listing.type}
+                                    {this.state.showPreview === false ? listing.type : this.state.type}
                                 </Text>
                                 <Text>hosted by <Text style={{fontWeight:'bold'}}> {listing.userName} </Text> </Text>
                             </Body>
@@ -144,7 +200,7 @@ export default class SelectedListItem extends React.Component{
                         <Left>
                             <Body>
                                 <Text style={{fontWeight:'normal'}}>
-                                   $ {listing.price} /  {listing.priceType}
+                                   $ {this.state.showPreview === false ? listing.price : this.state.price} /  {listing.priceType}
                                 </Text>
                             </Body>
                         </Left>
@@ -180,12 +236,27 @@ export default class SelectedListItem extends React.Component{
                   ?
                     <View style={{position:'absolute', bottom:10, right:20}} >
                         <Button style={{backgroundColor:colors.saagColor}} onPress={() => this.checkAvail()} >
-                            <Text>Save</Text>
+                            <Text>Preview</Text>
                         </Button>
                     </View>
                     :
                     null
               }
+              {
+                  this.state.showPreview
+                  ?
+                    <View style={{position:'absolute', bottom:10, right:20}} >
+                        <Button style={{backgroundColor:colors.saagColor}} onPress={() => this.uploadData()} >
+                            <Text>Update</Text>
+                        </Button>
+                    </View>
+                    :
+                    null
+              }
+              <Loader
+                modalVisible={this.state.loading}
+                animationType="fade"
+            />
             </Container>
         )
     }
