@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "107305454058",
+    "firebase_url": "https://saagg-e874a.firebaseio.com",
+    "project_id": "saagg-e874a",
+    "storage_bucket": "saagg-e874a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107305454058:android:1cfc15bd70523905d7ca93",
+        "android_client_info": {
+          "package_name": "com.saag"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "107305454058-7q57vmja4o8srdvjbil0s0us0ja0p0jq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhteGLLefi5kLUHVF5mJGErbNCita7oT4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "107305454058-7q57vmja4o8srdvjbil0s0us0ja0p0jq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "107305454058-n80fr9grlmu7pu15e860loft8v0t3v9q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.Firebase"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,238 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.saag"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="16"
+9        android:targetSdkVersion="29" />
+10
+11    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+11-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/debug/AndroidManifest.xml:5:5-77
+11-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/debug/AndroidManifest.xml:5:22-75
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:4:5-67
+12-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:4:22-64
+13    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+13-->[com.facebook.flipper:flipper:0.37.0] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/9fd80467112ad8d46623738a88cc056e/jetified-flipper-0.37.0/AndroidManifest.xml:16:5-76
+13-->[com.facebook.flipper:flipper:0.37.0] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/9fd80467112ad8d46623738a88cc056e/jetified-flipper-0.37.0/AndroidManifest.xml:16:22-73
+14    <uses-permission android:name="android.permission.WAKE_LOCK" />
+14-->[:react-native-firebase_auth] /Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/node_modules/@react-native-firebase/auth/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-68
+14-->[:react-native-firebase_auth] /Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/node_modules/@react-native-firebase/auth/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:22-65
+15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- TODO(salakar) Not sure if this should be part of the package manifest or leave to users app manifest code? -->
+15-->[:react-native-firebase_auth] /Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/node_modules/@react-native-firebase/auth/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:13:5-79
+15-->[:react-native-firebase_auth] /Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/node_modules/@react-native-firebase/auth/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:13:22-76
+16    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+16-->[:react-native-firebase_storage] /Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/node_modules/@react-native-firebase/storage/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:5-80
+16-->[:react-native-firebase_storage] /Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/node_modules/@react-native-firebase/storage/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:22-77
+17    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- Required by older versions of Google Play services to create IID tokens -->
+17-->[:react-native-firebase_storage] /Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/node_modules/@react-native-firebase/storage/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:5-81
+17-->[:react-native-firebase_storage] /Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/node_modules/@react-native-firebase/storage/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:22-78
+18    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+18-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:26:5-82
+18-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:26:22-79
+19    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+19-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:26:5-110
+19-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:26:22-107
+20
+21    <application
+21-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:6:5-25:19
+22        android:name="com.saag.MainApplication"
+22-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:7:7-38
+23        android:allowBackup="false"
+23-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:11:7-34
+24        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+24-->[androidx.core:core:1.1.0] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/0f512e181ca87b528277c07a0d4a1870/core-1.1.0/AndroidManifest.xml:24:18-86
+25        android:debuggable="true"
+26        android:icon="@mipmap/ic_launcher"
+26-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:9:7-41
+27        android:label="@string/app_name"
+27-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:8:7-39
+28        android:roundIcon="@mipmap/ic_launcher_round"
+28-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:10:7-52
+29        android:testOnly="true"
+30        android:theme="@style/AppTheme"
+30-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:12:7-38
+31        android:usesCleartextTraffic="true" >
+31-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/debug/AndroidManifest.xml:7:18-53
+32        <activity
+32-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:13:7-23:18
+33            android:name="com.saag.MainActivity"
+33-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:14:9-37
+34            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
+34-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:16:9-86
+35            android:label="@string/app_name"
+35-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:15:9-41
+36            android:launchMode="singleTask"
+36-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:17:9-40
+37            android:windowSoftInputMode="adjustResize" >
+37-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:18:9-51
+38            <intent-filter>
+38-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:19:9-22:25
+39                <action android:name="android.intent.action.MAIN" />
+39-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:20:13-65
+39-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:20:21-62
+40
+41                <category android:name="android.intent.category.LAUNCHER" />
+41-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:21:13-73
+41-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:21:23-70
+42            </intent-filter>
+43        </activity>
+44        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+44-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:24:7-84
+44-->/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/AndroidManifest.xml:24:17-81
+45
+46        <provider
+46-->[:react-native-image-picker] /Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:10:9-18:20
+47            android:name="com.imagepicker.FileProvider"
+47-->[:react-native-image-picker] /Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-56
+48            android:authorities="com.saag.provider"
+48-->[:react-native-image-picker] /Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-60
+49            android:exported="false"
+49-->[:react-native-image-picker] /Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-37
+50            android:grantUriPermissions="true" >
+50-->[:react-native-image-picker] /Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:14:13-47
+51            <meta-data
+51-->[:react-native-image-picker] /Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:13-17:58
+52                android:name="android.support.FILE_PROVIDER_PATHS"
+52-->[:react-native-image-picker] /Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:17-67
+53                android:resource="@xml/provider_paths" />
+53-->[:react-native-image-picker] /Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/node_modules/react-native-image-picker/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:17-55
+54        </provider>
+55
+56        <service
+56-->[com.google.firebase:firebase-firestore:21.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/ebfe5609ecb145cc9d12e08a979da977/jetified-firebase-firestore-21.4.3/AndroidManifest.xml:17:9-23:19
+57            android:name="com.google.firebase.components.ComponentDiscoveryService"
+57-->[com.google.firebase:firebase-firestore:21.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/ebfe5609ecb145cc9d12e08a979da977/jetified-firebase-firestore-21.4.3/AndroidManifest.xml:18:13-84
+58            android:directBootAware="true"
+58-->[com.google.firebase:firebase-common:19.3.0] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/9f24b895ae9f01d9ba34cb6fc53bf840/jetified-firebase-common-19.3.0/AndroidManifest.xml:34:13-43
+59            android:exported="false" >
+59-->[com.google.firebase:firebase-firestore:21.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/ebfe5609ecb145cc9d12e08a979da977/jetified-firebase-firestore-21.4.3/AndroidManifest.xml:19:13-37
+60            <meta-data
+60-->[com.google.firebase:firebase-firestore:21.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/ebfe5609ecb145cc9d12e08a979da977/jetified-firebase-firestore-21.4.3/AndroidManifest.xml:20:13-22:85
+61                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+61-->[com.google.firebase:firebase-firestore:21.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/ebfe5609ecb145cc9d12e08a979da977/jetified-firebase-firestore-21.4.3/AndroidManifest.xml:21:17-111
+62                android:value="com.google.firebase.components.ComponentRegistrar" />
+62-->[com.google.firebase:firebase-firestore:21.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/ebfe5609ecb145cc9d12e08a979da977/jetified-firebase-firestore-21.4.3/AndroidManifest.xml:22:17-82
+63            <meta-data
+63-->[com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:36:13-38:85
+64                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+64-->[com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:37:17-109
+65                android:value="com.google.firebase.components.ComponentRegistrar" />
+65-->[com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:38:17-82
+66            <meta-data
+66-->[com.google.firebase:firebase-storage:19.1.1] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/50fba9f85c46043d21626f3b24236db5/jetified-firebase-storage-19.1.1/AndroidManifest.xml:33:13-35:85
+67                android:name="com.google.firebase.components:com.google.firebase.storage.StorageRegistrar"
+67-->[com.google.firebase:firebase-storage:19.1.1] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/50fba9f85c46043d21626f3b24236db5/jetified-firebase-storage-19.1.1/AndroidManifest.xml:34:17-107
+68                android:value="com.google.firebase.components.ComponentRegistrar" />
+68-->[com.google.firebase:firebase-storage:19.1.1] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/50fba9f85c46043d21626f3b24236db5/jetified-firebase-storage-19.1.1/AndroidManifest.xml:35:17-82
+69            <meta-data
+69-->[com.google.android.gms:play-services-measurement-api:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/4af6b75e5028411a545c555c5d8045eb/jetified-play-services-measurement-api-17.4.3/AndroidManifest.xml:30:13-32:85
+70                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+70-->[com.google.android.gms:play-services-measurement-api:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/4af6b75e5028411a545c555c5d8045eb/jetified-play-services-measurement-api-17.4.3/AndroidManifest.xml:31:17-139
+71                android:value="com.google.firebase.components.ComponentRegistrar" />
+71-->[com.google.android.gms:play-services-measurement-api:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/4af6b75e5028411a545c555c5d8045eb/jetified-play-services-measurement-api-17.4.3/AndroidManifest.xml:32:17-82
+72            <meta-data
+72-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:32:13-34:85
+73                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
+73-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:33:17-96
+74                android:value="com.google.firebase.components.ComponentRegistrar" />
+74-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:34:17-82
+75            <meta-data
+75-->[com.google.firebase:firebase-installations:16.2.1] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/6f8f250bd85c0fd19d82d5785925376d/jetified-firebase-installations-16.2.1/AndroidManifest.xml:17:13-19:85
+76                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+76-->[com.google.firebase:firebase-installations:16.2.1] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/6f8f250bd85c0fd19d82d5785925376d/jetified-firebase-installations-16.2.1/AndroidManifest.xml:18:17-127
+77                android:value="com.google.firebase.components.ComponentRegistrar" />
+77-->[com.google.firebase:firebase-installations:16.2.1] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/6f8f250bd85c0fd19d82d5785925376d/jetified-firebase-installations-16.2.1/AndroidManifest.xml:19:17-82
+78        </service>
+79
+80        <activity
+80-->[com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:24:9-31:50
+81            android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
+81-->[com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:25:13-85
+82            android:excludeFromRecents="true"
+82-->[com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:26:13-46
+83            android:exported="true"
+83-->[com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:27:13-36
+84            android:launchMode="singleTask"
+84-->[com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:28:13-44
+85            android:permission="com.google.firebase.auth.api.gms.permission.LAUNCH_FEDERATED_SIGN_IN"
+85-->[com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:29:13-102
+86            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+86-->[com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:30:13-72
+87
+88        <receiver
+88-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:37:9-44:20
+89            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+89-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:38:13-78
+90            android:exported="true"
+90-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:39:13-36
+91            android:permission="com.google.android.c2dm.permission.SEND" >
+91-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:40:13-73
+92            <intent-filter>
+92-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:41:13-43:29
+93                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+93-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:42:17-81
+93-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:42:25-78
+94            </intent-filter>
+95        </receiver>
+96
+97        <activity
+97-->[com.google.android.gms:play-services-base:17.1.0] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/e45c3bcec9556f6c305c7348090de509/jetified-play-services-base-17.1.0/AndroidManifest.xml:23:9-26:75
+98            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+98-->[com.google.android.gms:play-services-base:17.1.0] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/e45c3bcec9556f6c305c7348090de509/jetified-play-services-base-17.1.0/AndroidManifest.xml:24:13-79
+99            android:exported="false"
+99-->[com.google.android.gms:play-services-base:17.1.0] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/e45c3bcec9556f6c305c7348090de509/jetified-play-services-base-17.1.0/AndroidManifest.xml:25:13-37
+100            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+100-->[com.google.android.gms:play-services-base:17.1.0] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/e45c3bcec9556f6c305c7348090de509/jetified-play-services-base-17.1.0/AndroidManifest.xml:26:13-72
+101
+102        <provider
+102-->[com.google.firebase:firebase-common:19.3.0] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/9f24b895ae9f01d9ba34cb6fc53bf840/jetified-firebase-common-19.3.0/AndroidManifest.xml:26:9-30:39
+103            android:name="com.google.firebase.provider.FirebaseInitProvider"
+103-->[com.google.firebase:firebase-common:19.3.0] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/9f24b895ae9f01d9ba34cb6fc53bf840/jetified-firebase-common-19.3.0/AndroidManifest.xml:27:13-77
+104            android:authorities="com.saag.firebaseinitprovider"
+104-->[com.google.firebase:firebase-common:19.3.0] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/9f24b895ae9f01d9ba34cb6fc53bf840/jetified-firebase-common-19.3.0/AndroidManifest.xml:28:13-72
+105            android:exported="false"
+105-->[com.google.firebase:firebase-common:19.3.0] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/9f24b895ae9f01d9ba34cb6fc53bf840/jetified-firebase-common-19.3.0/AndroidManifest.xml:29:13-37
+106            android:initOrder="100" />
+106-->[com.google.firebase:firebase-common:19.3.0] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/9f24b895ae9f01d9ba34cb6fc53bf840/jetified-firebase-common-19.3.0/AndroidManifest.xml:30:13-36
+107
+108        <receiver
+108-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:29:9-33:20
+109            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+109-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:30:13-85
+110            android:enabled="true"
+110-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:31:13-35
+111            android:exported="false" >
+111-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:32:13-37
+112        </receiver>
+113
+114        <service
+114-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:35:9-38:40
+115            android:name="com.google.android.gms.measurement.AppMeasurementService"
+115-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:36:13-84
+116            android:enabled="true"
+116-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:37:13-35
+117            android:exported="false" />
+117-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:38:13-37
+118        <service
+118-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:39:9-43:72
+119            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+119-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:40:13-87
+120            android:enabled="true"
+120-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:41:13-35
+121            android:exported="false"
+121-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:42:13-37
+122            android:permission="android.permission.BIND_JOB_SERVICE" />
+122-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:43:13-69
+123
+124        <meta-data
+124-->[com.google.android.gms:play-services-basement:17.0.0] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/18d7fa3102df174b1d86e2b4bf7f382c/jetified-play-services-basement-17.0.0/AndroidManifest.xml:23:9-25:69
+125            android:name="com.google.android.gms.version"
+125-->[com.google.android.gms:play-services-basement:17.0.0] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/18d7fa3102df174b1d86e2b4bf7f382c/jetified-play-services-basement-17.0.0/AndroidManifest.xml:24:13-58
+126            android:value="@integer/google_play_services_version" />
+126-->[com.google.android.gms:play-services-basement:17.0.0] /Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/18d7fa3102df174b1d86e2b4bf7f382c/jetified-play-services-basement-17.0.0/AndroidManifest.xml:25:13-66
+127    </application>
+128
+129</manifest>

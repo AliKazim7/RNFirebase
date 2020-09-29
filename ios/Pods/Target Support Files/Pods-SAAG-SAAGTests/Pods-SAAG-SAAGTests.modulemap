@@ -1,0 +1,6 @@
+module Pods_SAAG_SAAGTests {
+  umbrella header "Pods-SAAG-SAAGTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
