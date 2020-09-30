@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/focusteck-01/Documents/React-Native Projects/SAAG_Project/RNFirebase/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-watch-v21/values-watch-v21.xml",
+            "outputFile": "/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-watch-v21/values-watch-v21.xml",
             "map": [
                 {
-                    "source": "/Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c8f4c24d17327ad6c5aca9ed6cde941e/appcompat-1.1.0/res/values-watch-v21/values-watch-v21.xml",
+                    "source": "/Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/c8f4c24d17327ad6c5aca9ed6cde941e/appcompat-1.1.0/res/values-watch-v21/values-watch-v21.xml",
                     "from": {
                         "startLines": "2,6,10",
                         "startColumns": "4,4,4",
