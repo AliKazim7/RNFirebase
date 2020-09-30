@@ -9,6 +9,8 @@ MERGED from [com.facebook.flipper:flipper:0.37.0] /Users/focusteck-01/.gradle/ca
 MERGED from [com.facebook.flipper:flipper-network-plugin:0.37.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/83473ac26d39797465887659e3aced80/jetified-flipper-network-plugin-0.37.0/AndroidManifest.xml:8:1-15:12
 MERGED from [com.facebook.flipper:flipper-fresco-plugin:0.37.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/2d5d3206240e6e1ee6cef7448431dc4e/jetified-flipper-fresco-plugin-0.37.0/AndroidManifest.xml:8:1-15:12
 MERGED from [androidx.multidex:multidex:2.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/e78c11a4895698aa0ccf34e244e452a5/multidex-2.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [:react-native-google-signin] /Users/focusteck-01/Documents/React-Native Projects/SAAG_Project/RNFirebase/node_modules/@react-native-community/google-signin/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
+MERGED from [:react-native-community_google-signin] /Users/focusteck-01/Documents/React-Native Projects/SAAG_Project/RNFirebase/node_modules/@react-native-community/google-signin/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-community_masked-view] /Users/focusteck-01/Documents/React-Native Projects/SAAG_Project/RNFirebase/node_modules/@react-native-community/masked-view/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-firebase_auth] /Users/focusteck-01/Documents/React-Native Projects/SAAG_Project/RNFirebase/node_modules/@react-native-firebase/auth/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
 MERGED from [:react-native-firebase_firestore] /Users/focusteck-01/Documents/React-Native Projects/SAAG_Project/RNFirebase/node_modules/@react-native-firebase/firestore/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-11:12
@@ -47,6 +49,9 @@ MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /Users/focus
 MERGED from [androidx.interpolator:interpolator:1.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/15bead3c284f9f0a0a835d23ed8a28b2/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:17:1-42:12
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/d6e1bad9a33beb1833947e9df6ae00da/jetified-viewpager2-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:17:1-39:12
+MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/ec5b363b91700deea61f208a75c7800a/jetified-play-services-auth-api-phone-16.0.0/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/26344f79bc775b02f380abdc75316db3/jetified-play-services-auth-base-16.0.0/AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.firebase:firebase-storage:19.1.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/50fba9f85c46043d21626f3b24236db5/jetified-firebase-storage-19.1.1/AndroidManifest.xml:15:1-39:12
 MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/7562999ef211ad128abc738aa4d041de/jetified-firebase-auth-interop-19.0.0/AndroidManifest.xml:2:1-10:12
 MERGED from [com.google.firebase:firebase-database-collection:17.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/ec11b25004cd2064ca8355d296c718af/jetified-firebase-database-collection-17.0.1/AndroidManifest.xml:2:1-9:12
@@ -161,6 +166,8 @@ MERGED from [com.google.android.material:material:1.1.0] /Users/focusteck-01/.gr
 MERGED from [com.google.android.material:material:1.1.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/f598bff21e8af786fee682e3731d29bf/material-1.1.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:23:5-40:19
 MERGED from [com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:23:5-40:19
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:22:5-37:19
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:22:5-37:19
 MERGED from [com.google.firebase:firebase-storage:19.1.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/50fba9f85c46043d21626f3b24236db5/jetified-firebase-storage-19.1.1/AndroidManifest.xml:29:5-37:19
 MERGED from [com.google.firebase:firebase-storage:19.1.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/50fba9f85c46043d21626f3b24236db5/jetified-firebase-storage-19.1.1/AndroidManifest.xml:29:5-37:19
 MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/7562999ef211ad128abc738aa4d041de/jetified-firebase-auth-interop-19.0.0/AndroidManifest.xml:7:5-8:19
@@ -269,6 +276,10 @@ MERGED from [com.facebook.flipper:flipper-fresco-plugin:0.37.0] /Users/focusteck
 MERGED from [com.facebook.flipper:flipper-fresco-plugin:0.37.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/2d5d3206240e6e1ee6cef7448431dc4e/jetified-flipper-fresco-plugin-0.37.0/AndroidManifest.xml:11:5-13:41
 MERGED from [androidx.multidex:multidex:2.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/e78c11a4895698aa0ccf34e244e452a5/multidex-2.0.0/AndroidManifest.xml:20:5-43
 MERGED from [androidx.multidex:multidex:2.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/e78c11a4895698aa0ccf34e244e452a5/multidex-2.0.0/AndroidManifest.xml:20:5-43
+MERGED from [:react-native-google-signin] /Users/focusteck-01/Documents/React-Native Projects/SAAG_Project/RNFirebase/node_modules/@react-native-community/google-signin/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-google-signin] /Users/focusteck-01/Documents/React-Native Projects/SAAG_Project/RNFirebase/node_modules/@react-native-community/google-signin/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-community_google-signin] /Users/focusteck-01/Documents/React-Native Projects/SAAG_Project/RNFirebase/node_modules/@react-native-community/google-signin/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:react-native-community_google-signin] /Users/focusteck-01/Documents/React-Native Projects/SAAG_Project/RNFirebase/node_modules/@react-native-community/google-signin/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
 MERGED from [:react-native-community_masked-view] /Users/focusteck-01/Documents/React-Native Projects/SAAG_Project/RNFirebase/node_modules/@react-native-community/masked-view/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-community_masked-view] /Users/focusteck-01/Documents/React-Native Projects/SAAG_Project/RNFirebase/node_modules/@react-native-community/masked-view/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-firebase_auth] /Users/focusteck-01/Documents/React-Native Projects/SAAG_Project/RNFirebase/node_modules/@react-native-firebase/auth/android/build/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-9:41
@@ -345,6 +356,12 @@ MERGED from [com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-01/.grad
 MERGED from [com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:21:5-44
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/d6e1bad9a33beb1833947e9df6ae00da/jetified-viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/d6e1bad9a33beb1833947e9df6ae00da/jetified-viewpager2-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/ec5b363b91700deea61f208a75c7800a/jetified-play-services-auth-api-phone-16.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/ec5b363b91700deea61f208a75c7800a/jetified-play-services-auth-api-phone-16.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/26344f79bc775b02f380abdc75316db3/jetified-play-services-auth-base-16.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/26344f79bc775b02f380abdc75316db3/jetified-play-services-auth-base-16.0.0/AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-storage:19.1.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/50fba9f85c46043d21626f3b24236db5/jetified-firebase-storage-19.1.1/AndroidManifest.xml:20:5-22:41
 MERGED from [com.google.firebase:firebase-storage:19.1.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/50fba9f85c46043d21626f3b24236db5/jetified-firebase-storage-19.1.1/AndroidManifest.xml:20:5-22:41
 MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/7562999ef211ad128abc738aa4d041de/jetified-firebase-auth-interop-19.0.0/AndroidManifest.xml:5:5-44
@@ -579,6 +596,24 @@ ADDED from [com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-01/.gradl
 		ADDED from [com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:38:17-82
 	android:name
 		ADDED from [com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:37:17-109
+activity#com.google.android.gms.auth.api.signin.internal.SignInHubActivity
+ADDED from [com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:23:9-27:75
+	android:excludeFromRecents
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:25:13-46
+	android:exported
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:26:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:27:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:24:13-93
+service#com.google.android.gms.auth.api.signin.RevocationBoundService
+ADDED from [com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:33:9-36:110
+	android:exported
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:35:13-36
+	android:permission
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:36:13-107
+	android:name
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:34:13-89
 meta-data#com.google.firebase.components:com.google.firebase.storage.StorageRegistrar
 ADDED from [com.google.firebase:firebase-storage:19.1.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/50fba9f85c46043d21626f3b24236db5/jetified-firebase-storage-19.1.1/AndroidManifest.xml:33:13-35:85
 	android:value

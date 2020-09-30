@@ -160,78 +160,100 @@
 84-->[com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:29:13-102
 85            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 85-->[com.google.firebase:firebase-auth:19.3.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/fa07c24df09641879ec8a3fd4938a487/jetified-firebase-auth-19.3.1/AndroidManifest.xml:30:13-72
-86
-87        <receiver
-87-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:37:9-44:20
-88            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
-88-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:38:13-78
-89            android:exported="true"
-89-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:39:13-36
-90            android:permission="com.google.android.c2dm.permission.SEND" >
-90-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:40:13-73
-91            <intent-filter>
-91-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:41:13-43:29
-92                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-92-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:42:17-81
-92-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:42:25-78
-93            </intent-filter>
-94        </receiver>
-95
-96        <activity
-96-->[com.google.android.gms:play-services-base:17.1.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/e45c3bcec9556f6c305c7348090de509/jetified-play-services-base-17.1.0/AndroidManifest.xml:23:9-26:75
-97            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-97-->[com.google.android.gms:play-services-base:17.1.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/e45c3bcec9556f6c305c7348090de509/jetified-play-services-base-17.1.0/AndroidManifest.xml:24:13-79
-98            android:exported="false"
-98-->[com.google.android.gms:play-services-base:17.1.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/e45c3bcec9556f6c305c7348090de509/jetified-play-services-base-17.1.0/AndroidManifest.xml:25:13-37
-99            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-99-->[com.google.android.gms:play-services-base:17.1.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/e45c3bcec9556f6c305c7348090de509/jetified-play-services-base-17.1.0/AndroidManifest.xml:26:13-72
-100
-101        <provider
-101-->[com.google.firebase:firebase-common:19.3.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/9f24b895ae9f01d9ba34cb6fc53bf840/jetified-firebase-common-19.3.0/AndroidManifest.xml:26:9-30:39
-102            android:name="com.google.firebase.provider.FirebaseInitProvider"
-102-->[com.google.firebase:firebase-common:19.3.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/9f24b895ae9f01d9ba34cb6fc53bf840/jetified-firebase-common-19.3.0/AndroidManifest.xml:27:13-77
-103            android:authorities="com.saag.firebaseinitprovider"
-103-->[com.google.firebase:firebase-common:19.3.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/9f24b895ae9f01d9ba34cb6fc53bf840/jetified-firebase-common-19.3.0/AndroidManifest.xml:28:13-72
-104            android:exported="false"
-104-->[com.google.firebase:firebase-common:19.3.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/9f24b895ae9f01d9ba34cb6fc53bf840/jetified-firebase-common-19.3.0/AndroidManifest.xml:29:13-37
-105            android:initOrder="100" />
-105-->[com.google.firebase:firebase-common:19.3.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/9f24b895ae9f01d9ba34cb6fc53bf840/jetified-firebase-common-19.3.0/AndroidManifest.xml:30:13-36
-106
-107        <receiver
-107-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:29:9-33:20
-108            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
-108-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:30:13-85
-109            android:enabled="true"
-109-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:31:13-35
-110            android:exported="false" >
-110-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:32:13-37
-111        </receiver>
-112
-113        <service
-113-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:35:9-38:40
-114            android:name="com.google.android.gms.measurement.AppMeasurementService"
-114-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:36:13-84
-115            android:enabled="true"
-115-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:37:13-35
-116            android:exported="false" />
-116-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:38:13-37
-117        <service
-117-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:39:9-43:72
-118            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
-118-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:40:13-87
-119            android:enabled="true"
-119-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:41:13-35
-120            android:exported="false"
-120-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:42:13-37
-121            android:permission="android.permission.BIND_JOB_SERVICE" />
-121-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:43:13-69
-122
-123        <meta-data
-123-->[com.google.android.gms:play-services-basement:17.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/18d7fa3102df174b1d86e2b4bf7f382c/jetified-play-services-basement-17.0.0/AndroidManifest.xml:23:9-25:69
-124            android:name="com.google.android.gms.version"
-124-->[com.google.android.gms:play-services-basement:17.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/18d7fa3102df174b1d86e2b4bf7f382c/jetified-play-services-basement-17.0.0/AndroidManifest.xml:24:13-58
-125            android:value="@integer/google_play_services_version" />
-125-->[com.google.android.gms:play-services-basement:17.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/18d7fa3102df174b1d86e2b4bf7f382c/jetified-play-services-basement-17.0.0/AndroidManifest.xml:25:13-66
-126    </application>
-127
-128</manifest>
+86        <activity
+86-->[com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:23:9-27:75
+87            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+87-->[com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:24:13-93
+88            android:excludeFromRecents="true"
+88-->[com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:25:13-46
+89            android:exported="false"
+89-->[com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:26:13-37
+90            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+90-->[com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:27:13-72
+91        <!--
+92            Service handling Google Sign-In user revocation. For apps that do not integrate with
+93            Google Sign-In, this service will never be started.
+94        -->
+95        <service
+95-->[com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:33:9-36:110
+96            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+96-->[com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:34:13-89
+97            android:exported="true"
+97-->[com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:35:13-36
+98            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION" />
+98-->[com.google.android.gms:play-services-auth:16.0.1] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c4b3218906b9ff49740cb6e9a64d3ff3/jetified-play-services-auth-16.0.1/AndroidManifest.xml:36:13-107
+99
+100        <receiver
+100-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:37:9-44:20
+101            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+101-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:38:13-78
+102            android:exported="true"
+102-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:39:13-36
+103            android:permission="com.google.android.c2dm.permission.SEND" >
+103-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:40:13-73
+104            <intent-filter>
+104-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:41:13-43:29
+105                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+105-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:42:17-81
+105-->[com.google.firebase:firebase-iid:20.1.5] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/57242648d6daf04e97689e65da6a30d0/jetified-firebase-iid-20.1.5/AndroidManifest.xml:42:25-78
+106            </intent-filter>
+107        </receiver>
+108
+109        <activity
+109-->[com.google.android.gms:play-services-base:17.1.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/e45c3bcec9556f6c305c7348090de509/jetified-play-services-base-17.1.0/AndroidManifest.xml:23:9-26:75
+110            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+110-->[com.google.android.gms:play-services-base:17.1.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/e45c3bcec9556f6c305c7348090de509/jetified-play-services-base-17.1.0/AndroidManifest.xml:24:13-79
+111            android:exported="false"
+111-->[com.google.android.gms:play-services-base:17.1.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/e45c3bcec9556f6c305c7348090de509/jetified-play-services-base-17.1.0/AndroidManifest.xml:25:13-37
+112            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+112-->[com.google.android.gms:play-services-base:17.1.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/e45c3bcec9556f6c305c7348090de509/jetified-play-services-base-17.1.0/AndroidManifest.xml:26:13-72
+113
+114        <provider
+114-->[com.google.firebase:firebase-common:19.3.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/9f24b895ae9f01d9ba34cb6fc53bf840/jetified-firebase-common-19.3.0/AndroidManifest.xml:26:9-30:39
+115            android:name="com.google.firebase.provider.FirebaseInitProvider"
+115-->[com.google.firebase:firebase-common:19.3.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/9f24b895ae9f01d9ba34cb6fc53bf840/jetified-firebase-common-19.3.0/AndroidManifest.xml:27:13-77
+116            android:authorities="com.saag.firebaseinitprovider"
+116-->[com.google.firebase:firebase-common:19.3.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/9f24b895ae9f01d9ba34cb6fc53bf840/jetified-firebase-common-19.3.0/AndroidManifest.xml:28:13-72
+117            android:exported="false"
+117-->[com.google.firebase:firebase-common:19.3.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/9f24b895ae9f01d9ba34cb6fc53bf840/jetified-firebase-common-19.3.0/AndroidManifest.xml:29:13-37
+118            android:initOrder="100" />
+118-->[com.google.firebase:firebase-common:19.3.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/9f24b895ae9f01d9ba34cb6fc53bf840/jetified-firebase-common-19.3.0/AndroidManifest.xml:30:13-36
+119
+120        <receiver
+120-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:29:9-33:20
+121            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+121-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:30:13-85
+122            android:enabled="true"
+122-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:31:13-35
+123            android:exported="false" >
+123-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:32:13-37
+124        </receiver>
+125
+126        <service
+126-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:35:9-38:40
+127            android:name="com.google.android.gms.measurement.AppMeasurementService"
+127-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:36:13-84
+128            android:enabled="true"
+128-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:37:13-35
+129            android:exported="false" />
+129-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:38:13-37
+130        <service
+130-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:39:9-43:72
+131            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+131-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:40:13-87
+132            android:enabled="true"
+132-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:41:13-35
+133            android:exported="false"
+133-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:42:13-37
+134            android:permission="android.permission.BIND_JOB_SERVICE" />
+134-->[com.google.android.gms:play-services-measurement:17.4.3] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/23181c6cb450e07b83bac09f39a01d00/jetified-play-services-measurement-17.4.3/AndroidManifest.xml:43:13-69
+135
+136        <meta-data
+136-->[com.google.android.gms:play-services-basement:17.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/18d7fa3102df174b1d86e2b4bf7f382c/jetified-play-services-basement-17.0.0/AndroidManifest.xml:23:9-25:69
+137            android:name="com.google.android.gms.version"
+137-->[com.google.android.gms:play-services-basement:17.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/18d7fa3102df174b1d86e2b4bf7f382c/jetified-play-services-basement-17.0.0/AndroidManifest.xml:24:13-58
+138            android:value="@integer/google_play_services_version" />
+138-->[com.google.android.gms:play-services-basement:17.0.0] /Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/18d7fa3102df174b1d86e2b4bf7f382c/jetified-play-services-basement-17.0.0/AndroidManifest.xml:25:13-66
+139    </application>
+140
+141</manifest>
