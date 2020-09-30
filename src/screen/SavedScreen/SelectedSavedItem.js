@@ -46,7 +46,90 @@ export default class SelectedSavedItem extends React.Component{
             listing: this.props.route.params.listing
         })
     }
+    async componentWillReceiveProps(nextProps){
+        console.log("nxtProps", nextProps)
+        if(nextProps.route.params.Date !== undefined){
+            const result = await this.checkData(nextProps.route.params.Date, nextProps.route.params.startDate,nextProps.route.params.endDate)
+        }
+    }
 
+    checkData = (Days, SD, ED) =>{
+        this.setState({
+            loadingVisible: true
+        })
+        const totalPrice = Days*this.state.listing.price
+        console.log("Days", Days,totalPrice)
+        this.setState({
+            totalPrice: totalPrice,
+            startDate:SD,
+            loadingVisible: false,
+            totalPrice:'',
+            startDate:'',
+            endDate:'',
+            userID:'',
+            endDate: ED
+        })
+    }
+
+    getUSER = async(UID) =>{
+        console.log("user OD", UID)
+        return new Promise((resolve, reject)=>{
+            firestore().collection('Users').where('uid', '==',UID).get()
+            .then(querySnapshot =>{
+                console.log("here",querySnapshot)
+                querySnapshot.forEach(documentSnapshot => {
+                    console.log(documentSnapshot)
+                    resolve(documentSnapshot.data())
+                });
+            })
+        })
+    }
+
+    orderNow = async () =>{
+        this.setState({
+            loadingVisible: true
+        })
+        const { endDate, startDate, totalPrice, listing  } = this.state
+        const userID = await this.getData()
+        if(userID){
+            console.log("Order Now", endDate, startDate, totalPrice, listing.userID)
+            firestore().collection('Orders').add({
+                renterID: userID,
+                supplierID: listing.userID,
+                startDate:startDate,
+                endDate:endDate,
+                orderID: Math.random(),
+                isCompleted: false,
+                totalPrice: totalPrice,
+                listItem: listing
+            }).then(() => {
+                this.setState({
+                  loadingVisible: false
+                })
+                this.props.navigation.navigate('ExploreContainer')
+              })
+              .catch(e =>{
+                this.setState({
+                  loadingVisible: false
+                })
+              })
+        } else {
+            this.setState({
+                loadingVisible: false
+            })
+        }
+    }
+
+    getData = async() =>{
+        return new Promise((resolve, reject)=>{
+            auth().onAuthStateChanged(user => {
+              if (!user) {
+              } else {
+                resolve(user.uid)
+              }
+            })
+          })
+    }
     goBack = () =>{
       this.props.navigation.goBack()
     }

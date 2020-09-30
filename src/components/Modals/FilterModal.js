@@ -23,7 +23,7 @@ function FilterModal ({ navigation }){
     
     const allClear = () =>{
         setMultiSliderValue([1,1000])
-        selectedType(false)
+        setType(false)
         setLocation('')
         setStar(0)
     }
