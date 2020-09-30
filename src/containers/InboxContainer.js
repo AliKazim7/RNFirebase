@@ -14,6 +14,8 @@ import { Body, Container, H1, H3, Header, Left, Right, Title } from 'native-base
 import SegmentedControlTab from 'react-native-segmented-control-tab'
 import NoMessages from '../screen/InboxScreen/NoMessages';
 import NotificationNot from '../screen/InboxScreen/NotifcationNot';
+import auth from '@react-native-firebase/auth'
+import firestore from '@react-native-firebase/firestore'
 import { GiftedChat } from 'react-native-gifted-chat';
 
 export default class InboxContainer extends Component {
@@ -25,6 +27,10 @@ export default class InboxContainer extends Component {
       segmentTab:["Messages", "Notifications"],
       selectedIndex:0
     }
+}
+
+componentDidMount(){
+  
 }
 
 handleIndexChange = (values) =>{
