@@ -166,6 +166,14 @@ export default class SelectedItem extends React.Component{
         // })
     } 
 
+    contactUser = () =>{
+        console.log("here messages")
+        this.props.navigation.navigate('Messages',{
+            listing: this.state.listing,
+            userDetails: this.state.userDetails
+        })
+    }
+
     render(){
         const { listing,isModalVisible, userDetails } = this.state
         console.log("userDetails", userDetails)
@@ -261,13 +269,41 @@ export default class SelectedItem extends React.Component{
                                 <Text>
                                     {listing.type}
                                 </Text>
-                                <Text note>hosted by <Text style={{fontWeight:'bold'}}> Kazim </Text> </Text>
+                                <Text note>hosted by <Text style={{fontWeight:'bold'}}> {userDetails.firstName} </Text> </Text>
                             </Body>
                         </Left>
                         <Right>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('HostProfile',{userID: userDetails.uid})}>
-                                <Thumbnail source={userDetails.photo && {uri: userDetails.photo}} />
-                            </TouchableOpacity>
+                            {
+                                userDetails.photo !== undefined
+                                ?
+                                <TouchableOpacity onPress={() => this.props.navigation.navigate('HostProfile',{userID: userDetails.uid})}>
+                                    <FastImage source={userDetails.photo && {uri: userDetails.photo}} />
+                                </TouchableOpacity>
+                                :
+                                <Image source={require('../../img/images.png')} style={{ height: heightPercentageToDP('5%'), width:widthPercentageToDP('10%')}} resizeMode="contain" />
+                            }
+                        </Right>
+                    </ListItem>
+                    <ListItem onPress={() => this.contactUser()}>
+                        <Left>
+                            <Body>
+                                <Text>
+                                    Contact with Supplier
+                                </Text>
+                            </Body>
+                        </Left>
+                        <Right>
+                            {
+                                userDetails.photo !== undefined
+                                ?
+                                <TouchableOpacity>
+                                    <FastImage source={userDetails.photo && {uri: userDetails.photo}} />
+                                </TouchableOpacity>
+                                :
+                                <TouchableOpacity>
+                                    <Image source={require('../../img/images.png')} style={{ height: heightPercentageToDP('5%'), width:widthPercentageToDP('10%')}} resizeMode="contain" />
+                                </TouchableOpacity>
+                            }
                         </Right>
                     </ListItem>
                 </List>

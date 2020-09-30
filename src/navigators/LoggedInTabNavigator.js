@@ -48,6 +48,7 @@ import UpdateListItem from '../screen/ListingScreens/UpdateListed'
 import ImageList from '../components/ImageList';
 import OrderDetails from '../screen/OrderScreens/OrderDetail';
 import SaveAvail from '../screen/SavedScreen/SaveAvail';
+import Messages from '../screen/ExploreScreen/Messages';
 const Tabs = createBottomTabNavigator()
 const Stack = createStackNavigator()
 const RootStack = createStackNavigator()
@@ -103,6 +104,7 @@ function ExploreTab(){
       <Stack.Screen options={{headerShown: false}} name="SelectedItem" component={SelectedItem} />
       <Stack.Screen options={{headerShown: false}} name="Availability" component={Availability} />
       <Stack.Screen options={{headerShown: false}} name="ViewCategory" component={ViewCategory} />
+      <Stack.Screen options={{headerShown: false}} name="Messages" component={Messages} />
       <Stack.Screen options={{headerShown: false}} name="HostProfile" component={HostProfile} />
       <Stack.Screen options={{headerShown: false}} name="ImageGallery" component={ImageList} />
       <Stack.Screen options={{headerShown: false}} name="HostSelected" component={HostSelected} />

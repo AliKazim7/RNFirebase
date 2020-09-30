@@ -17,7 +17,6 @@ import NotificationNot from '../screen/InboxScreen/NotifcationNot';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import { GiftedChat } from 'react-native-gifted-chat';
-import Fire from '../components/firebase/FirebaseSvc';
 
 export default class InboxContainer extends Component {
   constructor(props){
@@ -26,41 +25,20 @@ export default class InboxContainer extends Component {
       showMessages: true,
       messages:[],
       segmentTab:["Messages", "Notifications"],
-      userID:''
+      selectedIndex:0
     }
 }
 
-async componentDidMount(){
-  // Fire.shared.on(message=>
-  //   this.setState(previousState => ({
-  //     messages: GiftedChat.append(previousState.messages, message),
-  //   }))
-  // )
-  const userID = await this.getUSERID()
-  if(userID){
-    console.log("userOd", userID)
-    this.setState({
-      userID: userID
-    })
-  }
-}
-
-getUSERID = async ()=>{
-  return new Promise((resolve, reject)=>{
-    auth().onAuthStateChanged(user => {
-      if (!user) {
-      } else {
-        // this.setState({
-        //   userID: user.uid
-        // })
-        resolve(user.uid)
-      }
-    })
+componentDidMount(){
+  const dataMEssage = firestore().collection().onSnapshot(querySnapshot =>{
+    const messagesFireStore = querySnapshot.docChanges().filter(({ type }) => type === 'added')
+    .map(({doc})=>{
+        const message = doc.data()
+        return { ...message, createdAt: message.createdAt.toDate() }
+      }).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      console.log("data MEssages", messagesFireStore)
   })
-}
-
-componentWillUnmount() {
-  // Fire.shared.off();
+  console.log("data MEssages", dataMEssage)
 }
 
 handleIndexChange = (values) =>{
@@ -69,17 +47,10 @@ handleIndexChange = (values) =>{
   })
 }
 
-
-sendDATA = (value) =>{
-  console.log(value)
-}
-
   render() {
     return (
       <GiftedChat
         messages={this.state.messages}
-        user={this.state.userID}
-        onSend={newMessage => this.sendDATA(newMessage)}
       />
     );
   }
