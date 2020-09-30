@@ -1,10 +1,20 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-large-v4/values-large-v4.xml",
+            "outputFile": "/Users/focusteck-01/Documents/React-Native Projects/SAAG_Project/RNFirebase/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-large-v4/values-large-v4.xml",
             "map": [
                 {
-                    "source": "/Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/f598bff21e8af786fee682e3731d29bf/material-1.1.0/res/values-large-v4/values-large-v4.xml",
+                    "source": "/Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/c8f4c24d17327ad6c5aca9ed6cde941e/appcompat-1.1.0/res/values-large-v4/values-large-v4.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,114,185,256,326,396,464,532,636",
+                        "endColumns": "58,70,70,69,69,67,67,103,115",
+                        "endOffsets": "109,180,251,321,391,459,527,631,747"
+                    }
+                },
+                {
+                    "source": "/Users/focusteck-01/.gradle/caches/transforms-2/files-2.1/f598bff21e8af786fee682e3731d29bf/material-1.1.0/res/values-large-v4/values-large-v4.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -18,16 +28,6 @@
                         "startOffsets": "752,874",
                         "endColumns": "121,133",
                         "endOffsets": "869,1003"
-                    }
-                },
-                {
-                    "source": "/Users/focusteck-mac/.gradle/caches/transforms-2/files-2.1/c8f4c24d17327ad6c5aca9ed6cde941e/appcompat-1.1.0/res/values-large-v4/values-large-v4.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10",
-                        "startColumns": "4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,114,185,256,326,396,464,532,636",
-                        "endColumns": "58,70,70,69,69,67,67,103,115",
-                        "endOffsets": "109,180,251,321,391,459,527,631,747"
                     }
                 }
             ]
