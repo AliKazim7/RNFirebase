@@ -125,6 +125,7 @@ export default class SelectedItem extends React.Component{
                 this.setState({
                   loadingVisible: false
                 })
+                this.props.navigation.navigate('ExploreContainer')
               })
               .catch(e =>{
                 this.setState({
@@ -239,7 +240,7 @@ export default class SelectedItem extends React.Component{
                         </Body>
                         <Right />
                     </ListItem>
-                    <ListItem>
+                    {/* <ListItem>
                         <Body>
                             <Text>
                                 <Text style={{fontWeight:'bold'}}> Book now and get 20% off. </Text> Be one of the first 3 people who Book
@@ -253,7 +254,7 @@ export default class SelectedItem extends React.Component{
                                 color="green"
                             />
                         </Right>
-                    </ListItem>
+                    </ListItem> */}
                     <ListItem>
                         <Left>
                             <Body>
@@ -267,30 +268,6 @@ export default class SelectedItem extends React.Component{
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('HostProfile',{userID: userDetails.uid})}>
                                 <Thumbnail source={userDetails.photo && {uri: userDetails.photo}} />
                             </TouchableOpacity>
-                        </Right>
-                    </ListItem>
-                    <ListItem>
-                        <Left>
-                            <Body>
-                                <Text>
-                                    {listing.type}
-                                </Text>
-                                <Text note>hosted by <Text style={{fontWeight:'bold'}}> Kazim </Text> </Text>
-                            </Body>
-                        </Left>
-                        <Right>
-                        </Right>
-                    </ListItem>
-                    <ListItem>
-                        <Left>
-                            <Body>
-                                <Text>
-                                    {listing.type}
-                                </Text>
-                                <Text note>hosted by <Text style={{fontWeight:'bold'}}> Kazim </Text> </Text>
-                            </Body>
-                        </Left>
-                        <Right>
                         </Right>
                     </ListItem>
                 </List>
