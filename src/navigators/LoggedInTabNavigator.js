@@ -49,6 +49,7 @@ import ImageList from '../components/ImageList';
 import OrderDetails from '../screen/OrderScreens/OrderDetail';
 import SaveAvail from '../screen/SavedScreen/SaveAvail';
 import Messages from '../screen/ExploreScreen/Messages';
+import ChatMessages from '../screen/InboxScreen/ChatMessages';
 const Tabs = createBottomTabNavigator()
 const Stack = createStackNavigator()
 const RootStack = createStackNavigator()
@@ -178,6 +179,15 @@ function ProfileTab(){
   )
 }
 
+function InboxTab(){
+  return(
+    <Stack.Navigator>
+      <Stack.Screen options={{headerShown: false}} name="InboxTab" component={InboxContainer} />
+      <Stack.Screen options={{headerShown: false}} name="ChatBubble" component={ChatMessages} />
+    </Stack.Navigator>
+  )
+}
+
 ExploreTab.navigationOptions = ({ navigation }) => {
   let tabBarVisible = true;
   if (navigation.state.index > 0) {
@@ -245,7 +255,7 @@ function LoggedInTabNavigator(){
           tabBarLabel: 'Inbox',
           tabBarIcon: CustomTabBarIcon('comment', 25, 'EvilIcons')
         }} 
-        component={InboxContainer} 
+        component={InboxTab} 
       />
       <Tabs.Screen name="Profile" 
         options={{

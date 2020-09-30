@@ -17,6 +17,7 @@ import NotificationNot from '../screen/InboxScreen/NotifcationNot';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import { GiftedChat } from 'react-native-gifted-chat';
+import Fire from '../components/firebase/FirebaseSvc';
 
 export default class InboxContainer extends Component {
   constructor(props){
@@ -24,21 +25,82 @@ export default class InboxContainer extends Component {
     this.state = {
       showMessages: true,
       messages:[],
+      renterChat:[],
+      supplierChat:[],
       segmentTab:["Messages", "Notifications"],
-      selectedIndex:0
+      userID:''
     }
 }
 
-componentDidMount(){
-  const dataMEssage = firestore().collection().onSnapshot(querySnapshot =>{
-    const messagesFireStore = querySnapshot.docChanges().filter(({ type }) => type === 'added')
-    .map(({doc})=>{
-        const message = doc.data()
-        return { ...message, createdAt: message.createdAt.toDate() }
-      }).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-      console.log("data MEssages", messagesFireStore)
+async componentDidMount(){
+  // Fire.shared.on(message=>
+  //   this.setState(previousState => ({
+  //     messages: GiftedChat.append(previousState.messages, message),
+  //   }))
+  // )
+  this.setState({
+    loading: true
   })
-  console.log("data MEssages", dataMEssage)
+  const userID = await this.getUSERID()
+  if(userID){
+    const renterChat = await this.getRenterID(userID)
+    const supplierChat = await this.getSupplierID(userID)
+    this.setState({
+      userID: userID,
+      renterChat: renterChat,
+      supplierChat: supplierChat,
+      loading: false
+    })
+  }
+}
+
+getUSERID = async ()=>{
+  return new Promise((resolve, reject)=>{
+    auth().onAuthStateChanged(user => {
+      if (!user) {
+      } else {
+        resolve(user.uid)
+      }
+    })
+  })
+}
+
+getRenterID = async (ID)=>{
+  const result = []
+  return new Promise((resolve, reject)=>{
+    firestore().collection('Chats').where('renterID','==',ID).get()
+    .then(querySnapshot => {
+        if(querySnapshot.docs.length > 0){
+          querySnapshot.forEach(documentSnapshot => {
+            result.push(documentSnapshot.data())
+          });
+          resolve(result)
+        } else{
+          resolve(result)
+        }
+    });
+  })
+}
+
+getSupplierID = async (ID)=>{
+  const result = []
+  return new Promise((resolve, reject)=>{
+    firestore().collection('Chats').where('supplierID','==',ID).get()
+    .then(querySnapshot => {
+        if(querySnapshot.docs.length > 0){
+          querySnapshot.forEach(documentSnapshot => {
+            result.push(documentSnapshot.data())
+          });
+          resolve(result)
+        } else{
+          resolve(result)
+        }
+    });
+  })
+}
+
+componentWillUnmount() {
+  // Fire.shared.off();
 }
 
 handleIndexChange = (values) =>{
@@ -47,10 +109,17 @@ handleIndexChange = (values) =>{
   })
 }
 
+
+sendDATA = (value) =>{
+  console.log(value)
+}
+
   render() {
     return (
       <GiftedChat
         messages={this.state.messages}
+        user={this.state.userID}
+        onSend={newMessage => this.sendDATA(newMessage)}
       />
     );
   }

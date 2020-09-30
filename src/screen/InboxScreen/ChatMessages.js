@@ -15,7 +15,7 @@ import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import { GiftedChat } from 'react-native-gifted-chat';
 
-export default class Messages extends Component {
+export default class ChatMessages extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -32,24 +32,66 @@ export default class Messages extends Component {
 
 async componentDidMount(){
   const userID = await this.getUSERID()
-  if(userID){
+  const getUSER = await this.getUSERDATA(userID)
+
+  console.log("props messages",  getUSER)
+  if(userID && getUSER){
+      const getMessages = this.getMessages(this.props.route.params.listing.messages)
+      console.log("props messages", this.props.route.params.listing, userID)
+      const user ={
+        _id: getUSER.uid,
+        name: getUSER.firstName,
+      }
     this.setState({
-      userID: userID,
+      userID: user,
       lisitng: this.props.route.params.listing,
-      supplierID: this.props.route.params.userDetails.uid
     })
   }
 }
 
-docID = async(userID, supplierID, itemID) =>{
-    console.log("userID, supplierID, itemID",userID, supplierID, itemID)
+getUSERDATA = userID =>{
+    let result = []
+    return new Promise((resolve, reject)=>{
+      firestore()
+        .collection('Users')
+        .where('uid', '==', userID)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(documentSnapshot => {
+            result.push(documentSnapshot.data())
+          });
+          resolve(result[0])
+        });
+    })
+}
+
+getMessages = (previousMessages) =>{
+    console.log("messages",previousMessages)
+    // const { messages } = this.state
+    this.setState({
+        messages: previousMessages
+    })
+    // const newMessage = []
+    // this.state.messages(previousMessages => GiftedChat.append(
+    //     previousMessages, messages
+    // ))
+    // this.setState(messages(previousMessages => GiftedChat.append(
+    //     previousMessages, newMessage
+    // )))
+    // this.setState({
+    //     messages:(previousMessages => GiftedChat.append(previousMessages, newMessage))
+    // })
+}
+
+docID = async() =>{
+    console.log("userID, supplierID, itemID",this.state.lisitng)
     return new Promise((resolve, reject)=>{
         firestore().collection('Chats').get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 console.log(doc.data());
                 if(doc.data().renterID === userID && doc.data().supplierID === supplierID && doc.data().itemID === itemID){
                     console.log("docs", doc)
-                    resolve(doc)
+                    resolve(doc.id)
                 } else {
                     resolve(false)
                 }
@@ -85,64 +127,33 @@ handleIndexChange = (values) =>{
 
 sendDATA = async (value) =>{
   const { lisitng, supplierID } = this.state
-  console.log(value)
-  const DataCheck = await this.checkData()
-    if(DataCheck){
-        firestore().collection("Chats").add({
-        supplierID: supplierID,
-        itemID: lisitng.id,
-        title: lisitng.title,
-        messages:value,
-        ChatID: Math.random(),
-        listing: lisitng,
-        renterID: this.state.userID
-    }).then((response)=>{
-        console.log("Updated", response)
-        this.setState({
-            messages:[...this.state.messages, value[0]]
-        })
-    })
-    } else {
-        const docID = await this.docID(this.state.userID,supplierID,lisitng.id)
-            if(docID){
-                var documentID = docID.id;
-                var previous = docID.data().messages
-                previous.splice(0,0,value[0])
-            }
-            console.log("DATA check", documentID, previous, value)
-        firestore().collection('Chats').doc(documentID).update({
-            messages: previous
-        })
-        .then((response)=>{
-            console.log("Updated", response)
-            this.setState({
-                messages: previous
-            })
-        })
-    }
+    // const messages = this.state.messages
+    // messages.splice(0,0,value[0])
+    //     console.log("messages here", messages)
+    //     this.setState({
+    //         messages: messages
+    //     })
+      const docID = await this.docID()
+            // if(docID){
+            //     var documentID = docID.id;
+            //     var previous = docID.data().messages
+            //     previous.splice(0,0,value[0])
+            // }
+            console.log("DATA check", docID)
+        // firestore().collection('Chats').doc(documentID).update({
+        //     messages: previous
+        // })
+        // .then((response)=>{
+        //     console.log("Updated", response)
+        //     this.setState({
+        //         messages: previous
+        //     })
+        // })
 }
 
-checkData = async() =>{
-    const { lisitng, supplierID } = this.state
-    return new Promise((resolve, reject)=>{
-        firestore().collection('Chats').get()
-        .then(querySnapshot => {
-        const data = querySnapshot.docs.map(doc => doc.data());
-        if(data.length > 0){
-            const result = data.filter((item,index)=>{
-                if(item.renterID === this.state.userID && item.supplierID === supplierID && item.itemID === lisitng.id ){
-                    resolve(false)
-                } else {
-                    resolve(true)
-                }
-            })
-        } else {
-        }
-      });
-    })
-}
 
   render() {
+      console.log("user id", this.state.userID)
     return (
       <Container>
           <Header transparent>
