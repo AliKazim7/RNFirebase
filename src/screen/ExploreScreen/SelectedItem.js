@@ -125,6 +125,7 @@ export default class SelectedItem extends React.Component{
                 this.setState({
                   loadingVisible: false
                 })
+                this.props.navigation.navigate('ExploreContainer')
               })
               .catch(e =>{
                 this.setState({

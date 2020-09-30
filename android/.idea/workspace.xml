@@ -4,7 +4,15 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="44305107-d178-49f2-872e-a4b060ae247a" name="Default Changelist" comment="" />
+    <list default="true" id="44305107-d178-49f2-872e-a4b060ae247a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-1306736036/react-native-community_masked-view.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-1306736036/react-native-community_masked-view.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/-331222114/react-native-firebase_app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-331222114/react-native-firebase_app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/1622256123/react-native-gesture-handler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1622256123/react-native-gesture-handler.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/199363772/react-native-screens.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/199363772/react-native-screens.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/283671080/react-native-firebase_firestore.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/283671080/react-native-firebase_firestore.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/287925057/react-native-reanimated.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/287925057/react-native-reanimated.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
