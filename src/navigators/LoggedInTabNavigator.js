@@ -47,6 +47,7 @@ import SelectedListItem from '../screen/ListingScreens/SelectedList';
 import UpdateListItem from '../screen/ListingScreens/UpdateListed'
 import ImageList from '../components/ImageList';
 import OrderDetails from '../screen/OrderScreens/OrderDetail';
+import SaveAvail from '../screen/SavedScreen/SaveAvail';
 const Tabs = createBottomTabNavigator()
 const Stack = createStackNavigator()
 const RootStack = createStackNavigator()
@@ -88,7 +89,7 @@ function SaveStacks(){
       <RootStack.Screen options={{headerShown: false}} name="Saved" component={SavedContainer} />
       <RootStack.Screen options={{headerShown: false}} name="SavedDetail" component={SavedDetail} />
       <RootStack.Screen options={{headerShown: false}} name="ImageGallery" component={ImageList} />
-      <RootStack.Screen options={{headerShown: false}} name="Availability" component={Availability} />
+      <RootStack.Screen options={{headerShown: false}} name="SaveAvail" component={SaveAvail} />
       <RootStack.Screen options={{headerShown: false}} name="SelectedSave" component={SelectedSavedItem} />
     </RootStack.Navigator>
   )
