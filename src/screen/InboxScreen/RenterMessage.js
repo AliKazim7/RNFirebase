@@ -28,6 +28,11 @@ export default class RenterMessage extends Component {
       supplierID:'',
       listItems:''
     }
+    this.getTotalMessages()
+}
+
+getTotalMessages = async() =>{
+  console.log("all will come here")
 }
 
 async componentDidMount(){
@@ -155,7 +160,11 @@ sendDATA = async (value) =>{
               <Left>
                   <Icon type="AntDesign" name="arrowleft" onPress={() => this.props.navigation.navigate('InboxTab',{userID: this.state.userID})} />
               </Left>
-              <Body />
+              <Body>
+                <Title>
+                  {this.state.lisitng.title}
+                </Title>
+              </Body>
               <Right />
           </Header>
           <GiftedChat
