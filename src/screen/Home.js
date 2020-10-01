@@ -228,10 +228,10 @@ class Home extends Component {
                     <Thumbnail key={ind} square source={i && {uri: i}} resizeMethod="resize" resizeMode="stretch" style={{ height:hp('30%'),width:wp('90%'), borderRadius:10}} /> 
                   ))}
               </ScrollView>
-              {item.stars > 0
+              {item.totalRating !== undefined &&item.totalRating > 0
                     ? (
                       <Stars
-                        votes={item.stars}
+                        votes={item.totalRating}
                         size={10}
                         color={colors.green02}
                         />

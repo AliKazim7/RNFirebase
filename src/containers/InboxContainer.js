@@ -12,6 +12,7 @@ import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import { GiftedChat } from 'react-native-gifted-chat';
 import Loader from '../components/Loader';
+import colors from '../styles/colors';
 
 export default class InboxContainer extends Component {
   constructor(props){
@@ -19,6 +20,7 @@ export default class InboxContainer extends Component {
     this.state = {
       showMessages: true,
       messages:[],
+      selectedIndex:0,
       renterChat:[],
       supplierChat:[],
       segmentTab:["Supplier Chat", "Renter Chat"],
@@ -28,11 +30,10 @@ export default class InboxContainer extends Component {
 }
 
 async componentDidMount(){
-  // Fire.shared.on(message=>
-  //   this.setState(previousState => ({
-  //     messages: GiftedChat.append(previousState.messages, message),
-  //   }))
-  // )
+  this.apiCall()
+}
+
+apiCall = async() =>{
   this.setState({
     loading: true
   })
@@ -40,13 +41,34 @@ async componentDidMount(){
   if(userID){
     const renterChat = await this.getRenterID(userID)
     const supplierChat = await this.getSupplierID(userID)
-    this.setState({
-      userID: userID,
-      renterChat: renterChat,
-      supplierChat: supplierChat,
-      loading: false
-    })
+    if(renterChat.length > 0){
+      this.setState({
+        userID: userID,
+        renterChat: renterChat,
+        selectedIndex:1,
+        loading: false
+      })
+    } else {
+      this.setState({
+        userID: userID,
+        supplierChat: supplierChat,
+        selectedIndex:0,
+        loading: false
+      })
+    }
   }
+}
+
+componentWillUnmount(){
+  console.log("wil unmount")
+}
+
+componentWillReceiveProps(nextProps){
+  console.log("nextProps", nextProps.route.params.userID)
+  if(nextProps.route.params.userID){
+    this.apiCall()
+  }
+
 }
 
 getUSERID = async ()=>{
@@ -105,30 +127,71 @@ showSupplier = () =>{
   console.log("listitem", this.state.supplierChat)
   return(
     <View style={{marginTop:30}}>
-      {this.state.supplierChat.map((item,index)=>(
-    <List>
-      <ListItem>
-        <Left>
-          <Text>
-            {item.title}
-          </Text>
-        </Left>
-        <Right>
-          <Icon type="FontAwesome" name="send-o" onPress={() => this.chatbuble(item)} />
-        </Right>
-      </ListItem>
-    </List>
-      ))}
+      {
+        this.state.supplierChat
+        ?
+        this.state.supplierChat.map((item,index)=>(
+          <List>
+            <ListItem>
+              <Left>
+                <Text>
+                  {item.title}
+                </Text>
+              </Left>
+              <Right>
+                <Icon type="FontAwesome" name="send-o" onPress={() => this.chatbuble(item)} />
+              </Right>
+            </ListItem>
+          </List>
+        ))
+        :
+        <NoMessages />
+      }
     </View>
   )  
 }
 
-chatbuble = value =>{
-  console.log("value", value)
-  this.props.navigation.navigate("ChatBubble",{
-    listing: value
-  })
+showRenter = () =>{
+  console.log("listitem", this.state.renterChat)
+  return(
+    <View style={{marginTop:30}}>
+      {
+        this.state.renterChat
+        ?
+        this.state.renterChat.map((item,index)=>(
+          <List>
+            <ListItem>
+              <Left>
+                <Text>
+                  {item.title}
+                </Text>
+              </Left>
+              <Right>
+                <Icon type="FontAwesome" name="send-o" onPress={() => this.chatbubleRent(item)} />
+              </Right>
+            </ListItem>
+          </List>
+            ))
+        :
+        <NotificationNot />
+      }
+    </View>
+  )  
 }
+
+  chatbuble = value =>{
+    console.log("value", value)
+    this.props.navigation.navigate("ChatBubble",{
+      listing: value
+    })
+  }
+
+  chatbubleRent = value =>{
+    console.log("value", value)
+    this.props.navigation.navigate("RenterChat",{
+      listing: value
+    })
+  }
 
   render() {
     console.log("supplier chat and renter chat", this.state.supplierChat, this.state.renterChat)
@@ -145,7 +208,7 @@ chatbuble = value =>{
           borderRadius={0}
           tabsContainerStyle={{ height: 50, backgroundColor: '#F2F2F2',marginLeft:10, marginRight:10 }}
           tabStyle={{ backgroundColor: 'white',fontSize:16, borderWidth: 0, borderColor: 'transparent', alignItems:'baseline' }}
-          activeTabStyle={{ backgroundColor: 'white',borderBottomColor:'green', marginBottom: 2, borderBottomWidth:2, textAlign:'left' }}
+          activeTabStyle={{ backgroundColor: 'white',borderBottomColor:colors.saagColor, marginBottom: 2, borderBottomWidth:2, textAlign:'left' }}
           tabTextStyle={{ color: 'black', }}
           activeTabTextStyle={{ color: 'black' }}
           values={this.state.segmentTab}
@@ -162,7 +225,8 @@ chatbuble = value =>{
         {
           this.state.renterChat.length > 0
           ?
-          <NotificationNot />
+          // <NotificationNot />
+            this.showRenter()
           :
           null
         }

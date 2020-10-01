@@ -171,10 +171,10 @@ export default class SelectedListItem extends React.Component{
                         <ListItem>
                             <Body>
                                 <Text style={{fontSize:24}}>{this.state.showPreview === false ? listing.title : this.state.title}</Text>
-                                {listing.stars> 0
+                                {listing.totalRating> 0
                                 ? (
                                     <Stars
-                                    votes={listing.stars}
+                                    votes={listing.totalRating}
                                     size={10}
                                     color={colors.green02}
                                     />

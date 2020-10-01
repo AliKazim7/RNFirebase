@@ -129,10 +129,10 @@ export default class HostSelected extends React.Component{
                     <ListItem>
                         <Body>
                             <H3>{listing.title}</H3>
-                            {listing.stars> 0
+                            {listing.totalRating> 0
                             ? (
                                 <Stars
-                                votes={listing.stars}
+                                votes={listing.totalRating}
                                 size={10}
                                 color={colors.green02}
                                 />
@@ -199,10 +199,10 @@ export default class HostSelected extends React.Component{
                 <View style={{flexDirection:'row', borderColor:'2px solid black'}}>
                         <View>
                             <Text style={{marginTop:15, marginLeft:10}}> ${listing.price} / {listing.priceType} </Text>
-                            {listing.stars > 0 ? 
+                            {listing.totalRating > 0 ? 
                                 <View style={{marginLeft:20}}>
                                     <Stars
-                                    votes={listing.stars}
+                                    votes={listing.totalRating}
                                     size={10}
                                     color={colors.green02}
                                     />

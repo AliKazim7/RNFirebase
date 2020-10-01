@@ -32,13 +32,35 @@ export default class Messages extends Component {
 
 async componentDidMount(){
   const userID = await this.getUSERID()
+  const getUSER = await this.getUSERDATA(userID)
   if(userID){
+    const user ={
+      _id: getUSER.uid,
+      name: getUSER.firstName,
+    }
     this.setState({
-      userID: userID,
+      userID: user,
       lisitng: this.props.route.params.listing,
       supplierID: this.props.route.params.userDetails.uid
     })
   }
+}
+
+
+getUSERDATA = userID =>{
+  let result = []
+  return new Promise((resolve, reject)=>{
+    firestore()
+      .collection('Users')
+      .where('uid', '==', userID)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          result.push(documentSnapshot.data())
+        });
+        resolve(result[0])
+      });
+  })
 }
 
 docID = async(userID, supplierID, itemID) =>{
@@ -85,23 +107,25 @@ handleIndexChange = (values) =>{
 
 sendDATA = async (value) =>{
   const { lisitng, supplierID } = this.state
-  console.log(value)
   const DataCheck = await this.checkData()
+  const ID = Math.random()
+  console.log("DataCheck",DataCheck,this.state.userID._id)
     if(DataCheck){
-        firestore().collection("Chats").add({
-        supplierID: supplierID,
-        itemID: lisitng.id,
-        title: lisitng.title,
-        messages:value,
-        ChatID: Math.random(),
-        listing: lisitng,
-        renterID: this.state.userID
-    }).then((response)=>{
-        console.log("Updated", response)
-        this.setState({
-            messages:[...this.state.messages, value[0]]
+      const uploadData = await this.uploadData(ID, value)
+      if(uploadData){
+        const getDoc = await this.getDoc(ID)
+        if(getDoc){
+          firestore().collection('Chats').doc(getDoc).update({
+            ChatID: getDoc
         })
-    })
+        .then((response)=>{
+            console.log("Updated", response)
+            this.setState({
+                messages: value
+            })
+        })
+        }
+      }
     } else {
         const docID = await this.docID(this.state.userID,supplierID,lisitng.id)
             if(docID){
@@ -122,27 +146,65 @@ sendDATA = async (value) =>{
     }
 }
 
+uploadData = async(ID, value) =>{
+  const { lisitng, supplierID } = this.state
+  return new Promise((resolve, reject)=>{
+    firestore().collection("Chats")
+        .add({
+          supplierID: supplierID,
+          itemID: lisitng.id,
+          title: lisitng.title,
+          messages:value,
+          ChatID: ID,
+          listing: lisitng,
+          renterID: this.state.userID._id
+        })
+        .then((response)=>{
+          console.log("Updated", response)
+        //   this.setState({
+        //     messages:[...this.state.messages, value[0]]
+        // })
+        resolve(true)
+      })
+  })
+}
+
+getDoc = async(ID) =>{
+  return new Promise((resolve, reject)=>{
+    firestore().collection('Chats').where('ChatID','==', ID)
+    .get()
+    .then(querySnapshot =>{
+      querySnapshot.docs.map((item)=>{
+          resolve(item.id)
+      })
+    })
+  })
+}
+
 checkData = async() =>{
     const { lisitng, supplierID } = this.state
     return new Promise((resolve, reject)=>{
-        firestore().collection('Chats').get()
+        firestore().collection('Chats')
+        .get()
         .then(querySnapshot => {
-        const data = querySnapshot.docs.map(doc => doc.data());
-        if(data.length > 0){
+          const data = querySnapshot.docs.map(doc => doc.data());
+          if(data.length > 0){
             const result = data.filter((item,index)=>{
-                if(item.renterID === this.state.userID && item.supplierID === supplierID && item.itemID === lisitng.id ){
-                    resolve(false)
-                } else {
-                    resolve(true)
-                }
+              if(item.renterID === this.state.userID && item.supplierID === supplierID && item.itemID === lisitng.id ){
+                resolve(false)
+              } else {
+                resolve(true)
+              }
             })
-        } else {
-        }
-      });
+          } else {
+            resolve(true)
+          }
+       });
     })
 }
 
   render() {
+    console.log("here", this.state.userID)
     return (
       <Container>
           <Header transparent>

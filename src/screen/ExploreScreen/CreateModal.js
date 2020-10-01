@@ -105,7 +105,7 @@ class CreateModal extends Component {
         price: listing.price,
         type:listing.type,
         title:listing.title,
-        stars:listing.stars,
+        stars:listing.totalRating,
         segmenttype:listing.segmenttype,
         priceType:listing.priceType,
         photo:listing.photo,

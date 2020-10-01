@@ -181,11 +181,11 @@ export default class SavedDetail extends React.Component{
                                 />
                         }
                     </ScrollView>
-                          {listing.stars > 0
+                          {listing.totalRating > 0
                             ? (
                               <View style={{marginTop:10}}>
                                 <Stars
-                                  votes={listing.stars}
+                                  votes={listing.totalRating}
                                   size={10}
                                   color={colors.green02}
                                 />
@@ -263,10 +263,10 @@ export default class SavedDetail extends React.Component{
                           {' '}
                           {listing.priceType}
                         </Text>
-                         {item.stars > 0
+                         {item.totalRating > 0
                          ? (
                            <Stars
-                             votes={item.stars}
+                             votes={item.totalRating}
                              size={10}
                            />
                          )

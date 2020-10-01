@@ -216,11 +216,11 @@ export default class ViewCategory extends React.Component{
                               source={require('../../img/noImage.jpeg')}
                             />
                           }
-                          {listing.stars > 0
+                          {listing.totalRating > 0
                             ? (
                               <View style={{marginTop:10}}>
                                 <Stars
-                                  votes={listing.stars}
+                                  votes={listing.totalRating}
                                   size={10}
                                   color={colors.green02}
                                 />

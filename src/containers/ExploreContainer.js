@@ -56,6 +56,10 @@ class ExploreContainer extends Component {
           loadingVisible: false
         })
       }
+    } else {
+      this.setState({
+        listing:[]
+      })
     }
   }
 

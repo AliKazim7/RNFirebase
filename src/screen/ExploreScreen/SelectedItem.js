@@ -80,7 +80,7 @@ export default class SelectedItem extends React.Component{
         this.setState({
             loadingVisible: true
         })
-        const totalPrice = Days*this.state.listing.price
+        const totalPrice = Days*this.state.listing.price1
         console.log("Days", Days,totalPrice)
         this.setState({
             totalPrice: totalPrice,
@@ -108,35 +108,67 @@ export default class SelectedItem extends React.Component{
         this.setState({
             loadingVisible: true
         })
-        const { endDate, startDate, totalPrice, listing  } = this.state
+        const ID = Math.random()
         const userID = await this.getData()
         if(userID){
-            console.log("Order Now", endDate, startDate, totalPrice, listing.userID)
-            firestore().collection('Orders').add({
-                renterID: userID,
-                supplierID: listing.userID,
-                startDate:startDate,
-                endDate:endDate,
-                orderID: Math.random(),
-                isCompleted: false,
-                totalPrice: totalPrice,
-                listItem: listing
-            }).then(() => {
-                this.setState({
-                  loadingVisible: false
-                })
-                this.props.navigation.navigate('ExploreContainer')
-              })
-              .catch(e =>{
-                this.setState({
-                  loadingVisible: false
-                })
-              })
+            const uploadData = await this.orderData(userID, ID)
+            if(uploadData){
+                const getDocID = await this.orderDoc(ID)
+                if(getDocID){
+                    firestore().collection('Orders')
+                    .doc(getDocID)
+                    .update({
+                        orderID: getDocID
+                    })
+                    .then(()=>{
+                        this.setState({
+                            loadingVisible: false
+                        })
+                        this.props.navigation.navigate('MainContainer')
+                    })
+                }
+            }
         } else {
             this.setState({
                 loadingVisible: false
             })
         }
+    }
+
+    orderData = (userID, ID) =>{
+        const { endDate, startDate, totalPrice, listing  } = this.state
+        return new Promise((resolve, reject)=>{
+            console.log("Order Now", endDate, startDate, totalPrice, listing.userID)
+            firestore().collection('Orders')
+            .add({
+                    renterID: userID,
+                    supplierID: listing.userID,
+                    startDate:startDate,
+                    endDate:endDate,
+                    orderID: ID,
+                    isCompleted: false,
+                    totalPrice: totalPrice,
+                    listItem: listing
+                })
+                .then(() => {
+                    resolve(true)
+                })
+                .catch(e =>{
+                    resolve(false)
+                })
+        })
+    }
+
+    orderDoc = ID =>{
+        return new Promise((resolve, reject)=>{
+            firestore().collection('Orders').where('orderID','==',ID)
+            .get()
+            .then(querySnapshot =>{
+                querySnapshot.docs.map((item)=>{
+                    resolve(item.id)
+                })
+            })
+        })
     }
 
     getData = async() =>{
@@ -158,13 +190,74 @@ export default class SelectedItem extends React.Component{
         this.props.navigation.navigate("Availability")
     }
 
-    saveData = () =>{
+    saveData =  async() =>{
         const {listing} = this.state
-        this.props.navigation.navigate("CreateModal", { listing })
-        // this.setState({
-        //     isModalVisible: true
-        // })
+        listing.favourite = true
+        const ID =  Math.random()
+        this.setState({
+            loadingVisible: true
+        })
+        const getID = await this.uploadItem(ID)
+        console.log("listing", getID)
+        if(getID){
+            const getDocID = await this.getDocID(ID)
+            if(getDocID){
+                firestore().collection("SavedPlaces").doc(getDocID)
+                .update({
+                    savedID:getDocID
+                })
+                .then(()=>{
+                    console.log("Updated !")
+                    this.setState({
+                        listing: listing,
+                        loadingVisible: false
+                    })
+                    this.props.navigation.navigate('MainContainer')
+                })
+            }
+        }
     } 
+
+    uploadItem = (ID) =>{
+        const {listing} = this.state
+        return new Promise((resolve, reject)=>{
+            firestore().collection('SavedPlaces')
+            .add({
+                location: listing.location,
+                favourite: true,
+                price1: listing.price,
+                priceResT:listing.priceResT,
+                type:listing.type,
+                title:listing.title,
+                totalRating:listing.totalRating,
+                segmenttype:listing.segmenttype,
+                priceType:listing.priceType,
+                photo:listing.photo,
+                id:listing.id,
+                savedID:ID,
+                userID: listing.userID
+            })
+            .then((response) =>{
+                // this.setState({ loadingVisible: false }, () => goBack());
+              resolve(true)  
+            })
+            .catch((e)=>{
+                resolve(false)
+            })
+        })
+    }
+
+    getDocID = async(ID) =>{
+        return new Promise((resolve, reject)=>{
+            firestore().collection('SavedPlaces').where('savedID','==', ID)
+            .get()
+            .then(querySnapshot =>{
+                querySnapshot.docs.map((item)=>{
+                    resolve(item.id)
+                })
+            })
+        })
+    }
 
     contactUser = () =>{
         console.log("here messages")
@@ -235,10 +328,10 @@ export default class SelectedItem extends React.Component{
                     <ListItem>
                         <Body>
                             <H3>{listing.title}</H3>
-                            {listing.stars> 0
+                            {listing.totalRating> 0
                             ? (
                                 <Stars
-                                votes={listing.stars}
+                                votes={listing.totalRating}
                                 size={10}
                                 color={colors.green02}
                                 />
@@ -248,21 +341,6 @@ export default class SelectedItem extends React.Component{
                         </Body>
                         <Right />
                     </ListItem>
-                    {/* <ListItem>
-                        <Body>
-                            <Text>
-                                <Text style={{fontWeight:'bold'}}> Book now and get 20% off. </Text> Be one of the first 3 people who Book
-                                this place and save. Book your trip 
-                            </Text>
-                        </Body>
-                        <Right>
-                            <Icon
-                                type="FontAwesome"
-                                name="tags"
-                                color="green"
-                            />
-                        </Right>
-                    </ListItem> */}
                     <ListItem>
                         <Left>
                             <Body>
@@ -313,11 +391,11 @@ export default class SelectedItem extends React.Component{
                             !this.state.totalPrice
                             ?
                             <View style={{marginBottom:20}}>
-                                <Text style={{marginTop:15, marginLeft:10}}> ${listing.price} / {listing.priceType} </Text>
-                                {listing.stars > 0 ? 
+                                <Text style={{marginTop:15, marginLeft:10}}> ${listing.price1} </Text>
+                                {listing.totalRating > 0 ? 
                                     <View style={{marginLeft:20}}>
                                         <Stars
-                                        votes={listing.stars}
+                                        votes={listing.totalRating}
                                         size={10}
                                         color={colors.green02}
                                         />

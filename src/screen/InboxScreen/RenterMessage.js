@@ -15,7 +15,7 @@ import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import { GiftedChat } from 'react-native-gifted-chat';
 
-export default class ChatMessages extends Component {
+export default class RenterMessage extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -33,7 +33,8 @@ export default class ChatMessages extends Component {
 async componentDidMount(){
   const userID = await this.getUSERID()
   const getUSER = await this.getUSERDATA(userID)
-  console.log("props messages",  this.props.route.params.listing)
+
+  console.log("props messages",  getUSER)
   if(userID && getUSER){
       const getMessages = this.getMessages(this.props.route.params.listing.messages)
       console.log("props messages", this.props.route.params.listing, userID)
@@ -47,17 +48,6 @@ async componentDidMount(){
     })
   }
 }
-
-// async componentWillMount(){
-//   // firestore().collection("Chats").where("ChatID", "==", "CA")
-//   //   .onSnapshot(function(querySnapshot) {
-//   //       var cities = [];
-//   //       querySnapshot.forEach(function(doc) {
-//   //           cities.push(doc.data().name);
-//   //       });
-//   //       console.log("Current cities in CA: ", cities.join(", "));
-//   //   });
-// }
 
 getUSERDATA = userID =>{
     let result = []
@@ -75,11 +65,22 @@ getUSERDATA = userID =>{
     })
 }
 
-getMessages = (ID) =>{
-    console.log("messages",ID)
+getMessages = (previousMessages) =>{
+    console.log("messages",previousMessages)
+    // const { messages } = this.state
     this.setState({
-      messages:ID
+        messages: previousMessages
     })
+    // const newMessage = []
+    // this.state.messages(previousMessages => GiftedChat.append(
+    //     previousMessages, messages
+    // ))
+    // this.setState(messages(previousMessages => GiftedChat.append(
+    //     previousMessages, newMessage
+    // )))
+    // this.setState({
+    //     messages:(previousMessages => GiftedChat.append(previousMessages, newMessage))
+    // })
 }
 
 docID = async() =>{
@@ -147,7 +148,7 @@ sendDATA = async (value) =>{
 
 
   render() {
-      console.log("user id", this.state.messages)
+      console.log("user id", this.state.userID)
     return (
       <Container>
           <Header transparent>

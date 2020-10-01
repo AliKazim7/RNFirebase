@@ -5,7 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="44305107-d178-49f2-872e-a4b060ae247a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/SAAG.xcworkspace/xcuserdata/focusteck-mac.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/SAAG.xcworkspace/xcuserdata/focusteck-mac.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/components/explore/Listings.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/explore/Listings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/containers/ExploreContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ExploreContainer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/containers/InboxContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/InboxContainer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/navigators/LoggedInTabNavigator.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/navigators/LoggedInTabNavigator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/screen/AddListScreens/AddDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/screen/AddListScreens/AddDetails.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/screen/ExploreScreen/Messages.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/screen/ExploreScreen/Messages.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/screen/ExploreScreen/SelectedItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/screen/ExploreScreen/SelectedItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/screen/InboxScreen/ChatMessages.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/screen/InboxScreen/ChatMessages.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +52,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="ScreenshotViewer.SavePath" value="$PROJECT_DIR$" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
   <component name="RunManager">

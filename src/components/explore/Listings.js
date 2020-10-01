@@ -77,14 +77,14 @@ export default class Listings extends Component {
            </Text>
            <Text textBreakStrategy="highQuality" adjustsFontSizeToFit={true} style={styles.listingPrice}>
  $
-             {listing.price}
+             {listing.price1}
              {' '}
              {listing.priceType}
            </Text>
-            { listing.stars !== undefined || listing.stars > 0
+            { listing.totalRating !== undefined || listing.totalRating > 0
             ? (
               <Stars
-                votes={listing.stars}
+                votes={listing.totalRating}
                 size={10}
                 color={colors.green02}
               />

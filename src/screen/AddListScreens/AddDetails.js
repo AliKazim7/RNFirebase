@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
-import { Text, Container, Header, Left, Body, Right, H1, List, ListItem, Button, Icon, Input, CheckBox, H2 } from 'native-base'
+import { Text, Container, Header, Left, Body, Right, H1, List, ListItem, Button, Icon, Input, CheckBox, H2, Textarea } from 'native-base'
 import InputField from '../../components/form/InputField';
 import colors from '../../styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
@@ -23,6 +23,7 @@ export default class AddListDetails extends React.Component{
           NotfixedPrice: false,
           disabled: true,
           loadingVisible: false,
+          details:'',
           userID:'',
           userName:'',
           checked: false
@@ -79,26 +80,58 @@ export default class AddListDetails extends React.Component{
     handleChange = async() => {
         // this.props.navigation.navigate('AddListPhoto')
         const listID = Math.random()
-        const addPlace = firestore()
-        .collection("ItemList")
-        .add({
-            location: this.state.location,
-            title: this.state.title,
-            price1: this.state.price1,
-            priceResT:this.state.NotfixedPrice ? this.state.priceResT : this.state.price1,
-            id: listID,
-            userName:this.state.userName,
-            type: this.state.type,
-            priceType: this.state.priceType,
-            userID: this.state.userID
-        })
-        .then(()=>{
-            this.setState({
-                loadingVisible: false
+        const addPlace = await this.uploadData(listID)
+        console.log("dasda", addPlace)
+        if(addPlace){
+            const getDocID = await this.getDocument(listID)
+            if(getDocID){
+                firestore().collection("ItemList").doc(getDocID)
+                .update({
+                    id:getDocID
+                })
+                .then(()=>{
+                    console.log("Updated !")
+                    this.props.navigation.navigate('AddListPhoto',{listID: getDocID})
+                })
+            }
+        }
+    }
+
+    uploadData = async(ID) =>{
+        return new Promise((resolve, reject)=>{
+            firestore()
+              .collection("ItemList")
+                .add({
+                    location: this.state.location,
+                    title: this.state.title,
+                    price1: this.state.price1,
+                    priceResT:this.state.NotfixedPrice ? this.state.priceResT : this.state.price1,
+                    userName:this.state.userName,
+                    type: this.state.type,
+                    id: ID,
+                    totalRating:0,
+                    segmenttype:'Trending',
+                    details:this.state.details,
+                    priceType: this.state.priceType,
+                    userID: this.state.userID
+                })
+              .then(()=>{
+                resolve(true)
             })
-            this.props.navigation.navigate('AddListPhoto',{listID:listID, userID: this.state.userID})
         })
     }
+
+    getDocument = (ID) => { 
+        return new Promise((resolve,reject)=>{
+            firestore().collection('ItemList').where('id','==', ID)
+            .get()
+            .then(querySnapshot=>{
+                querySnapshot.docs.map((item)=>{
+                    resolve(item.id)
+                })
+            })
+        })
+     } 
 
     changeCheck = () => { 
         this.setState({
@@ -117,6 +150,7 @@ export default class AddListDetails extends React.Component{
       }
 
     render(){
+
         return(
             <Container style={{backgroundColor:colors.saagColor}}>
                 <Header transparent>
@@ -202,6 +236,29 @@ export default class AddListDetails extends React.Component{
                                 onChangeText={(text) => this.dataHandle('price1', text)}
                                 value={this.state.price1}
                             />
+                        </View>
+                        :
+                        null
+                    }
+                    {
+                        this.state.type !== ''
+                        ?
+                        <View style={{flexDirection:'row', width: wp('100%')}}>
+                            {/* <InputField
+                                labelText="Price For Day One"
+                                labelTextSize={14}
+                                labelColor={colors.white}
+                                textColor={colors.white}
+                                borderBottomColor={colors.white}
+                                inputType="email"
+                                placeholderTextColor={colors.white}
+                                placeholder="70"
+                                customStyle={{ marginBottom: 30, width:wp('40%') }}
+                                onChangeText={(text) => this.dataHandle('price1', text)}
+                                value={this.state.price1}
+                            /> */}
+                            <Textarea placeholder="Add new details" value={this.state.details} bordered onChangeText={(text) => this.dataHandle('details', text)}
+                                placeholderTextColor={colors.saagColor} style={{color:'white', fontSize:14,marginBottom: 30, width:wp('90%')}} />
                         </View>
                         :
                         null
