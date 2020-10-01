@@ -35,6 +35,8 @@ import {
   GoogleSigninButton,
   statusCodes,
 } from '@react-native-community/google-signin';
+import {LoginButton, AccessToken} from 'react-native-fbsdk';
+import auth from '@react-native-firebase/auth';
 const airbnbLogo = require('../img/SAAAG.png');
 
 export default class LoggedOut extends Component {
@@ -60,7 +62,7 @@ export default class LoggedOut extends Component {
       offlineAccess: true,
       forceCodeForRefreshToken: true,
     });
-    this._isSignedIn();
+    //this._isSignedIn();
   }
   _isSignedIn = async () => {
     const isSignedIn = await GoogleSignin.isSignedIn();
@@ -183,7 +185,7 @@ export default class LoggedOut extends Component {
           <View style={styles.welcomeWrapper}>
             <Image source={airbnbLogo} style={styles.logo} />
             <Text style={styles.welcomeText}>Welcome to SAAG.</Text>
-            <RoundedButton
+            {/* <RoundedButton
               text="Continue with Facebook"
               textColor={colors.green01}
               background={colors.white}
@@ -198,6 +200,32 @@ export default class LoggedOut extends Component {
                 />
               }
               handleOnPress={this.onFacebookPress}
+            /> */}
+            <LoginButton
+              onLoginFinished={(error, result) => {
+                if (error) {
+                  console.log('login has error: ' + result.error);
+                } else if (result.isCancelled) {
+                  console.log('login is cancelled.');
+                } else {
+                  AccessToken.getCurrentAccessToken()
+                    .then((data) => {
+                      console.log(
+                        'Access token from facebook..',
+                        data.accessToken.toString(),
+                      );
+                      //the below lines will create user in our firebase too with facebook auth
+                      const credentials = auth.FacebookAuthProvider.credential(
+                        data.accessToken,
+                      );
+                      return auth().signInWithCredential(credentials);
+                    })
+                    .then((currentUser) => {
+                      console.log('FaceBook Login', currentUser);
+                    });
+                }
+              }}
+              onLogoutFinished={() => console.log('logout.')}
             />
             {/* <RoundedButton
             text="Continue with Google"

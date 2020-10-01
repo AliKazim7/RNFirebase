@@ -97,6 +97,7 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_resource "${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle"
   install_resource "${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle"
   install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"
   install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"
@@ -118,6 +119,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/gRPC-C++/gRPCCertificates-Cpp.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_resource "${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle"
   install_resource "${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle"
   install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"
   install_resource "${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"

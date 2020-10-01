@@ -12,6 +12,7 @@ target 'SAAG' do
 
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
   pod 'GoogleSignIn', '~> 5.0.2'
+  pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
   target 'SAAGTests' do
     inherit! :complete
     # Pods for testing

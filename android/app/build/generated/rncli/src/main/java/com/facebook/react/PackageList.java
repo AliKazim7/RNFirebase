@@ -23,6 +23,8 @@ import io.invertase.firebase.auth.ReactNativeFirebaseAuthPackage;
 import io.invertase.firebase.firestore.ReactNativeFirebaseFirestorePackage;
 // @react-native-firebase/storage
 import io.invertase.firebase.storage.ReactNativeFirebaseStoragePackage;
+// react-native-fbsdk
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-image-picker
@@ -86,6 +88,7 @@ public class PackageList {
       new ReactNativeFirebaseAuthPackage(),
       new ReactNativeFirebaseFirestorePackage(),
       new ReactNativeFirebaseStoragePackage(),
+      new FBSDKPackage(),
       new RNGestureHandlerPackage(),
       new ImagePickerPackage(),
       new ReanimatedPackage(),
