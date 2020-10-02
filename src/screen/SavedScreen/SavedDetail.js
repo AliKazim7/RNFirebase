@@ -190,6 +190,7 @@ export default class SavedDetail extends React.Component{
                                     starSize={20}
                                     starStyle={colors.saagColor}
                                     fullStarColor={colors.saagColor}
+                                    containerStyle={{width:30}}
                                     rating={listing.totalRating}
                                 />
                               </View>
@@ -270,6 +271,7 @@ export default class SavedDetail extends React.Component{
                               starSize={20}
                               starStyle={colors.saagColor}
                               fullStarColor={colors.saagColor}
+                              containerStyle={{width:30}}
                               rating={listing.totalRating}
                           />
                          )
