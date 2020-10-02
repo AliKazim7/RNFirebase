@@ -45,18 +45,33 @@ export default class SelectedListItem extends React.Component{
             showPreview:false,
             price:"",
             title:"",
+            renterData:[],
             detail:"",
             type:"",
             isModalVisible: false
         }
       }
 
-    componentDidMount(){
+    async componentDidMount(){
 
         this.setState({
             loading: true
         })
-        
+        if(this.props.route.params.result.renterID){
+            const getRenter = await this.getRenterID(this.props.route.params.result.renterID)
+            setTimeout(()=>{
+                this.setState({
+                    listing: this.props.route.params.result,
+                    location:this.props.route.params.result.location,
+                    price:this.props.route.params.result.price,
+                    title:this.props.route.params.result.title,
+                    detail:this.props.route.params.result.detail,
+                    type:this.props.route.params.result.type,
+                    renterData: getRenter,
+                    loading: false
+                    })
+                }, 1000)
+        } else {
         setTimeout(()=>{
             this.setState({
                 listing: this.props.route.params.result,
@@ -66,8 +81,24 @@ export default class SelectedListItem extends React.Component{
                 detail:this.props.route.params.result.detail,
                 type:this.props.route.params.result.type,
                 loading: false
+                })
+            }, 1000)
+        }
+    }
+
+    getRenterID = ID =>{
+        const result = []
+        return new Promise((resolve, reject)=>{
+            firestore()
+            .collection('Users')
+            .where('uid','==', ID)
+            .get()
+            .then((querySnapshot)=>{
+                querySnapshot.forEach(documentSnapshot => {
+                    resolve(documentSnapshot.data())
+                });
             })
-        }, 1000)
+        })
     }
 
     goBack = () =>{
@@ -132,15 +163,16 @@ export default class SelectedListItem extends React.Component{
     }
 
     render(){
-        const { listing,isModalVisible } = this.state
+        const { listing,isModalVisible, renterData } = this.state
+        console.log('renterData',renterData)
         return(
             <Container style={{backgroundColor: "white"}}>
               {
                 !this.state.editData
                 ?
                 <ScrollView>
-                <View style={{width:'100%', backgroundColor:'red', marginTop: Platform.OS === "android" ? 20 : 0}}>
-                <ScrollView horizontal style={{flex:1, backgroundColor:'red'}} showsHorizontalScrollIndicator={false}>
+                <View style={{width:'100%', marginTop: Platform.OS === "android" ? 20 : 0}}>
+                <ScrollView horizontal style={{flex:1}} showsHorizontalScrollIndicator={false}>
                         {
                             listing.photo !== undefined
                             ?
@@ -184,27 +216,52 @@ export default class SelectedListItem extends React.Component{
                             </Body>
                             <Right />
                         </ListItem>
-                    <ListItem>
-                        <Left>
-                            <Body>
-                                <Text style={{fontWeight:'normal'}}>
-                                    {this.state.showPreview === false ? listing.type : this.state.type}
-                                </Text>
-                                <Text>hosted by <Text style={{fontWeight:'bold'}}> {listing.userName} </Text> </Text>
-                            </Body>
-                        </Left>
-                        <Right>
-                        </Right>
-                    </ListItem>
-                    <ListItem noBorder>
-                        <Left>
-                            <Body>
-                                <Text style={{fontWeight:'normal'}}>
-                                   $ {this.state.showPreview === false ? listing.price : this.state.price} /  {listing.priceType}
-                                </Text>
-                            </Body>
-                        </Left>
-                    </ListItem>
+                        <ListItem>
+                            <Left>
+                                <Body>
+                                    <Text style={{fontWeight:'normal'}}>
+                                        {this.state.showPreview === false ? listing.type : this.state.type}
+                                    </Text>
+                                    <Text>hosted by <Text style={{fontWeight:'bold'}}> {listing.userName} </Text> </Text>
+                                </Body>
+                            </Left>
+                            <Right>
+                            </Right>
+                        </ListItem>
+                        {
+                            renterData.uid !== ''
+                            ?
+                            <ListItem onPress={renterData.uid !== undefined ? () => this.props.navigation.navigate('RenterProfile',{renterID: renterData.uid}) : null}>
+                                <Left>
+                                    <Body>
+                                        <Text style={{fontWeight:'normal'}}>
+                                            {this.state.showPreview === false ? listing.type : this.state.type}
+                                        </Text>
+                                        <Text> Rented by <Text style={{fontWeight:'bold'}}> {renterData.firstName} </Text> </Text>
+                                    </Body>
+                                </Left>
+                                <Right>
+                                    {
+                                        renterData.photo !== undefined
+                                        ?
+                                        <FastImage style={{ height: hp('8%'), width:wp('18%'), borderRadius:50}} resizeMode="center" source={renterData.photo ? {uri:renterData.photo} : null} />
+                                        :
+                                        <Image style={{ height: hp('8%'), width:wp('18%'), borderRadius:50}} resizeMode="center" source={require('../../img/images.png')} />
+                                    }
+                                </Right>
+                            </ListItem>
+                            :
+                            null
+                        }
+                        <ListItem noBorder>
+                            <Left>
+                                <Body>
+                                    <Text style={{fontWeight:'normal'}}>
+                                    $ {this.state.showPreview === false ? listing.price1 : this.state.price}
+                                    </Text>
+                                </Body>
+                            </Left>
+                        </ListItem>
                 </List>
               </ScrollView>
               :
@@ -261,12 +318,3 @@ export default class SelectedListItem extends React.Component{
         )
     }
 }
-
-{/* <Item floatingLabel>
-                                <Label>Title</Label>
-                                <Input value={listing.title} onChangeText={(text) => this.handleChange('title', key)} />
-                            </Item>
-                            <Item floatingLabel>
-                                <Label>location</Label>
-                                <Input value={listing.location} onChangeText={(text) => this.handleChange('location', key)} />
-                            </Item> */}
