@@ -14,7 +14,6 @@ import listings from '../data/listings';
 import Loader from '../components/Loader';
 import { Card, CardItem, Body, Text, Thumbnail, H2, H3, Icon, Button, Header, Left, Right, Input } from 'native-base';
 import HeartButton from '../components/buttons/HeartButton';
-import Stars from '../components/Stars';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 const { width, height } = Dimensions.get("window");
 import firestore from '@react-native-firebase/firestore'

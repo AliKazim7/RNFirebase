@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  StyleSheet, ScrollView
+  StyleSheet, ScrollView, RefreshControl
 } from 'react-native';
 import { Body, Container, H1, H3, Header, Icon, Left, Right, Title } from 'native-base';
 import auth from '@react-native-firebase/auth'
@@ -26,6 +26,7 @@ export default class RenterMessage extends Component {
       segmentTab:["Messages", "Notifications"],
       userID:'',
       supplierID:'',
+      refreshing:false,
       listItems:''
     }
     this.getTotalMessages()
@@ -43,6 +44,10 @@ async componentDidMount(){
   if(userID && getUSER){
       const getMessages = this.getMessages(this.props.route.params.listing.messages)
       console.log("props messages", this.props.route.params.listing, userID)
+      // setTimeout(()=>{
+
+      const reloadApp = this.reloadEverytime(this.props.route.params.listing.ChatID)
+      // }, 5000)
       const user ={
         _id: getUSER.uid,
         name: getUSER.firstName,
@@ -52,6 +57,32 @@ async componentDidMount(){
       lisitng: this.props.route.params.listing,
     })
   }
+}
+
+reloadEverytime = async (ID) =>{
+  console.log("reload condition", ID)
+  const docID = await this.docID1(ID)
+  setTimeout(() => {
+  if(docID){
+    var previous = docID.data().messages
+    const getMessages = this.getMessages(previous)
+  }
+  }, 4000);
+}
+
+docID1 = async(ID) =>{
+  return new Promise((resolve, reject)=>{
+    firestore()
+    .collection('Chats')
+    .where('ChatID','==', ID)
+    .get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+      console.log("docs", doc)
+      resolve(doc)
+    });
+  })
+})
 }
 
 getUSERDATA = userID =>{
@@ -92,18 +123,17 @@ docID = async() =>{
     const { lisitng } = this.state
     console.log("userID, supplierID, itemID",this.state.lisitng)
     return new Promise((resolve, reject)=>{
-        firestore().collection('Chats').get().then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                console.log(doc.data());
-                if(doc.data().renterID === lisitng.renterID && doc.data().supplierID === lisitng.supplierID && doc.data().itemID === lisitng.itemID){
-                    console.log("docs", doc)
-                    resolve(doc)
-                } else {
-                    resolve(false)
-                }
-            });
-        })
+      firestore()
+      .collection('Chats')
+      .where('ChatID','==', this.state.lisitng.ChatID)
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+        console.log("docs", doc)
+        resolve(doc)
+      });
     })
+  })
 }
 
 getUSERID = async ()=>{
@@ -134,28 +164,36 @@ handleIndexChange = (values) =>{
 sendDATA = async (value) =>{
   const docID = await this.docID()
     console.log("DATA check", docID)
-    if(docID){
+  if(docID){
       var documentID = docID.id;
       var previous = docID.data().messages
       previous.splice(0,0,value[0])
-    }
-    console.log("DATA check", docID)
-    firestore().collection('Chats').doc(documentID).update({
-      messages: previous
-    })
-    .then((response)=>{
-        console.log("Updated", response)
-      this.setState({
+      firestore().collection('Chats').doc(documentID).update({
         messages: previous
       })
-  })
+      .then((response)=>{
+          console.log("Updated", response)
+        this.setState({
+          messages: previous
+        })
+    })
+  }
 }
 
+onRefresh = () =>{
+  console.log("supp bro")
+}
 
   render() {
       console.log("user id", this.state.userID)
     return (
       <Container>
+        {/* <ScrollView refreshControl={
+            <RefreshControl 
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh} />
+            }
+          > */}
           <Header transparent>
               <Left>
                   <Icon type="AntDesign" name="arrowleft" onPress={() => this.props.navigation.navigate('InboxTab',{userID: this.state.userID})} />
@@ -167,7 +205,8 @@ sendDATA = async (value) =>{
               </Body>
               <Right />
           </Header>
-          <GiftedChat
+          {/* </ScrollView> */}
+            <GiftedChat
                 messages={this.state.messages}
                 user={this.state.userID}
                 onSend={newMessage => this.sendDATA(newMessage)}

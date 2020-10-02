@@ -12,9 +12,9 @@ import Modal from 'react-native-modal'
 import colors from '../styles/colors';
 import styles from '../styles/CreateList';
 import { Icon, Header, Container, Left, Button, Right, Body, Title, List, ListItem, Text, H1, H2, H3, Thumbnail, Content } from 'native-base';
-import Stars from '../../components/Stars';
 import headStyle from '../styles/HeaderSetting';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
+import StarRating from 'react-native-star-rating';
 
 export default class SelectedSavedItem extends React.Component{
     static navigationOptions = ({ navigation }) => ({
@@ -57,7 +57,7 @@ export default class SelectedSavedItem extends React.Component{
         this.setState({
             loadingVisible: true
         })
-        const totalPrice = Days*this.state.listing.price
+        const totalPrice = Days*this.state.listing.price1
         console.log("Days", Days,totalPrice)
         this.setState({
             totalPrice: totalPrice,
@@ -184,10 +184,12 @@ export default class SelectedSavedItem extends React.Component{
                             <H3>{listing.title}</H3>
                             {listing.totalRating> 0
                             ? (
-                                <Stars
-                                votes={listing.totalRating}
-                                size={10}
-                                color={colors.green02}
+                                <StarRating
+                                    maxStars={5}
+                                    starSize={20}
+                                    starStyle={colors.saagColor}
+                                    fullStarColor={colors.saagColor}
+                                    rating={listing.totalRating}
                                 />
                                 )
                             : null}
@@ -226,13 +228,15 @@ export default class SelectedSavedItem extends React.Component{
               </ScrollView>
                 <View style={{flexDirection:'row',justifyContent:'space-between', borderColor:'2px solid black'}}>
                         <View>
-                            <Text style={{marginTop:15, marginLeft:10, color: colors.saagColor}}> ${listing.price} / {listing.priceType} </Text>
+                            <Text style={{marginTop:15, marginLeft:10, color: colors.saagColor}}> ${listing.price1} </Text>
                             {listing.totalRating > 0 ? 
                                 <View style={{marginLeft:20}}>
-                                    <Stars
-                                    votes={listing.totalRating}
-                                    size={10}
-                                    color={colors.green02}
+                                    <StarRating
+                                        maxStars={5}
+                                        starSize={20}
+                                        starStyle={colors.saagColor}
+                                        fullStarColor={colors.saagColor}
+                                        rating={listing.totalRating}
                                     />
                                 </View>
                             :

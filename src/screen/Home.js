@@ -19,13 +19,13 @@ import listings from '../data/listings';
 import Loader from '../components/Loader';
 import { Card, CardItem, Body, Text, Thumbnail, H2, H3, Icon, Button } from 'native-base';
 import HeartButton from '../components/buttons/HeartButton';
-import Stars from '../components/Stars';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 const { width, height } = Dimensions.get("window");
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import ContentListing from '../data/ContentListing';
 import DifferenOptions from '../data/DifferentListing';
+import StarRating from 'react-native-star-rating';
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -230,11 +230,13 @@ class Home extends Component {
               </ScrollView>
               {item.totalRating !== undefined &&item.totalRating > 0
                     ? (
-                      <Stars
-                        votes={item.totalRating}
-                        size={10}
-                        color={colors.green02}
-                        />
+                      <StarRating
+                        maxStars={5}
+                        starSize={20}
+                        starStyle={colors.saagColor}
+                        fullStarColor={colors.saagColor}
+                        rating={listing.totalRating}
+                      />
                       )
                   : 
                       <Text style={{marginTop:10}} note> No Reviews yet </Text>

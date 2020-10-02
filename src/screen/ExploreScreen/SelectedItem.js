@@ -12,12 +12,12 @@ import Modal from 'react-native-modal'
 import colors from '../styles/colors';
 import styles from '../styles/CreateList';
 import { Icon, Header, Container, Left, Button, Right, Body, Title, List, ListItem, Text, H1, H2, H3, Thumbnail, Content } from 'native-base';
-import Stars from '../../components/Stars';
 import headStyle from '../styles/HeaderSetting';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 import Loader from '../../components/Loader';
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
+import StarRating from 'react-native-star-rating';
 export default class SelectedItem extends React.Component{
     static navigationOptions = ({ navigation }) => ({
         headerLeft: (
@@ -197,45 +197,49 @@ export default class SelectedItem extends React.Component{
         this.setState({
             loadingVisible: true
         })
-        const getID = await this.uploadItem(ID)
-        console.log("listing", getID)
-        if(getID){
-            const getDocID = await this.getDocID(ID)
-            if(getDocID){
-                firestore().collection("SavedPlaces").doc(getDocID)
-                .update({
-                    savedID:getDocID
-                })
-                .then(()=>{
-                    console.log("Updated !")
-                    this.setState({
-                        listing: listing,
-                        loadingVisible: false
+        const userID = await this.getData()
+        if(userID){
+            const getID = await this.uploadItem(ID, userID)
+            console.log("listing", getID)
+            if(getID){
+                const getDocID = await this.getDocID(ID)
+                if(getDocID){
+                    firestore().collection("SavedPlaces").doc(getDocID)
+                    .update({
+                        savedID:getDocID
                     })
-                    this.props.navigation.navigate('MainContainer')
-                })
+                    .then(()=>{
+                        console.log("Updated !")
+                        this.setState({
+                            listing: listing,
+                            loadingVisible: false
+                        })
+                        this.props.navigation.navigate('MainContainer')
+                    })
+                }
             }
         }
     } 
 
-    uploadItem = (ID) =>{
+    uploadItem = (ID,userID) =>{
         const {listing} = this.state
         return new Promise((resolve, reject)=>{
             firestore().collection('SavedPlaces')
             .add({
                 location: listing.location,
                 favourite: true,
-                price1: listing.price,
+                price1: listing.price1,
                 priceResT:listing.priceResT,
                 type:listing.type,
                 title:listing.title,
                 totalRating:listing.totalRating,
+                details: listing.details,
                 segmenttype:listing.segmenttype,
                 priceType:listing.priceType,
                 photo:listing.photo,
                 id:listing.id,
                 savedID:ID,
-                userID: listing.userID
+                userID: userID
             })
             .then((response) =>{
                 // this.setState({ loadingVisible: false }, () => goBack());
@@ -330,10 +334,13 @@ export default class SelectedItem extends React.Component{
                             <H3>{listing.title}</H3>
                             {listing.totalRating> 0
                             ? (
-                                <Stars
-                                votes={listing.totalRating}
-                                size={10}
-                                color={colors.green02}
+                                <StarRating
+                                    maxStars={5}
+                                    starSize={20}
+                                    starStyle={colors.saagColor}
+                                    containerStyle={{width:30}}
+                                    fullStarColor={colors.saagColor}
+                                    rating={listing.totalRating}
                                 />
                                 )
                             : null}
@@ -341,7 +348,7 @@ export default class SelectedItem extends React.Component{
                         </Body>
                         <Right />
                     </ListItem>
-                    <ListItem>
+                    <ListItem onPress={() => this.props.navigation.navigate('HostProfile',{userID: userDetails.uid})}> 
                         <Left>
                             <Body>
                                 <Text>
@@ -394,10 +401,13 @@ export default class SelectedItem extends React.Component{
                                 <Text style={{marginTop:15, marginLeft:10}}> ${listing.price1} </Text>
                                 {listing.totalRating > 0 ? 
                                     <View style={{marginLeft:20}}>
-                                        <Stars
-                                        votes={listing.totalRating}
-                                        size={10}
-                                        color={colors.green02}
+                                        <StarRating
+                                            maxStars={5}
+                                            starSize={20}
+                                            starStyle={colors.saagColor}
+                                            fullStarColor={colors.saagColor}
+                                            containerStyle={{width:30}}
+                                            rating={listing.totalRating}
                                         />
                                     </View>
                                 :

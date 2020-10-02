@@ -11,12 +11,12 @@ import Modal from 'react-native-modal'
 import colors from '../styles/colors';
 import styles from '../styles/CreateList';
 import { Icon, Header, Container, Left, Button, Right, Body, Title, List, ListItem, Text, H1, H2, H3, Thumbnail, Content, Item, Label, Input } from 'native-base';
-import Stars from '../../components/Stars';
 import headStyle from '../styles/HeaderSetting';
 import firestore from '@react-native-firebase/firestore'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import NoImage from '../../components/explore/NoImage';
 import Loader from '../../components/Loader';
+import StarRating from 'react-native-star-rating';
 
 export default class SelectedListItem extends React.Component{
     static navigationOptions = ({ navigation }) => ({
@@ -63,7 +63,7 @@ export default class SelectedListItem extends React.Component{
                 this.setState({
                     listing: this.props.route.params.result,
                     location:this.props.route.params.result.location,
-                    price:this.props.route.params.result.price,
+                    price:this.props.route.params.result.price1,
                     title:this.props.route.params.result.title,
                     detail:this.props.route.params.result.detail,
                     type:this.props.route.params.result.type,
@@ -76,7 +76,7 @@ export default class SelectedListItem extends React.Component{
             this.setState({
                 listing: this.props.route.params.result,
                 location:this.props.route.params.result.location,
-                price:this.props.route.params.result.price,
+                price:this.props.route.params.result.price1,
                 title:this.props.route.params.result.title,
                 detail:this.props.route.params.result.detail,
                 type:this.props.route.params.result.type,
@@ -139,7 +139,7 @@ export default class SelectedListItem extends React.Component{
                 title: title,
                 type: type,
                 location: location,
-                price: price,
+                price1: price,
                 detail: detail
             })
             .then(()=>{
@@ -205,10 +205,12 @@ export default class SelectedListItem extends React.Component{
                                 <Text style={{fontSize:24}}>{this.state.showPreview === false ? listing.title : this.state.title}</Text>
                                 {listing.totalRating> 0
                                 ? (
-                                    <Stars
-                                    votes={listing.totalRating}
-                                    size={10}
-                                    color={colors.green02}
+                                    <StarRating
+                                        maxStars={5}
+                                        starSize={20}
+                                        starStyle={colors.saagColor}
+                                        fullStarColor={colors.saagColor}
+                                        rating={listing.totalRating}
                                     />
                                     )
                                 : null}

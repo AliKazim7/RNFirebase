@@ -54,17 +54,6 @@ async componentDidMount(){
   }
 }
 
-// async componentWillMount(){
-//   // firestore().collection("Chats").where("ChatID", "==", "CA")
-//   //   .onSnapshot(function(querySnapshot) {
-//   //       var cities = [];
-//   //       querySnapshot.forEach(function(doc) {
-//   //           cities.push(doc.data().name);
-//   //       });
-//   //       console.log("Current cities in CA: ", cities.join(", "));
-//   //   });
-// }
-
 getUSERDATA = userID =>{
     let result = []
     return new Promise((resolve, reject)=>{
@@ -92,18 +81,17 @@ docID = async() =>{
     const { lisitng } = this.state
     console.log("userID, supplierID, itemID",this.state.lisitng)
     return new Promise((resolve, reject)=>{
-        firestore().collection('Chats').get().then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                console.log(doc.data());
-                if(doc.data().renterID === lisitng.renterID && doc.data().supplierID === lisitng.supplierID && doc.data().itemID === lisitng.itemID){
-                    console.log("docs", doc)
-                    resolve(doc)
-                } else {
-                    resolve(false)
-                }
-            });
-        })
+      firestore()
+      .collection('Chats')
+      .where('ChatID','==', this.state.lisitng.ChatID)
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+        console.log("docs", doc)
+        resolve(doc)
+      });
     })
+  })
 }
 
 getUSERID = async ()=>{
@@ -135,20 +123,19 @@ sendDATA = async (value) =>{
   const docID = await this.docID()
     console.log("DATA check", docID)
     if(docID){
-      var documentID = docID.id;
-      var previous = docID.data().messages
-      previous.splice(0,0,value[0])
-    }
-    console.log("DATA check", docID)
-    firestore().collection('Chats').doc(documentID).update({
-      messages: previous
-    })
-    .then((response)=>{
-        console.log("Updated", response)
-      this.setState({
-        messages: previous
+        var documentID = docID.id;
+        var previous = docID.data().messages
+        previous.splice(0,0,value[0])
+        firestore().collection('Chats').doc(documentID).update({
+          messages: previous
+        })
+        .then((response)=>{
+            console.log("Updated", response)
+          this.setState({
+            messages: previous
+          })
       })
-  })
+    }
 }
 
 

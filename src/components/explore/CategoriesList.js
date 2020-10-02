@@ -11,7 +11,6 @@ import {
   Dimensions
 } from 'react-native';
 import HeartButton from '../buttons/HeartButton';
-import Stars from '../Stars';
 import colors from '../../styles/colors';
 import { Thumbnail, Icon } from 'native-base';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
+  StyleSheet, ScrollView
 } from 'react-native';
 import { Body, Container, H1, H3, Header, Icon, Left, List, ListItem, Right, Title } from 'native-base';
 import SegmentedControlTab from 'react-native-segmented-control-tab'
@@ -126,13 +126,13 @@ handleIndexChange = (values) =>{
 showSupplier = () =>{
   console.log("listitem", this.state.supplierChat)
   return(
-    <View style={{marginTop:30}}>
+    <ScrollView style={{marginTop:30}}>
       {
         this.state.supplierChat
         ?
         this.state.supplierChat.map((item,index)=>(
-          <List>
-            <ListItem>
+          <List key={index}>
+            <ListItem onPress={() => this.chatbuble(item)}>
               <Left>
                 <Text>
                   {item.title}
@@ -147,19 +147,19 @@ showSupplier = () =>{
         :
         <NoMessages />
       }
-    </View>
+    </ScrollView>
   )  
 }
 
 showRenter = () =>{
   console.log("listitem", this.state.renterChat)
   return(
-    <View style={{marginTop:30}}>
+    <ScrollView style={{marginTop:30}}>
       {
         this.state.renterChat
         ?
         this.state.renterChat.map((item,index)=>(
-          <List>
+          <List key={index}>
             <ListItem>
               <Left>
                 <Text>
@@ -175,7 +175,7 @@ showRenter = () =>{
         :
         <NotificationNot />
       }
-    </View>
+    </ScrollView>
   )  
 }
 

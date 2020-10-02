@@ -12,7 +12,6 @@ import StarRating from 'react-native-star-rating';
 import colors from '../styles/colors';
 import styles from '../styles/CreateList';
 import { Icon, Header, Container, Left, Button, Right, Body, Title, List, ListItem, Text, H1, H2, H3, Thumbnail, Content, Textarea } from 'native-base';
-import Stars from '../../components/Stars';
 import headStyle from '../styles/HeaderSetting';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 import Loader from '../../components/Loader';

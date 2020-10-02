@@ -24,9 +24,9 @@ Tap the heart on any home to start saving your favorites here.
         </Text>
       </ScrollView>
       <View style={styles.footer}>
-        <TouchableHighlight style={styles.findHomesButton}>
+        <TouchableHighlight onPress={() => this.props.goHome()} style={styles.findHomesButton}>
           <Text style={styles.findHomesButtonText}>
-Find homes
+Find Items
           </Text>
         </TouchableHighlight>
       </View>

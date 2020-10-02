@@ -5,6 +5,8 @@ import Loader from '../../components/Loader'
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
+import StarRating from 'react-native-star-rating'
+import colors from '../../styles/colors'
 export default class RenterProfile extends React.Component{
     constructor(props){
         super(props)
@@ -18,6 +20,8 @@ export default class RenterProfile extends React.Component{
             userLanguage:'',
             userDetail:'',
             photourl:'',
+            supplierRating:0,
+            renterRating:0,
             listing:[]
         }
     }
@@ -37,6 +41,8 @@ export default class RenterProfile extends React.Component{
           const userLocation = getName[0].userWork
           const userLanguage = getName[0].userLanguage
           const userName = getName[0].firstName
+          const supplierRating = getName[0].supplierRating
+          const renterRating = getName[0].renterRating
           const accountCreate = getName[0].accountCreate
           this.setState({
             loadingVisible: false,
@@ -46,6 +52,8 @@ export default class RenterProfile extends React.Component{
             userDetail: userDetail,
             userLanguage:userLanguage,
             userID:userID,
+            supplierRating:supplierRating,
+            renterRating: renterRating,
             userName: userName,
             accountCreate:accountCreate,
             photourl: photo,
@@ -135,8 +143,24 @@ export default class RenterProfile extends React.Component{
                               <Text style={styles.TextStyle}>Identity not verified</Text>
                             </View>
                             <View style={styles.ViewStyle}>
-                              <Icon type="Ionicons" name="ios-chatbox-outline" style={{fontSize:20}} />
-                              <Text style={styles.TextStyle}>0 Reviews</Text>
+                              <StarRating
+                                maxStars={5}
+                                starSize={20}
+                                starStyle={colors.saagColor}
+                                fullStarColor={colors.saagColor}
+                                rating={this.state.supplierRating}
+                              />
+                              <Text style={styles.TextStyle}>{this.state.supplierRating} Rating as Supplier</Text>
+                            </View>
+                            <View style={styles.ViewStyle}>
+                              <StarRating
+                                maxStars={5}
+                                starSize={20}
+                                starStyle={colors.saagColor}
+                                fullStarColor={colors.saagColor}
+                                rating={this.state.renterRating}
+                              />
+                              <Text style={styles.TextStyle}>{this.state.renterRating} Rating as Renter</Text>
                             </View>
                         </Body>
                         <Right>

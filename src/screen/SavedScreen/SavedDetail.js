@@ -14,7 +14,6 @@ import FastImage from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar';
 import HeartButton from '../../components/buttons/HeartButton';
 import { Container, Content, H1, Card, CardItem, List, Left, Right, Text, ListItem, Header, Body, Icon, Button, Input, Thumbnail, H2, H3 } from 'native-base'
-import Stars from '../../components/Stars';
 import colors from '../../styles/colors';
 import headStyle from '../styles/HeaderSetting';
 import SearchBar from '../../components/SearchBar';
@@ -22,6 +21,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import listings from '../../data/listings';
 import firestore from '@react-native-firebase/firestore'
 import Loader from '../../components/Loader';
+import StarRating from 'react-native-star-rating';
 const { width, height } = Dimensions.get("window");
 
 export default class SavedDetail extends React.Component{
@@ -111,6 +111,7 @@ export default class SavedDetail extends React.Component{
 
     render(){
         const { listing,similarArray } = this.state
+        console.log("lisitng", listing, similarArray)
         return(
             <Container>
                 <Loader 
@@ -184,10 +185,12 @@ export default class SavedDetail extends React.Component{
                           {listing.totalRating > 0
                             ? (
                               <View style={{marginTop:10}}>
-                                <Stars
-                                  votes={listing.totalRating}
-                                  size={10}
-                                  color={colors.green02}
+                                <StarRating
+                                    maxStars={5}
+                                    starSize={20}
+                                    starStyle={colors.saagColor}
+                                    fullStarColor={colors.saagColor}
+                                    rating={listing.totalRating}
                                 />
                               </View>
                             )
@@ -203,8 +206,7 @@ export default class SavedDetail extends React.Component{
                             {listing.title}
                           </Text>
                             <Text style={{marginTop:5}}>
-                              <Text style={{fontWeight:'bold'}}>${listing.price}</Text>
-                              <Text> / {listing.priceType} </Text>
+                              <Text style={{fontWeight:'bold'}}>${listing.price1}</Text>
                             </Text>
                         </View>
                       </TouchableHighlight>
@@ -259,16 +261,17 @@ export default class SavedDetail extends React.Component{
                         </Text>
                         <Text style={styles.listingPrice}>
               $
-                          {listing.price}
-                          {' '}
-                          {listing.priceType}
+                          {listing.price1}
                         </Text>
                          {item.totalRating > 0
                          ? (
-                           <Stars
-                             votes={item.totalRating}
-                             size={10}
-                           />
+                          <StarRating
+                              maxStars={5}
+                              starSize={20}
+                              starStyle={colors.saagColor}
+                              fullStarColor={colors.saagColor}
+                              rating={listing.totalRating}
+                          />
                          )
                          : null}
                      </View>    
