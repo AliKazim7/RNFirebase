@@ -248,7 +248,6 @@ Log In
 //   loggedInStatus: state.loggedInStatus,
 // });
 
-// const mapDispatchToProps = dispatch => bindActionCreators(ActionCreators, dispatch);
 
 // LogIn.propTypes = {
 //   logIn: PropTypes.func.isRequired,

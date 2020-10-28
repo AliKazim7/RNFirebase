@@ -13,10 +13,10 @@ import FastImage from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import HeartButton from '../buttons/HeartButton';
-import Stars from '../Stars';
 import colors from '../../styles/colors';
 import { Thumbnail, Icon } from 'native-base';
 import NoImage from './NoImage';
+import StarRating from 'react-native-star-rating';
 
 export default class Listings extends Component {
   constructor(props) {
@@ -77,16 +77,19 @@ export default class Listings extends Component {
            </Text>
            <Text textBreakStrategy="highQuality" adjustsFontSizeToFit={true} style={styles.listingPrice}>
  $
-             {listing.price}
+             {listing.price1}
              {' '}
              {listing.priceType}
            </Text>
-            { listing.stars !== undefined || listing.stars > 0
+            { listing.totalRating !== undefined || listing.totalRating > 0
             ? (
-              <Stars
-                votes={listing.stars}
-                size={10}
-                color={colors.green02}
+              <StarRating
+                maxStars={5}
+                starSize={20}
+                starStyle={colors.saagColor}
+                fullStarColor={colors.saagColor}
+                rating={listing.totalRating}
+                containerStyle={{width:30}}
               />
             )
             : null}

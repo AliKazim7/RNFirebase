@@ -6,9 +6,6 @@ import {
   ScrollView,
   KeyboardAvoidingView
 } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import ActionCreators from '../../redux/actions';
 import colors from '../styles/colors';
 import transparentHeaderStyle from '../styles/navigation';
 import InputField from '../../components/form/InputField';
@@ -22,6 +19,7 @@ import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import NextArrowButton1 from '../../components/buttons/NextArrowButton1';
+import { getUSERDOC, getUSERID, updateWorkEmail } from '../../services/service';
 
 export default class TravelWork extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -59,21 +57,10 @@ export default class TravelWork extends Component {
   }
 
   async componentDidMount(){
-    const UserID = await this.getUSERID()
-    if(UserID){
+    const userID = getUSERID()
+    userID.then(response =>{
       this.setState({
-        userID: UserID
-      })
-    }
-  }
-
-  getUSERID = async() =>{
-    return new Promise((resolve, reject)=>{
-      auth().onAuthStateChanged(user => {
-        if (!user) {
-        } else {
-          resolve(user.uid)
-        }
+        userID: response
       })
     })
   }
@@ -82,23 +69,27 @@ export default class TravelWork extends Component {
     this.setState({
       loadingVisible: true
     })
-    const userDATA = await this.getDocID()
-    if(userDATA && userDATA){
-      firestore().collection('Users').doc(userDATA).update({
-        workEmail: this.state.emailAddress
-      }).then(() => {
-        this.setState({
-          loadingVisible: false
-        })
-        this.props.navigation.navigate('ProfileTab')
-      })
-      .catch(e =>{
-        this.setState({
-          loadingVisible: false
-        })
-        this.props.navigation.navigate('ProfileTab')
-      })
-    }
+    const userDATA = getUSERDOC(this.state.userID)
+    userDATA.then(response=>{
+      if(response && response){
+        const updateD = updateWorkEmail(response)
+        updateD.then(
+          res =>{
+            if(res === true){
+              this.setState({
+                loadingVisible: false
+              })
+              this.props.navigation.navigate('ProfileTab')
+            } else {
+              this.setState({
+                loadingVisible: false
+              })
+              this.props.navigation.navigate('ProfileTab')
+            }
+          }
+        )
+      }
+    })
   }
 
   getDocID = async() => {

@@ -14,12 +14,12 @@ import listings from '../data/listings';
 import Loader from '../components/Loader';
 import { Card, CardItem, Body, Text, Thumbnail, H2, H3, Icon, Button, Header, Left, Right, Input } from 'native-base';
 import HeartButton from '../components/buttons/HeartButton';
-import Stars from '../components/Stars';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 const { width, height } = Dimensions.get("window");
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import CategoriesList from '../components/explore/CategoriesList';
+import { getItemList, getSavedItem, getUSERID, mergeList } from '../services/service';
 class ExploreContainer extends Component {
   constructor(props) {
     super(props);
@@ -39,24 +39,37 @@ class ExploreContainer extends Component {
     this.setState({
       loadingVisible: true
     })
-    const userID = await this.getUserID()
-    const itemList = await this.getApi()
-    if(itemList.length > 0){
-      const data = await this.mergeList(itemList)
-      const savedPlace = await this.savedPlace(userID)
-      if(data){
-        this.setState({
-          segmentList: data,
-          listing: data,
-          searchAbleList:itemList,
-          loadingVisible: false
+    var UID = ""
+    var items = []
+    const userData = getUSERID()
+    userData.then(response =>{
+      UID = response
+    })
+    const itemLists = getItemList()
+    itemLists.then(res =>{
+      if(res.length > 0){
+        const data = mergeList(res)
+        data.then(response=>{
+          console.log("response comes here", response )
+          if(response){
+            this.setState({
+              segmentList: response,
+              listing: response,
+              searchAbleList:res,
+              loadingVisible: false
+            })
+          } else {
+            this.setState({
+              loadingVisible: false
+            })
+          }
         })
       } else {
         this.setState({
-          loadingVisible: false
+          listing:[]
         })
       }
-    }
+    })
   }
 
   componentWillUnmount() {

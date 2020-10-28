@@ -11,12 +11,12 @@ import Modal from 'react-native-modal'
 import colors from '../styles/colors';
 import styles from '../styles/CreateList';
 import { Icon, Header, Container, Left, Button, Right, Body, Title, List, ListItem, Text, H1, H2, H3, Thumbnail, Content, Item, Label, Input } from 'native-base';
-import Stars from '../../components/Stars';
 import headStyle from '../styles/HeaderSetting';
 import firestore from '@react-native-firebase/firestore'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import NoImage from '../../components/explore/NoImage';
 import Loader from '../../components/Loader';
+import StarRating from 'react-native-star-rating';
 
 export default class SelectedListItem extends React.Component{
     static navigationOptions = ({ navigation }) => ({
@@ -45,29 +45,60 @@ export default class SelectedListItem extends React.Component{
             showPreview:false,
             price:"",
             title:"",
+            renterData:[],
             detail:"",
             type:"",
             isModalVisible: false
         }
       }
 
-    componentDidMount(){
+    async componentDidMount(){
 
         this.setState({
             loading: true
         })
-        
+        if(this.props.route.params.result.renterID){
+            const getRenter = await this.getRenterID(this.props.route.params.result.renterID)
+            setTimeout(()=>{
+                this.setState({
+                    listing: this.props.route.params.result,
+                    location:this.props.route.params.result.location,
+                    price:this.props.route.params.result.price1,
+                    title:this.props.route.params.result.title,
+                    detail:this.props.route.params.result.detail,
+                    type:this.props.route.params.result.type,
+                    renterData: getRenter,
+                    loading: false
+                    })
+                }, 1000)
+        } else {
         setTimeout(()=>{
             this.setState({
                 listing: this.props.route.params.result,
                 location:this.props.route.params.result.location,
-                price:this.props.route.params.result.price,
+                price:this.props.route.params.result.price1,
                 title:this.props.route.params.result.title,
                 detail:this.props.route.params.result.detail,
                 type:this.props.route.params.result.type,
                 loading: false
+                })
+            }, 1000)
+        }
+    }
+
+    getRenterID = ID =>{
+        const result = []
+        return new Promise((resolve, reject)=>{
+            firestore()
+            .collection('Users')
+            .where('uid','==', ID)
+            .get()
+            .then((querySnapshot)=>{
+                querySnapshot.forEach(documentSnapshot => {
+                    resolve(documentSnapshot.data())
+                });
             })
-        }, 1000)
+        })
     }
 
     goBack = () =>{
@@ -108,7 +139,7 @@ export default class SelectedListItem extends React.Component{
                 title: title,
                 type: type,
                 location: location,
-                price: price,
+                price1: price,
                 detail: detail
             })
             .then(()=>{
@@ -132,32 +163,46 @@ export default class SelectedListItem extends React.Component{
     }
 
     render(){
-        const { listing,isModalVisible } = this.state
+        const { listing,isModalVisible, renterData } = this.state
+        console.log('renterData',renterData, listing.photo)
         return(
             <Container style={{backgroundColor: "white"}}>
               {
                 !this.state.editData
                 ?
                 <ScrollView>
-                <View style={{width:'100%', backgroundColor:'red', marginTop: Platform.OS === "android" ? 20 : 0}}>
-                <ScrollView horizontal style={{flex:1, backgroundColor:'red'}} showsHorizontalScrollIndicator={false}>
+                <View style={{width:'100%', marginTop: Platform.OS === "android" ? 20 : 0}}>
+                <ScrollView horizontal style={{flex:1}} showsHorizontalScrollIndicator={false}>
                         {
                             listing.photo !== undefined
                             ?
-                            listing.photo.map((i,ind)=>(
-                                <FastImage 
-                                  source={i && {uri: i}}
-                                  key={ind}
-                                  indicator={ProgressBar} 
-                                  style={{ height: hp('40%'),flex:1,width:wp('100%')}}
-                                />
-                            ))
+                                <View>
+                                   {
+                                       listing.photo.length > 0
+                                       ?
+                                        listing.photo.map((i,ind)=>(
+                                        <FastImage 
+                                            source={i && {uri: i}}
+                                            key={ind}
+                                            indicator={ProgressBar} 
+                                            style={{ height: hp('40%'),flex:1,width:wp('100%')}}
+                                        />
+                                        ))
+                                        :
+                                        <Image
+                                            style={{ height: hp('40%'),flex:1,width:wp('100%')}}
+                                            source={require('../../img/noImage.jpeg')}
+                                            resizeMode="cover"
+                                        />   
+                                    }
+                                </View>
                             :
-                            <Image
-                            style={{ height: hp('40%'),flex:1,width:wp('100%')}}
-                            source={require('../../img/noImage.jpeg')}
-                            resizeMode="cover"
-                            />                                
+                            // <Image
+                            // style={{ height: hp('40%'),flex:1,width:wp('100%')}}
+                            // source={require('../../img/noImage.jpeg')}
+                            // resizeMode="cover"
+                            // />   
+                            <Text>dada</Text>                             
                         }
                     </ScrollView>
                     <View style={headStyle.leftHeader}>
@@ -171,12 +216,14 @@ export default class SelectedListItem extends React.Component{
                         <ListItem>
                             <Body>
                                 <Text style={{fontSize:24}}>{this.state.showPreview === false ? listing.title : this.state.title}</Text>
-                                {listing.stars> 0
+                                {listing.totalRating> 0
                                 ? (
-                                    <Stars
-                                    votes={listing.stars}
-                                    size={10}
-                                    color={colors.green02}
+                                    <StarRating
+                                        maxStars={5}
+                                        starSize={20}
+                                        starStyle={colors.saagColor}
+                                        fullStarColor={colors.saagColor}
+                                        rating={listing.totalRating}
                                     />
                                     )
                                 : null}
@@ -184,27 +231,52 @@ export default class SelectedListItem extends React.Component{
                             </Body>
                             <Right />
                         </ListItem>
-                    <ListItem>
-                        <Left>
-                            <Body>
-                                <Text style={{fontWeight:'normal'}}>
-                                    {this.state.showPreview === false ? listing.type : this.state.type}
-                                </Text>
-                                <Text>hosted by <Text style={{fontWeight:'bold'}}> {listing.userName} </Text> </Text>
-                            </Body>
-                        </Left>
-                        <Right>
-                        </Right>
-                    </ListItem>
-                    <ListItem noBorder>
-                        <Left>
-                            <Body>
-                                <Text style={{fontWeight:'normal'}}>
-                                   $ {this.state.showPreview === false ? listing.price : this.state.price} /  {listing.priceType}
-                                </Text>
-                            </Body>
-                        </Left>
-                    </ListItem>
+                        <ListItem>
+                            <Left>
+                                <Body>
+                                    <Text style={{fontWeight:'normal'}}>
+                                        {this.state.showPreview === false ? listing.type : this.state.type}
+                                    </Text>
+                                    <Text>hosted by <Text style={{fontWeight:'bold'}}> {listing.userName} </Text> </Text>
+                                </Body>
+                            </Left>
+                            <Right>
+                            </Right>
+                        </ListItem>
+                        {
+                            renterData.uid !== ''
+                            ?
+                            <ListItem onPress={renterData.uid !== undefined ? () => this.props.navigation.navigate('RenterProfile',{renterID: renterData.uid}) : null}>
+                                <Left>
+                                    <Body>
+                                        <Text style={{fontWeight:'normal'}}>
+                                            {this.state.showPreview === false ? listing.type : this.state.type}
+                                        </Text>
+                                        <Text> Rented by <Text style={{fontWeight:'bold'}}> {renterData.firstName} </Text> </Text>
+                                    </Body>
+                                </Left>
+                                <Right>
+                                    {
+                                        renterData.photo !== undefined
+                                        ?
+                                        <FastImage style={{ height: hp('8%'), width:wp('18%'), borderRadius:50}} resizeMode="center" source={renterData.photo ? {uri:renterData.photo} : null} />
+                                        :
+                                        <Image style={{ height: hp('8%'), width:wp('18%'), borderRadius:50}} resizeMode="center" source={require('../../img/images.png')} />
+                                    }
+                                </Right>
+                            </ListItem>
+                            :
+                            null
+                        }
+                        <ListItem noBorder>
+                            <Left>
+                                <Body>
+                                    <Text style={{fontWeight:'normal'}}>
+                                    $ {this.state.showPreview === false ? listing.price1 : this.state.price}
+                                    </Text>
+                                </Body>
+                            </Left>
+                        </ListItem>
                 </List>
               </ScrollView>
               :
@@ -261,12 +333,3 @@ export default class SelectedListItem extends React.Component{
         )
     }
 }
-
-{/* <Item floatingLabel>
-                                <Label>Title</Label>
-                                <Input value={listing.title} onChangeText={(text) => this.handleChange('title', key)} />
-                            </Item>
-                            <Item floatingLabel>
-                                <Label>location</Label>
-                                <Input value={listing.location} onChangeText={(text) => this.handleChange('location', key)} />
-                            </Item> */}

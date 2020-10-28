@@ -44,6 +44,7 @@ export default class SavedContainer extends Component {
     const dataResult = await this.getApi()
     if(dataResult){
       const arrayValue = await this.apiCall(dataResult)
+      console.log ("array vAkue", arrayValue)
       if(arrayValue){
         this.setState({
           listing: arrayValue,
@@ -69,14 +70,17 @@ export default class SavedContainer extends Component {
   }
 
   apiCall = async(ID) =>{
+    console.log("array vale", ID)
     let result = []
     return new Promise((resolve, reject)=>{
       firestore().collection('SavedPlaces')
       .where('userID', '==', ID)
       .get()
       .then(querySnapshot => {
+        console.log("array vale", querySnapshot)
         querySnapshot.forEach(documentSnapshot => {
           // resolve(documentSnapshot.data())
+          console.log("array vale", documentSnapshot.data())
           result.push(documentSnapshot.data())
         });
         resolve(result)
@@ -91,6 +95,7 @@ export default class SavedContainer extends Component {
   }
 
   render() {
+    console.log("saved places", this.state.listing)
     return (
       <View style={styles.wrapper}>
         <Loader 
@@ -149,13 +154,10 @@ const CardView = (props) =>{
             </CardItem>
             <CardItem cardBody style={{marginLeft:10,marginTop:10, marginBottom:10, backgroundColor:'white'}}>
               <View style={{marginTop:10, marginBottom:10}}>
-                <Text note>
-                  Anytime
-                </Text>
                 <H2 style={styles.contentType}>
                   {item.location}
                 </H2>
-                <Text style={styles.contentType}>1 stay</Text>
+                <Text style={styles.contentType}>{item.title}</Text>
               </View>
             </CardItem>
           </Card>

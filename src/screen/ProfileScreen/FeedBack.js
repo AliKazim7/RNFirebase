@@ -6,9 +6,6 @@ import {
   ScrollView,
   KeyboardAvoidingView, TouchableOpacity
 } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import ActionCreators from '../../redux/actions';
 import colors from '../styles/colors';
 import transparentHeaderStyle from '../styles/navigation';
 import InputField from '../../components/form/InputField';
@@ -21,6 +18,7 @@ import { Content, H1, Container, Left, Button, Header, Body, Right, Icon, Title,
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { addFeedBack, getUSERID } from '../../services/service';
 
 export default class FeedBack extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -58,21 +56,10 @@ export default class FeedBack extends Component {
   }
 
   async componentDidMount(){
-    const UserID = await this.getUSERID()
-    if(UserID){
+    const userID = getUSERID()
+    userID.then(res =>{
       this.setState({
-        userID: UserID
-      })
-    }
-  }
-
-  getUSERID = async() =>{
-    return new Promise((resolve, reject)=>{
-      auth().onAuthStateChanged(user => {
-        if (!user) {
-        } else {
-          resolve(user.uid)
-        }
+        userID: res
       })
     })
   }
@@ -82,21 +69,19 @@ export default class FeedBack extends Component {
       this.setState({
         loadingVisible: true
       })
-      firestore().collection('FeedBacks').add({
-        feedBack: this.state.feedBack,
-        Topic: this.state.emailAddress,
-        userID: this.state.userID,
-        issueResolved: false
-      }).then(() => {
-        this.setState({
-          loadingVisible: false
-        })
-        this.props.navigation.navigate('ProfileTab')
-      })
-      .catch(()=>{
-        this.setState({
-          loadingVisible:false
-        })
+      const addFeed = addFeedBack(this.state.feedBack, this.state.emailAddress, this.state.userID)
+      addFeed.then(response =>{
+        if(response === true){
+          this.setState({
+            loadingVisible: false
+          })
+          this.props.navigation.navigate('ProfileTab')
+        } else {
+          this.setState({
+            loadingVisible: false
+          })
+          this.props.navigation.navigate('ProfileTab')
+        }
       })
    }
   }

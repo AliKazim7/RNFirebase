@@ -20,6 +20,7 @@ import { Card, CardItem, H1, H2,
 import colors from '../screen/styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import NoImage from '../components/explore/NoImage';
+import headStyle from '../screen/styles/HeaderSetting';
 export default class TripsContainer extends Component {
   constructor(props){
     super(props)
@@ -37,10 +38,22 @@ export default class TripsContainer extends Component {
     if(userID){
       const getName = await this.getUSERDATA(userID)
       if(getName){
-        this.setState({
-          listing: getName,
-          loading: false
-        })
+        const filterOrdered = await this.getOrder(userID)
+        if(filterOrdered){
+          const result = []
+          getName.filter((item, index)=>{
+            filterOrdered.filter((i, ind)=>{
+              if(item.title === i.listItem.title){
+                return (item.Ordered = true, item.renterID = i.renterID)
+                // result.push(item)
+              }
+            })
+          })
+          this.setState({
+            listing: getName,
+            loading: false
+          })
+        }
       } else {
         this.setState({
           loading: false
@@ -49,6 +62,34 @@ export default class TripsContainer extends Component {
     }
   }
 
+  mergedList = (MainArray, orderArray) =>{
+    return new Promise((resolve, reject)=>{
+      MainArray.map((item, index)=>{
+        orderArray.map((i, ind)=>{
+          if(item.title === i.listItem.title){
+            item.Ordered = true
+            item.renterID = i.renterID
+            resolve(item)
+          }
+        })
+      })
+    })
+  }
+
+  getOrder = value =>{
+    const result = []
+    return new Promise((resolve, reject)=>{
+      firestore().collection('Orders').where('supplierID','==', value)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          // resolve(documentSnapshot.data())
+          result.push(documentSnapshot.data())
+        });
+        resolve(result)
+      })
+    })
+  }
 
   getApi = async() =>{
     return new Promise((resolve, reject)=>{
@@ -122,7 +163,7 @@ const styles = StyleSheet.create({
 
 const CardView = (props) =>{
   const result = props.result
-  
+  console.log("resultws here", result)
   return(
     <View style={{flex:1}}>
       <FlatList
@@ -147,6 +188,15 @@ const CardView = (props) =>{
                   />
                 :
                   <NoImage />
+              }
+              {
+                item.Ordered === true 
+                ?
+                <View style={headStyle.leftHeader1} >
+                  <Text style={{color:'white'}}>Rented</Text>
+                </View>
+                :
+                null
               }
             </CardItem>
             <CardItem cardBody style={{marginLeft:10,marginTop:10, marginBottom:10, backgroundColor:'white'}}>

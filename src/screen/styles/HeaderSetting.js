@@ -1,5 +1,6 @@
 import { Platform, StyleSheet } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP} from 'react-native-responsive-screen'
+import colors from '../../styles/colors'
 //HeadStyle is dynamic for all headers. Add object name here and call in any place using headStyle.
 const headStyle = StyleSheet.create({
     leftHeader:{
@@ -10,6 +11,16 @@ const headStyle = StyleSheet.create({
         width:50, 
         backgroundColor:'white', 
         borderRadius:40
+    },
+    leftHeader1:{
+        position:"absolute", 
+        left:10,
+        top: Platform.OS === "android" ? hp('2%') : hp('5%'), 
+        // height:50,
+        width:55,
+        color:'white', 
+        backgroundColor:colors.saagColor, 
+        // borderRadius:40
     },
     leftButton:{
         color:'black', 

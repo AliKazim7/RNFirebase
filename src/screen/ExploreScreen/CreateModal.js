@@ -13,11 +13,7 @@ import {
   TouchableHighlight,
   ScrollView,
 } from 'react-native';
-// import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
-// import Icon from 'react-native-vector-icons/Ionicons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-// import ActionCreators from '../redux/actions';
 import { Icon, Header, Left, Body, Right } from 'native-base'
 import colors from '../styles/colors';
 import InputField from '../../components/form/InputField';
@@ -105,7 +101,7 @@ class CreateModal extends Component {
         price: listing.price,
         type:listing.type,
         title:listing.title,
-        stars:listing.stars,
+        stars:listing.totalRating,
         segmenttype:listing.segmenttype,
         priceType:listing.priceType,
         photo:listing.photo,
@@ -179,7 +175,6 @@ class CreateModal extends Component {
   }
 }
 
-// const mapDispatchToProps = dispatch => bindActionCreators(ActionCreators, dispatch);
 
 // CreateList.propTypes = {
 //   navigation: PropTypes.shape({

@@ -13,10 +13,10 @@ import FastImage from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar';
 import HeartButton from '../../components/buttons/HeartButton';
 import { Container, Content, H1, Card, CardItem, List, Left, Right, Text, ListItem, Header, Body, Icon, Button, Input } from 'native-base'
-import Stars from '../../components/Stars';
 import colors from '../../styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import Loader from '../../components/Loader';
+import StarRating from 'react-native-star-rating';
 
 export default class ViewCategory extends React.Component{
     constructor(props){
@@ -53,7 +53,7 @@ export default class ViewCategory extends React.Component{
           loadingVisible:true
         })
         const result = this.state.searchAbleList.filter((item,index)=>{
-          if(item.location.match(list.Location) && (list.multiSliderValue[0] < item.price && list.multiSliderValue[1] > item.price) ){
+          if(item.location.match(list.Location) && (list.multiSliderValue[0] < item.price1 && list.multiSliderValue[1] > item.price1) ){
             return item
           }
         })
@@ -91,7 +91,7 @@ export default class ViewCategory extends React.Component{
             if(item.location.match(text)){
               array.push(item)
             }
-            if(item.price.match(text)){
+            if(item.price1.match(text)){
               array.push(item)
             }
             if(item.title !== text && item.location !== text && item.type !== text){
@@ -216,13 +216,15 @@ export default class ViewCategory extends React.Component{
                               source={require('../../img/noImage.jpeg')}
                             />
                           }
-                          {listing.stars > 0
+                          {listing.totalRating > 0
                             ? (
                               <View style={{marginTop:10}}>
-                                <Stars
-                                  votes={listing.stars}
-                                  size={10}
-                                  color={colors.green02}
+                                <StarRating
+                                    maxStars={5}
+                                    starSize={20}
+                                    starStyle={colors.saagColor}
+                                    fullStarColor={colors.saagColor}
+                                    rating={listing.totalRating}
                                 />
                               </View>
                             )
@@ -238,8 +240,7 @@ export default class ViewCategory extends React.Component{
                             {listing.title}
                           </Text>
                             <Text style={{marginTop:5}}>
-                              <Text style={{fontWeight:'bold', color: colors.saagColor}}>${listing.price}</Text>
-                              <Text style={{color: colors.saagColor}}> / {listing.priceType} </Text>
+                              <Text style={{fontWeight:'bold', color: colors.saagColor}}>${listing.price1}</Text>
                             </Text>
                         </View>
                       </TouchableHighlight>

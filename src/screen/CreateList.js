@@ -14,12 +14,9 @@ import {
   ScrollView,
   StyleSheet
 } from 'react-native';
-// import { connect } from 'react-redux';
-// import { bindActionCreators } from 'redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
-// import ActionCreators from '../redux/actions';
 import colors from '../styles/colors';
 import InputField from '../components/form/InputField';
 import RadioInput from '../components/form/RadioInput';
@@ -199,7 +196,6 @@ const newStyle = StyleSheet.create({
     backgroundColor:'green'
   }
 })
-// const mapDispatchToProps = dispatch => bindActionCreators(ActionCreators, dispatch);
 
 // CreateList.propTypes = {
 //   navigation: PropTypes.shape({

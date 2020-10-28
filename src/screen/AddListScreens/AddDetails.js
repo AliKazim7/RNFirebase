@@ -1,12 +1,13 @@
 import React from 'react'
 import { View, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
-import { Text, Container, Header, Left, Body, Right, H1, List, ListItem, Button, Icon, Input, CheckBox, H2 } from 'native-base'
+import { Text, Container, Header, Left, Body, Right, H1, List, ListItem, Button, Icon, Input, CheckBox, H2, Textarea } from 'native-base'
 import InputField from '../../components/form/InputField';
 import colors from '../../styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import NextArrowButton from '../../components/buttons/NextArrowButton';
+import { addOrderList, getOrderDOC, getUSERDATA, getUSERID } from '../../services/service';
 // import Icon from 'react-native-vector-icons/Feather';
 export default class AddListDetails extends React.Component{
     constructor(props) {
@@ -23,6 +24,7 @@ export default class AddListDetails extends React.Component{
           NotfixedPrice: false,
           disabled: true,
           loadingVisible: false,
+          details:'',
           userID:'',
           userName:'',
           checked: false
@@ -31,45 +33,20 @@ export default class AddListDetails extends React.Component{
       }
 
     async componentDidMount(){
-        const UID = await this.getApi()
-        if(UID){
-            const getName = await this.getUSERDATA(UID)
-            const firstName = getName[0].firstName
-            this.setState({
-                userID: UID,
-                userName: firstName
-            })
-        }
-    }
-
-    getUSERDATA = async(userID) =>{
-        let result = []
-        return new Promise((resolve, reject)=>{
-          firestore()
-            .collection('Users')
-            .where('uid', '==', userID)
-            .get()
-            .then(querySnapshot => {
-              querySnapshot.forEach(documentSnapshot => {
-                // resolve(documentSnapshot.data())
-                result.push(documentSnapshot.data())
-              });
-              resolve(result)
-            });
-        })
-      }
-
-    getApi = async() =>{
-        return new Promise((resolve, reject)=>{
-          auth().onAuthStateChanged(user => {
-            if (!user) {
-            } else {
-              resolve(user.uid)
+        const UID = getUSERID()
+        UID.then(
+            resp =>{
+                const getName = getUSERDATA(resp)
+                getName.then(response =>{
+                    const firstName = response[0].firstName
+                    this.setState({
+                        userName: firstName,
+                        userID: resp
+                    })
+                })
             }
-          })
-        })
-      }
-
+        )
+    }
     dataHandle = (key, value) =>{
         this.setState({
             [key]: value
@@ -79,27 +56,33 @@ export default class AddListDetails extends React.Component{
     handleChange = async() => {
         // this.props.navigation.navigate('AddListPhoto')
         const listID = Math.random()
-        const addPlace = firestore()
-        .collection("ItemList")
-        .add({
-            location: this.state.location,
-            title: this.state.title,
-            price1: this.state.price1,
-            priceResT:this.state.NotfixedPrice ? this.state.priceResT : this.state.price1,
-            id: listID,
-            userName:this.state.userName,
-            type: this.state.type,
-            priceType: this.state.priceType,
-            userID: this.state.userID
-        })
-        .then(()=>{
-            this.setState({
-                loadingVisible: false
+        const addPlace = addOrderList(
+            this.state.location,
+            this.state.title,
+            this.state.price1,
+            this.state.NotfixedPrice,
+            this.state.priceResT,
+            this.state.userName,
+            this.state.type,
+            listID,
+            this.state.details,
+            this.state.priceType,
+            this.state.userID
+        )
+        addPlace.then(response =>{
+            const getDocID = getOrderDOC(listID)
+            getDocID.then(res =>{
+                firestore().collection("ItemList").doc(res)
+                .update({
+                    id:res
+                })
+                .then(()=>{
+                console.log("Updated !")
+                this.props.navigation.navigate('AddListPhoto',{listID: res})
+              })
             })
-            this.props.navigation.navigate('AddListPhoto',{listID:listID, userID: this.state.userID})
         })
     }
-
     changeCheck = () => { 
         this.setState({
             NotfixedPrice: !this.state.NotfixedPrice
@@ -202,6 +185,29 @@ export default class AddListDetails extends React.Component{
                                 onChangeText={(text) => this.dataHandle('price1', text)}
                                 value={this.state.price1}
                             />
+                        </View>
+                        :
+                        null
+                    }
+                    {
+                        this.state.type !== ''
+                        ?
+                        <View style={{flexDirection:'row', width: wp('100%')}}>
+                            {/* <InputField
+                                labelText="Price For Day One"
+                                labelTextSize={14}
+                                labelColor={colors.white}
+                                textColor={colors.white}
+                                borderBottomColor={colors.white}
+                                inputType="email"
+                                placeholderTextColor={colors.white}
+                                placeholder="70"
+                                customStyle={{ marginBottom: 30, width:wp('40%') }}
+                                onChangeText={(text) => this.dataHandle('price1', text)}
+                                value={this.state.price1}
+                            /> */}
+                            <Textarea placeholder="Add new details" value={this.state.details} bordered onChangeText={(text) => this.dataHandle('details', text)}
+                                placeholderTextColor={colors.saagColor} style={{color:'white', fontSize:14,marginBottom: 30, width:wp('90%')}} />
                         </View>
                         :
                         null

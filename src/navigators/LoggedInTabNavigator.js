@@ -48,6 +48,10 @@ import UpdateListItem from '../screen/ListingScreens/UpdateListed'
 import ImageList from '../components/ImageList';
 import OrderDetails from '../screen/OrderScreens/OrderDetail';
 import SaveAvail from '../screen/SavedScreen/SaveAvail';
+import Messages from '../screen/ExploreScreen/Messages';
+import ChatMessages from '../screen/InboxScreen/ChatMessages';
+import RenterMessage from '../screen/InboxScreen/RenterMessage';
+import RenterProfile from '../screen/ListingScreens/RenterProfile';
 const Tabs = createBottomTabNavigator()
 const Stack = createStackNavigator()
 const RootStack = createStackNavigator()
@@ -103,6 +107,7 @@ function ExploreTab(){
       <Stack.Screen options={{headerShown: false}} name="SelectedItem" component={SelectedItem} />
       <Stack.Screen options={{headerShown: false}} name="Availability" component={Availability} />
       <Stack.Screen options={{headerShown: false}} name="ViewCategory" component={ViewCategory} />
+      <Stack.Screen options={{headerShown: false}} name="Messages" component={Messages} />
       <Stack.Screen options={{headerShown: false}} name="HostProfile" component={HostProfile} />
       <Stack.Screen options={{headerShown: false}} name="ImageGallery" component={ImageList} />
       <Stack.Screen options={{headerShown: false}} name="HostSelected" component={HostSelected} />
@@ -144,6 +149,7 @@ function ListingTabs(){
       <Stack.Screen options={{headerShown: false}} name="SelectList" component={SelectedListItem} />
       <Stack.Screen options={{headerShown: false}} name="ImageGallery" component={ImageList} />
       <Stack.Screen options={{headerShown: false}} name="UpdateList" component={UpdateList} />
+      <Stack.Screen options={{headerShown: false}} name='RenterProfile' component={RenterProfile} />
     </Stack.Navigator>
   )
 }
@@ -172,6 +178,16 @@ function ProfileTab(){
       <Stack.Screen options={{headerShown: false}} name="TermsService" component={TermService} />
       <Stack.Screen options={{headerShown: false}} name="MyOrders" component={MyOrders} />
       <Stack.Screen options={{headerShown: false}} name="OrderListing" component={OrderDetails} />
+    </Stack.Navigator>
+  )
+}
+
+function InboxTab(){
+  return(
+    <Stack.Navigator>
+      <Stack.Screen options={{headerShown: false}} name="InboxTab" component={InboxContainer} />
+      <Stack.Screen options={{headerShown: false}} name="ChatBubble" component={ChatMessages} />
+      <Stack.Screen options={{headerShown: false}} name="RenterChat" component={RenterMessage} />
     </Stack.Navigator>
   )
 }
@@ -243,7 +259,7 @@ function LoggedInTabNavigator(){
           tabBarLabel: 'Inbox',
           tabBarIcon: CustomTabBarIcon('comment', 25, 'EvilIcons')
         }} 
-        component={InboxContainer} 
+        component={InboxTab} 
       />
       <Tabs.Screen name="Profile" 
         options={{

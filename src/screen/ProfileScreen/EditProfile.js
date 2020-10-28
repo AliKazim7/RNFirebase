@@ -17,6 +17,7 @@ import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import Loader from '../../components/Loader';
 import moment from 'moment';
+import { getUSERDATA, getUSERDOC, getUSERID,updateUserEdit } from '../../services/service';
 export default class EditProfile extends Component {
   static navigationOptions = ({ navigation }) => ({
     // headerRight: <NavBarButton handleButtonPress={() => navigation.navigate('LogIn')} location="right" color={colors.black} text="Log In" />,
@@ -73,28 +74,35 @@ export default class EditProfile extends Component {
     this.setState({
       loadingVisible: true
     })
-    const userDATA = await this.getDocID()
-    if(userDATA && userDATA){
-      firestore().collection('Users').doc(userDATA).update({
-        Gender: this.state.gender,
-        PhoneNumber: this.state.PhoneNumber,
-        DoB: this.state.DoB,
-        email: this.state.Email,
-        receiveEmail: this.state.receiveEmail,
-        firstName: this.state.FirstName
-      }).then(() => {
-        this.setState({
-          loadingVisible: false
-        })
-        this.props.navigation.navigate('ProfileTab')
-      })
-      .catch(e =>{
-        this.setState({
-          loadingVisible: false
-        })
-        this.props.navigation.navigate('ProfileTab')
-      })
-    }
+    const userDATA = getUSERDOC(this.state.userID)
+    userDATA.then(response=>{
+      if(response && response){
+        const updatedDoc = updateUserEdit(
+          this.state.gender,
+          this.state.PhoneNumber,
+          this.state.DoB,
+          this.state.Email,
+          this.state.receiveEmail,
+          this.state.FirstName,
+          response
+        )
+        updatedDoc.then(
+          res =>{
+            if(res === true){
+              this.setState({
+                loadingVisible: false
+              })
+              this.props.navigation.navigate('ProfileTab')
+            } else {
+            this.setState({
+              loadingVisible: false
+            })
+            this.props.navigation.navigate('ProfileTab')
+            }
+          }
+        )
+      }
+    })
   }
 
   getDocID = async() => {
@@ -112,27 +120,28 @@ export default class EditProfile extends Component {
     this.setState({
       loadingVisible: true
     })
-    const userID = await this.getApi()
-    if(userID){
-      const getName = await this.getUSERDATA(userID)
-      const emailAddress = getName[0].email
-      const firstName = getName[0].firstName
-      const receiveEmail = getName[0].receiveEmail
-      const gender = getName[0].Gender
-      const PhoneNumber = getName[0].PhoneNumber
-      const DoB = getName[0].DoB
-
-      this.setState({
-        FirstName:firstName !== undefined ? firstName : '',
-        Email: emailAddress !== undefined ? emailAddress : '',
-        loadingVisible: false,
-        DoB:DoB !== undefined ? DoB : '',
-        receiveEmail: receiveEmail !== undefined ? receiveEmail : false,
-        gender: gender !== undefined ?  gender : '',
-        PhoneNumber: PhoneNumber !== undefined ? PhoneNumber : '',
-        userID: userID
+    const userID = getUSERID()
+    userID.then(response =>{
+      const getName = getUSERDATA(response)
+      getName.then(res =>{
+        const emailAddress = res[0].email
+        const firstName = res[0].firstName
+        const receiveEmail = res[0].receiveEmail
+        const gender = res[0].Gender
+        const PhoneNumber = res[0].PhoneNumber
+        const DoB = res[0].DoB
+        this.setState({
+          FirstName:firstName !== undefined ? firstName : '',
+          Email: emailAddress !== undefined ? emailAddress : '',
+          loadingVisible: false,
+          DoB:DoB !== undefined ? DoB : '',
+          receiveEmail: receiveEmail !== undefined ? receiveEmail : false,
+          gender: gender !== undefined ?  gender : '',
+          PhoneNumber: PhoneNumber !== undefined ? PhoneNumber : '',
+          userID: response
+        })
       })
-    }
+    })
   }
   getApi = async() =>{
     return new Promise((resolve, reject)=>{
@@ -223,6 +232,7 @@ export default class EditProfile extends Component {
     const showNotification = !formValid;
     const background = formValid ? colors.saagColor : colors.darkOrange;
     const notificationMarginTop = showNotification ? 10 : 0;
+    console.log("userID", this.state.userID)
     return (
       <Container style={{backgroundColor: background}}>
         <Header transparent>

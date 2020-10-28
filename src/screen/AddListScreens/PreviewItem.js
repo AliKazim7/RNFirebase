@@ -10,11 +10,11 @@ import Modal from 'react-native-modal'
 import colors from '../styles/colors';
 import styles from '../styles/CreateList';
 import { Icon, Header, Container, Left, Button, Right, Body, Title, List, ListItem, Text, H1, H2, H3, Thumbnail, Content } from 'native-base';
-import Stars from '../../components/Stars';
 import headStyle from '../styles/HeaderSetting';
 import { widthPercentageToDP, heightPercentageToDP } from 'react-native-responsive-screen';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
+import StarRating from 'react-native-star-rating';
 
 export default class PreviewItem extends React.Component{
     static navigationOptions = ({ navigation }) => ({
@@ -61,8 +61,7 @@ export default class PreviewItem extends React.Component{
                 location: result.location,
                 title: result.title,
                 type: result.type,
-                price: result.price,
-                priceType: result.priceType,
+                price: result.price1,
                 photo: array,
                 listing:result
             })
@@ -129,12 +128,14 @@ export default class PreviewItem extends React.Component{
                     <ListItem>
                         <Body>
                             <H3>{listing.title}</H3>
-                            {listing.stars> 0
+                            {listing.totalRating> 0
                             ? (
-                                <Stars
-                                votes={listing.stars}
-                                size={10}
-                                color={colors.green02}
+                                <StarRating
+                                    maxStars={5}
+                                    starSize={20}
+                                    starStyle={colors.saagColor}
+                                    fullStarColor={colors.saagColor}
+                                    rating={listing.totalRating}
                                 />
                                 )
                             : null}
@@ -198,13 +199,15 @@ export default class PreviewItem extends React.Component{
                 </ScrollView>
                 <View style={{flexDirection:'row', borderColor:'2px solid black'}}>
                         <View>
-                            <Text style={{marginTop:15, marginLeft:10}}> ${listing.price} / {listing.priceType} </Text>
-                            {listing.stars > 0 ? 
+                            <Text style={{marginTop:15, marginLeft:10}}> ${listing.price1}</Text>
+                            {listing.totalRating > 0 ? 
                                 <View style={{marginLeft:20}}>
-                                    <Stars
-                                    votes={listing.stars}
-                                    size={10}
-                                    color={colors.green02}
+                                    <StarRating
+                                        maxStars={5}
+                                        starSize={20}
+                                        starStyle={colors.saagColor}
+                                        fullStarColor={colors.saagColor}
+                                        rating={listing.totalRating}
                                     />
                                 </View>
                             :
