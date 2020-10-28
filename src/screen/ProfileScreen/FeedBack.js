@@ -6,9 +6,6 @@ import {
   ScrollView,
   KeyboardAvoidingView, TouchableOpacity
 } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import ActionCreators from '../../redux/actions';
 import colors from '../styles/colors';
 import transparentHeaderStyle from '../styles/navigation';
 import InputField from '../../components/form/InputField';

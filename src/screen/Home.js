@@ -2,29 +2,18 @@ import React, { Component } from 'react';
 import {
   View,
   ScrollView,
-  Dimensions,
-  Image,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-// import { graphql } from 'react-apollo';
-// import gql from 'graphql-tag';
 import SearchBar from '../components/SearchBar';
-import Categories from '../components/explore/Categories';
 import Listings from '../components/explore/Listings';
 import colors from '../styles/colors';
-import SegmentedControlTab from 'react-native-segmented-control-tab'
-import categoriesList from '../data/categories';
 import listings from '../data/listings';
-import Loader from '../components/Loader';
-import { Card, CardItem, Body, Text, Thumbnail, H2, H3, Icon, Button } from 'native-base';
+import { Text, Thumbnail, Button } from 'native-base';
 import HeartButton from '../components/buttons/HeartButton';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-const { width, height } = Dimensions.get("window");
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
-import ContentListing from '../data/ContentListing';
-import DifferenOptions from '../data/DifferentListing';
 import StarRating from 'react-native-star-rating';
 class Home extends Component {
   constructor(props) {
@@ -114,7 +103,6 @@ class Home extends Component {
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(documentSnapshot => {
-          // resolve(documentSnapshot.data())
           result.push(documentSnapshot.data())
         });
         resolve(result)
@@ -124,15 +112,8 @@ class Home extends Component {
 
   handleAddToFav = (listing) => {
     const { navigate } = this.props.navigation;
-    // let { favouriteListings } = this.state;
     listing.favourite = true
-    // const index = favouriteListings.indexOf(listing.id);
-    // if (index > -1) {
-    //   favouriteListings = favouriteListings.filter(item => item !== listing.id);
-    //   this.setState({ favouriteListings });
-    // } else {
       navigate('CreateModal', { listing });
-    // }
   }
 
   onCreateListClose(listingId, listCreated) {
@@ -285,12 +266,8 @@ const styles = StyleSheet.create({
     marginLeft:wp('5%')
   },
   image: {
-    // flex: 1,
-    // borderRadius: 8,
     width:wp('100%'),
     height:hp('30%')
-    // marginRight:10,
-    // marginBottom: 7,
   },
   scrollViewContent: {
     paddingBottom: 80,
@@ -302,7 +279,6 @@ const styles = StyleSheet.create({
     position:'absolute',
     bottom:10,
     marginLeft:wp('38%'),
-    // width:wp('100%'),
   },
   heading: {
     fontSize: 22,
@@ -311,46 +287,12 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     color: colors.gray04,
   },
-  tabsContainerStyle: {
-    //custom styles
-    // borderBottom
-  },
-  tabStyle: {
-    //custom styles
-  },
-  firstTabStyle: {
-    //custom styles
-  },
-  lastTabStyle: {
-    //custom styles
-  },
-  tabTextStyle: {
-    //custom styles
-  },
-  activeTabStyle: {
-    //custom styles
-  },
-  activeTabTextStyle: {
-    //custom styles
-  },
-  tabBadgeContainerStyle: {
-    //custom styles
-  },
-  activeTabBadgeContainerStyle: {
-    //custom styles
-  },
-  tabBadgeStyle: {
-    //custom styles
-  },
   addToFavoriteBtn: {
     position: 'absolute',
     right: 12,
     top: 7,
     zIndex: 2,
   },
-  activeTabBadgeStyle: {
-    //custom styles
-  }
 });
 
 export default Home;

@@ -1,24 +1,11 @@
-/**
- * Airbnb Clone App
- * @author: Andy
- * @Url: https://www.cubui.com
- */
-
 import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-// import Icon from 'react-native-vector-icons/FontAwesome';
 import {
   View,
   Text,
   ScrollView,
   KeyboardAvoidingView,
-  BackHandler,
-  ToastAndroid,
   AsyncStorage
 } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import ActionCreators from '../redux/actions';
 import colors from '../styles/colors';
 import transparentHeaderStyle from '../styles/navigation';
 import InputField from '../components/form/InputField';
@@ -30,8 +17,6 @@ import styles from './styles/LogIn';
 import {Icon, Button} from 'native-base'
 import RoundedButton from '../components/buttons/RoundedButton';
 import auth from '@react-native-firebase/auth'
-
-// Icon.loadFont() 
 
 export default class LogIn extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -73,21 +58,11 @@ export default class LogIn extends Component {
   componentDidMount() {
     auth().onAuthStateChanged(user => {
       if (!user) {
-        // this.props.navigation.navigate("LogIn")
       } else {
         this.props.navigation.navigate("LoggedIn")
       }
     })
 }
-
-// componentWillUnmount() {
-//     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-// }
-
-// handleBackButton() {
-//     // ToastAndroid.show('Back button is pressed', ToastAndroid.SHORT);
-//     return true;
-// }
 
   handleNextButton = async() => {
     this.setState({ loadingVisible: true });
@@ -96,14 +71,9 @@ export default class LogIn extends Component {
     const userSigning = await this.signUser()
     if(userSigning === true){
       setTimeout(() => {
-      // const { emailAddress, password } = this.state;
-      // if (logIn(emailAddress, password)) {
         AsyncStorage.setItem("LoggedIn", "true")
         this.setState({ formValid: true, loadingVisible: false });
         navigate('LoggedIn');
-      // } else {
-      //   this.setState({ formValid: false, loadingVisible: false });
-      // }
     }, 2000);
     } else {
       this.setState({
@@ -119,14 +89,11 @@ export default class LogIn extends Component {
       .then(()=>{
         resolve(true)
       }).catch(error => {
-        // if (error.code === 'auth/invalid-email') {
-        // }
           this.setState({
             validPassword: false,
             formValid: false,
             loadingVisible: false
           })
-        // console.error(error);
       });
     })
   }
@@ -136,7 +103,6 @@ export default class LogIn extends Component {
   }
 
   handleEmailChange(email) {
-    // eslint-disable-next-line
     const emailCheckRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const { validEmail } = this.state;
     this.setState({ emailAddress: email });
@@ -157,7 +123,6 @@ export default class LogIn extends Component {
 
     if (!validPassword) {
       if (password.length > 4) {
-        // Password has to be at least 4 characters long
         this.setState({ validPassword: true });
       }
     } else if (password <= 4) {
@@ -213,7 +178,6 @@ Log In
               textColor={colors.white}
               borderBottomColor={colors.white}
               inputType="password"
-              // customStyle={{ marginBottom: 30 }}
               onChangeText={this.handlePasswordChange}
               showCheckmark={validPassword}
             />
@@ -253,19 +217,3 @@ Log In
     );
   }
 }
-
-// const mapStateToProps = state => ({
-//   loggedInStatus: state.loggedInStatus,
-// });
-
-// const mapDispatchToProps = dispatch => bindActionCreators(ActionCreators, dispatch);
-
-// LogIn.propTypes = {
-//   logIn: PropTypes.func.isRequired,
-//   navigation: PropTypes.shape({
-//     navigate: PropTypes.func,
-//     goBack: PropTypes.func,
-//   }).isRequired,
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(LogIn);

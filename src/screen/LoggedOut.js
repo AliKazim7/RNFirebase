@@ -1,9 +1,3 @@
-/**
- * Airbnb Clone App
- * @author: Andy
- * @Url: https://www.cubui.com
- */
-
 import React, { Component } from 'react';
 import {
   Text,
@@ -12,13 +6,12 @@ import {
   TouchableHighlight,
   ScrollView,
 } from 'react-native';
-// import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from '../styles/colors';
 import transparentHeaderStyle from '../styles/navigation';
 import RoundedButton from '../components/buttons/RoundedButton';
 import NavBarButton from '../components/buttons/NavBarButton';
 import styles from './styles/LoggedOut';
-import { Icon, Container, Content, Header, Left, Button, Body, Right } from 'native-base'
+import { Icon, Header, Left, Button, Body, Right } from 'native-base'
 const airbnbLogo = require('../img/SAAAG.png');
 
 export default class LoggedOut extends Component {
@@ -27,13 +20,6 @@ export default class LoggedOut extends Component {
     this.state = {
       loadingVisible: false
     }
-  }
-
-  componentDidMount(){
-    // this.setState({
-    //   loadingVisible: true
-    // })
-    // this.getStorage()
   }
 
   static navigationOptions = ({ navigation }) => ({
@@ -57,12 +43,10 @@ export default class LoggedOut extends Component {
 
   render() {
     return (
-      // <Container>
         <ScrollView style={styles.wrapper}>
         <Header transparent>
           <Left>
             <Button transparent onPress={() => this.props.navigation.goBack()}>
-              {/* <Text style={{color:'black'}}>Back</Text> */}
               <Icon type='AntDesign' style={{color:'white'}} name="arrowleft" />
             </Button>
           </Left>
@@ -81,7 +65,6 @@ Welcome to SAAG.
             text="Continue with Facebook"
             textColor={colors.green01}
             background={colors.white}
-            // icon={<Icon name="facebook" size={20} style={styles.facebookButtonIcon} />}
             icon={<Icon type="FontAwesome" name="facebook" size={20} style={styles.facebookButtonIcon} name="facebook" />}
             handleOnPress={this.onFacebookPress}
           />
@@ -92,13 +75,6 @@ Welcome to SAAG.
             icon={<Icon type="FontAwesome" name="google" size={20} style={styles.facebookButtonIcon} />}
             handleOnPress={this.onFacebookPress}
           />
-          {/* <RoundedButton
-            text="Continue with Phone Number"
-            textColor={colors.green01}
-            background={colors.white}
-            icon={<Icon type="FontAwesome" name="mobile" size={20} style={styles.facebookButtonIcon} />}
-            handleOnPress={() => this.props.navigation.navigate('PhoneRegister')}
-          /> */}
           <RoundedButton
             text="Create Account with Mail"
             textColor={colors.white}
@@ -151,7 +127,6 @@ Welcome to SAAG.
           </View>
         </View>
       </ScrollView>
-      // </Container>
     );
   }
 }

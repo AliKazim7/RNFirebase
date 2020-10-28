@@ -1,29 +1,20 @@
 import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
 import {
   View,
-  Text,
   ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import ActionCreators from '../redux/actions';
 import colors from '../styles/colors';
 import transparentHeaderStyle from '../styles/navigation';
 import InputField from '../components/form/InputField';
 import NextArrowButton from '../components/buttons/NextArrowButton';
 import Notification from '../components/Notification';
 import Loader from '../components/Loader';
-import NavBarButton from '../components/buttons/NavBarButton';
 import styles from './styles/LogIn';
 import auth from '@react-native-firebase/auth'
-import { Header, Left, Button,Icon, Body, Right } from 'native-base';
-const airbnbLogo = require('../img/airbnb-logo.png');
 
 export default class RegisterAccount extends Component {
   static navigationOptions = ({ navigation }) => ({
-    // headerRight: <NavBarButton handleButtonPress={() => navigation.navigate('LogIn')} location="right" color={colors.white} text="Log In" />,
     headerStyle: transparentHeaderStyle,
     headerTransparent: true,
     headerLeft:false,
@@ -81,16 +72,6 @@ export default class RegisterAccount extends Component {
 
       const userCreted = await this.createUser()
       setTimeout(() => {
-      //   this.setItem()
-      navigate('TurnOnNotifications');
-      // this.setState({ formValid: false, loadingVisible: false });
-      // const { emailAddress, password } = this.state;
-      // if (logIn(emailAddress, password)) {
-      //   this.setState({ formValid: true, loadingVisible: false });
-      //   navigate('TurnOnNotifications');
-      // } else {
-      //   this.setState({ formValid: false, loadingVisible: false });
-      // }
     }, 2000);
     } else {
       setTimeout(() =>{
@@ -190,7 +171,6 @@ export default class RegisterAccount extends Component {
 
     if (!validNewPass) {
       if (password.length > 4) {
-        // Password has to be at least 4 characters long
         this.setState({ validNewPass: true });
       }
     } else if (password <= 4) {

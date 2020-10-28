@@ -164,7 +164,7 @@ export default class SelectedListItem extends React.Component{
 
     render(){
         const { listing,isModalVisible, renterData } = this.state
-        console.log('renterData',renterData)
+        console.log('renterData',renterData, listing.photo)
         return(
             <Container style={{backgroundColor: "white"}}>
               {
@@ -176,20 +176,33 @@ export default class SelectedListItem extends React.Component{
                         {
                             listing.photo !== undefined
                             ?
-                            listing.photo.map((i,ind)=>(
-                                <FastImage 
-                                  source={i && {uri: i}}
-                                  key={ind}
-                                  indicator={ProgressBar} 
-                                  style={{ height: hp('40%'),flex:1,width:wp('100%')}}
-                                />
-                            ))
+                                <View>
+                                   {
+                                       listing.photo.length > 0
+                                       ?
+                                        listing.photo.map((i,ind)=>(
+                                        <FastImage 
+                                            source={i && {uri: i}}
+                                            key={ind}
+                                            indicator={ProgressBar} 
+                                            style={{ height: hp('40%'),flex:1,width:wp('100%')}}
+                                        />
+                                        ))
+                                        :
+                                        <Image
+                                            style={{ height: hp('40%'),flex:1,width:wp('100%')}}
+                                            source={require('../../img/noImage.jpeg')}
+                                            resizeMode="cover"
+                                        />   
+                                    }
+                                </View>
                             :
-                            <Image
-                            style={{ height: hp('40%'),flex:1,width:wp('100%')}}
-                            source={require('../../img/noImage.jpeg')}
-                            resizeMode="cover"
-                            />                                
+                            // <Image
+                            // style={{ height: hp('40%'),flex:1,width:wp('100%')}}
+                            // source={require('../../img/noImage.jpeg')}
+                            // resizeMode="cover"
+                            // />   
+                            <Text>dada</Text>                             
                         }
                     </ScrollView>
                     <View style={headStyle.leftHeader}>
