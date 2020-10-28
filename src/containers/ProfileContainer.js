@@ -12,6 +12,7 @@ import firestore from '@react-native-firebase/firestore';
 import Loader from '../components/Loader';
 import { heightPercentageToDP, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Default from '../img/user.png'
+import { getUSERDATA, getUSERID } from '../services/service';
 export default class ProfileContainer extends Component {
 
   constructor(props){
@@ -30,21 +31,26 @@ export default class ProfileContainer extends Component {
     this.setState({
       loading: true
     })
-    const userID = await this.getApi()
-    if(userID){
-      const getName = await this.getUSERDATA(userID)
-      const emailAddress = getName[0].email
-      const firstName = getName[0].firstName
-      const photo = getName[0].photo
-      const password = getName[0].password
-      this.setState({
-        userName:firstName,
-        email: emailAddress,
-        loading: false,
-        email: emailAddress,
-        userPhoto: photo
-      })
-    }
+    // const userID = await this.getApi()
+    const userData = getUSERID()
+    userData.then(response =>{
+      if(response){
+        const getName = getUSERDATA(response)
+        getName.then(res =>{
+          const emailAddress = res[0].email
+          const firstName = res[0].firstName
+          const photo = res[0].photo
+          const password = res[0].password
+          this.setState({
+            userName:firstName,
+            email: emailAddress,
+            loading: false,
+            email: emailAddress,
+            userPhoto: photo
+          })
+        })
+      }
+    })
   }
   getApi = async() =>{
     return new Promise((resolve, reject)=>{

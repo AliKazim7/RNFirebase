@@ -17,6 +17,7 @@ import styles from './styles/LogIn';
 import {Icon, Button} from 'native-base'
 import RoundedButton from '../components/buttons/RoundedButton';
 import auth from '@react-native-firebase/auth'
+import { LoginUser } from '../services/service';
 
 export default class LogIn extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -80,7 +81,8 @@ export default class LogIn extends Component {
         formValid: false
       })
     }
-
+    // const userSigning = LoginUser(this.state.emailAddress, this.state.password)
+    // console.log("userSigning",userSigning)
   }
 
   signUser = async() =>{

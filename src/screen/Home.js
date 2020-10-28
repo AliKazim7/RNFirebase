@@ -15,6 +15,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import StarRating from 'react-native-star-rating';
+import { getUSERID } from '../services/service';
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +37,9 @@ class Home extends Component {
     this.setState({
       loadingVisible: true
     })
+    const userData = getUSERID()
     const userID = await this.getUserID()
+    console.log("User DATA", userData)
     const itemList = await this.getApi()
     if(itemList.length > 0){
       const data = await this.mergeList(itemList)

@@ -10,6 +10,7 @@ import storage from '@react-native-firebase/storage'
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import Loader from '../../components/Loader';
+import { getUSERDATA, getUSERDOC, getUSERID, updateUser } from '../../services/service';
 export default class AddUserImg extends React.Component{
     constructor(props) {
         super(props);
@@ -38,57 +39,34 @@ export default class AddUserImg extends React.Component{
       this.setState({
         loadingVisible: false
       })
-      const userID = await this.getUserID()
-      if(userID){
-        const getName = await this.getUSERDATA(userID)
-        const photo = getName[0].photo
-        const userWork = getName[0].userWork
-        const userDetail = getName[0].userDetail
-        const userLocation = getName[0].userLocation
-        const userLanguage = getName[0].userLanguage
-        this.setState({
-          loadingVisible: false,
-          userPhoto: photo,
-          userWork: userWork,
-          userLocation: userLocation,
-          userDetail: userDetail,
-          userLanguage:userLanguage,
-          userID:userID,
-          photourl: photo
-        })
-      } else {
-        this.setState({
-          loadingVisible: false,
-          userPhoto: ''
-        })
-      }
-    }
-
-    getUserID = async() =>{
-      return new Promise((resolve, reject)=>{
-        auth().onAuthStateChanged(user => {
-          if (!user) {
-          } else {
-            resolve(user.uid)
-          }
-        })
-      })
-    }
-
-    getUSERDATA = async(userID) =>{
-      let result = []
-      return new Promise((resolve, reject)=>{
-        firestore()
-          .collection('Users')
-          .where('uid', '==', userID)
-          .get()
-          .then(querySnapshot => {
-            querySnapshot.forEach(documentSnapshot => {
-              // resolve(documentSnapshot.data())
-              result.push(documentSnapshot.data())
-            });
-            resolve(result)
-          });
+      const userData = getUSERID()
+      userData.then(
+        resp =>{
+          this.setState({
+            userID:resp,
+          })
+        }
+      )
+      userData.then(response =>{
+        if(response){
+          const getName = getUSERDATA(response)
+          getName.then(res =>{
+            const photo = res[0].photo
+            const userWork = res[0].userWork
+            const userDetail = res[0].userDetail
+            const userLocation = res[0].userLocation
+            const userLanguage = res[0].userLanguage
+            this.setState({
+              loadingVisible: false,
+              userPhoto: photo,
+              userWork: userWork,
+              userLocation: userLocation,
+              userDetail: userDetail,
+              userLanguage:userLanguage,
+              photourl: photo
+            })
+          })
+        }
       })
     }
 
@@ -180,27 +158,34 @@ export default class AddUserImg extends React.Component{
       this.setState({
         loadingVisible: true
       })
-      const userDATA = await this.getDocID()
-      if(userDATA && userDATA){
-        firestore().collection('Users').doc(userDATA).update({
-          photo: this.state.photourl,
-          userDetail: this.state.userDetail,
-          userLocation: this.state.userLocation,
-          userLanguage: this.state.userLanguage,
-          userWork: this.state.userWork
-        }).then(() => {
-          this.setState({
-            loadingVisible: false
-          })
-          this.props.navigation.navigate('ProfileTab')
-        })
-        .catch(e =>{
-          this.setState({
-            loadingVisible: false
-          })
-          this.props.navigation.navigate('ProfileTab')
-        })
-      }
+      const userData = getUSERDOC(this.state.userID)
+      userData.then(
+        response => {
+          if(response && response){
+            const updatedDoc = updateUser(
+              this.state.photourl, 
+              this.state.userDetail, 
+              this.state.userLanguage, 
+              this.state.userLanguage, 
+              this.state.userWork,
+              response
+            )
+              updatedDoc.then(res =>{
+              if(res === true){
+                this.setState({
+                  loadingVisible: false
+                })
+                this.props.navigation.navigate('ProfileTab')
+              } else {
+                this.setState({
+                  loadingVisible: false
+                })
+                this.props.navigation.navigate('ProfileTab')
+              }
+            })
+          }
+        }
+      )
     }
 
     getDocID = async() => {

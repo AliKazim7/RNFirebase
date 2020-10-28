@@ -18,6 +18,7 @@ import Loader from '../../components/Loader';
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import StarRating from 'react-native-star-rating';
+import { addOrder, getUSERDATA, getUSERID } from '../../services/service';
 export default class SelectedItem extends React.Component{
     static navigationOptions = ({ navigation }) => ({
         headerLeft: (
@@ -53,20 +54,15 @@ export default class SelectedItem extends React.Component{
         this.setState({
             loadingVisible: true
         })
-        console.log("userid",this.props.route.params.listing)
-        const getUser = await this.getUSER(this.props.route.params.listing.userID)
-        console.log("userid",this.props.route.params.listing, getUser)
-        // if(getUser){
+        const getDetails = getUSERDATA(this.props.route.params.listing.userID)
+        getDetails.then(response =>{
+            console.log("response", response)
             this.setState({
                 listing: this.props.route.params.listing,
-                userDetails: getUser,
+                userDetails: response[0],
                 loadingVisible: false
             })
-        // } else {
-        //     this.setState({
-        //         loadingVisible: false
-        //     })
-        // }
+        })
     }
 
     async componentWillReceiveProps(nextProps){
@@ -90,49 +86,66 @@ export default class SelectedItem extends React.Component{
         })
     }
 
-    getUSER = async(UID) =>{
-        console.log("user OD", UID)
-        return new Promise((resolve, reject)=>{
-            firestore().collection('Users').where('uid', '==',UID).get()
-            .then(querySnapshot =>{
-                console.log("here",querySnapshot)
-                querySnapshot.forEach(documentSnapshot => {
-                    console.log(documentSnapshot)
-                    resolve(documentSnapshot.data())
-                });
-            })
-        })
-    }
-
     orderNow = async () =>{
-        this.setState({
-            loadingVisible: true
-        })
+        // this.setState({
+        //     loadingVisible: true
+        // })
         const ID = Math.random()
-        const userID = await this.getData()
-        if(userID){
-            const uploadData = await this.orderData(userID, ID)
-            if(uploadData){
-                const getDocID = await this.orderDoc(ID)
-                if(getDocID){
-                    firestore().collection('Orders')
-                    .doc(getDocID)
-                    .update({
-                        orderID: getDocID
-                    })
-                    .then(()=>{
-                        this.setState({
-                            loadingVisible: false
-                        })
-                        this.props.navigation.navigate('MainContainer')
-                    })
-                }
+        const userID = getUSERID()
+        userID.then(
+            response =>{
+                const addORder = addOrder(
+                    response,
+                    ID,
+                    this.state.listing,
+                    this.state.startDate,
+                    this.state.endDate,
+                    this.state.totalPrice
+                )
+                addORder.then(
+                    res =>{
+                        const getDocID = await this.orderDoc(ID)
+                        if(getDocID){
+                            firestore().collection('Orders')
+                            .doc(getDocID)
+                            .update({
+                                orderID: getDocID
+                            })
+                            .then(()=>{
+                                this.setState({
+                                    loadingVisible: false
+                                })
+                                this.props.navigation.navigate('MainContainer')
+                            })
+                        }
+                    }
+                )
             }
-        } else {
-            this.setState({
-                loadingVisible: false
-            })
-        }
+        )
+        // const userID = await this.getData()
+        // if(userID){
+        //     const uploadData = await this.orderData(userID, ID)
+        //     if(uploadData){
+        //         const getDocID = await this.orderDoc(ID)
+        //         if(getDocID){
+        //             firestore().collection('Orders')
+        //             .doc(getDocID)
+        //             .update({
+        //                 orderID: getDocID
+        //             })
+        //             .then(()=>{
+        //                 this.setState({
+        //                     loadingVisible: false
+        //                 })
+        //                 this.props.navigation.navigate('MainContainer')
+        //             })
+        //         }
+        //     }
+        // } else {
+        //     this.setState({
+        //         loadingVisible: false
+        //     })
+        // }
     }
 
     orderData = (userID, ID) =>{
