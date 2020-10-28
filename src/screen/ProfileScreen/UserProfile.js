@@ -8,8 +8,6 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import colors from '../styles/colors';
 import transparentHeaderStyle from '../styles/navigation';
 import NextArrowButton from '../../components/buttons/NextArrowButton';
@@ -19,6 +17,7 @@ import styles from '../styles/LogIn';
 import PickerForm from '../../components/form/PickerForm';
 import { Header, Left, Button, Body, Right, Icon, List, ListItem, H1, Container, Thumbnail } from 'native-base';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
+import { getUSERDATA, getUSERID } from '../../services/service';
 export default class UserProfile extends Component {
   static navigationOptions = ({ navigation }) => ({
     // headerRight: <NavBarButton handleButtonPress={() => navigation.navigate('LogIn')} location="right" color={colors.black} text="Log In" />,
@@ -58,50 +57,29 @@ export default class UserProfile extends Component {
 
   }
   async componentDidMount(){
-      this.setState({
-          loadingVisible: true
-      })
-    const userID = await this.getApi()
-    if(userID){
-      const getName = await this.getUSERDATA(userID)
-      const emailAddress = getName[0].email
-      const firstName = getName[0].firstName
-      const userPhoto = getName[0].photo
-      const accountCreate = getName[0].accountCreate
-      this.setState({
-        userName:firstName,
-        loadingVisible: false,
-        email: emailAddress,
-        accountCreate:accountCreate,
-        userPhoto: userPhoto
-      })
-    }
-  }
-  getApi = async() =>{
-    return new Promise((resolve, reject)=>{
-      auth().onAuthStateChanged(user => {
-        if (!user) {
-        } else {
-          resolve(user.uid)
-        }
-      })
+    this.setState({
+      loadingVisible: true
     })
-  }
-
-  getUSERDATA = async(userID) =>{
-    let result = []
-    return new Promise((resolve, reject)=>{
-      firestore()
-        .collection('Users')
-        .where('uid', '==', userID)
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            // resolve(documentSnapshot.data())
-            result.push(documentSnapshot.data())
-          });
-          resolve(result)
-        });
+    const userData = getUSERID()
+    userData.then(response =>{
+      if(response){
+        const getName = getUSERDATA(response)
+        getName.then(res =>{
+          const emailAddress = res[0].email
+          const firstName = res[0].firstName
+          const photo = res[0].photo
+          const password = res[0].password
+          const accountCreate = res[0].accountCreate
+          this.setState({
+            userName:firstName,
+            email: emailAddress,
+            loadingVisible: false,
+            email: emailAddress,
+            accountCreate: accountCreate,
+            userPhoto: photo
+          })
+        })
+      }
     })
   }
 

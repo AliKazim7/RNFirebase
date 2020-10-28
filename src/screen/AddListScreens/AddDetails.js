@@ -7,6 +7,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import NextArrowButton from '../../components/buttons/NextArrowButton';
+import { addOrderList, getOrderDOC, getUSERDATA, getUSERID } from '../../services/service';
 // import Icon from 'react-native-vector-icons/Feather';
 export default class AddListDetails extends React.Component{
     constructor(props) {
@@ -32,45 +33,20 @@ export default class AddListDetails extends React.Component{
       }
 
     async componentDidMount(){
-        const UID = await this.getApi()
-        if(UID){
-            const getName = await this.getUSERDATA(UID)
-            const firstName = getName[0].firstName
-            this.setState({
-                userID: UID,
-                userName: firstName
-            })
-        }
-    }
-
-    getUSERDATA = async(userID) =>{
-        let result = []
-        return new Promise((resolve, reject)=>{
-          firestore()
-            .collection('Users')
-            .where('uid', '==', userID)
-            .get()
-            .then(querySnapshot => {
-              querySnapshot.forEach(documentSnapshot => {
-                // resolve(documentSnapshot.data())
-                result.push(documentSnapshot.data())
-              });
-              resolve(result)
-            });
-        })
-      }
-
-    getApi = async() =>{
-        return new Promise((resolve, reject)=>{
-          auth().onAuthStateChanged(user => {
-            if (!user) {
-            } else {
-              resolve(user.uid)
+        const UID = getUSERID()
+        UID.then(
+            resp =>{
+                const getName = getUSERDATA(resp)
+                getName.then(response =>{
+                    const firstName = response[0].firstName
+                    this.setState({
+                        userName: firstName,
+                        userID: resp
+                    })
+                })
             }
-          })
-        })
-      }
-
+        )
+    }
     dataHandle = (key, value) =>{
         this.setState({
             [key]: value
@@ -80,59 +56,33 @@ export default class AddListDetails extends React.Component{
     handleChange = async() => {
         // this.props.navigation.navigate('AddListPhoto')
         const listID = Math.random()
-        const addPlace = await this.uploadData(listID)
-        console.log("dasda", addPlace)
-        if(addPlace){
-            const getDocID = await this.getDocument(listID)
-            if(getDocID){
-                firestore().collection("ItemList").doc(getDocID)
+        const addPlace = addOrderList(
+            this.state.location,
+            this.state.title,
+            this.state.price1,
+            this.state.NotfixedPrice,
+            this.state.priceResT,
+            this.state.userName,
+            this.state.type,
+            listID,
+            this.state.details,
+            this.state.priceType,
+            this.state.userID
+        )
+        addPlace.then(response =>{
+            const getDocID = getOrderDOC(listID)
+            getDocID.then(res =>{
+                firestore().collection("ItemList").doc(res)
                 .update({
-                    id:getDocID
+                    id:res
                 })
                 .then(()=>{
-                    console.log("Updated !")
-                    this.props.navigation.navigate('AddListPhoto',{listID: getDocID})
-                })
-            }
-        }
-    }
-
-    uploadData = async(ID) =>{
-        return new Promise((resolve, reject)=>{
-            firestore()
-              .collection("ItemList")
-                .add({
-                    location: this.state.location,
-                    title: this.state.title,
-                    price1: this.state.price1,
-                    priceResT:this.state.NotfixedPrice ? this.state.priceResT : this.state.price1,
-                    userName:this.state.userName,
-                    type: this.state.type,
-                    id: ID,
-                    totalRating:0,
-                    segmenttype:'Trending',
-                    details:this.state.details,
-                    priceType: this.state.priceType,
-                    userID: this.state.userID
-                })
-              .then(()=>{
-                resolve(true)
+                console.log("Updated !")
+                this.props.navigation.navigate('AddListPhoto',{listID: res})
+              })
             })
         })
     }
-
-    getDocument = (ID) => { 
-        return new Promise((resolve,reject)=>{
-            firestore().collection('ItemList').where('id','==', ID)
-            .get()
-            .then(querySnapshot=>{
-                querySnapshot.docs.map((item)=>{
-                    resolve(item.id)
-                })
-            })
-        })
-     } 
-
     changeCheck = () => { 
         this.setState({
             NotfixedPrice: !this.state.NotfixedPrice
@@ -150,7 +100,6 @@ export default class AddListDetails extends React.Component{
       }
 
     render(){
-
         return(
             <Container style={{backgroundColor:colors.saagColor}}>
                 <Header transparent>
