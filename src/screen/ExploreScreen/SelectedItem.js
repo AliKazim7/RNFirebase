@@ -18,7 +18,7 @@ import Loader from '../../components/Loader';
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import StarRating from 'react-native-star-rating';
-import { addOrder, getUSERDATA, getUSERID } from '../../services/service';
+import { addOrder, getUSERDATA, getUSERID,SaveItemData } from '../../services/service';
 export default class SelectedItem extends React.Component{
     static navigationOptions = ({ navigation }) => ({
         headerLeft: (
@@ -56,7 +56,6 @@ export default class SelectedItem extends React.Component{
         })
         const getDetails = getUSERDATA(this.props.route.params.listing.userID)
         getDetails.then(response =>{
-            console.log("response", response)
             this.setState({
                 listing: this.props.route.params.listing,
                 userDetails: response[0],
@@ -66,7 +65,6 @@ export default class SelectedItem extends React.Component{
     }
 
     async componentWillReceiveProps(nextProps){
-        console.log("nxtProps", nextProps)
         if(nextProps.route.params.Date !== undefined){
             const result = await this.checkData(nextProps.route.params.Date, nextProps.route.params.startDate,nextProps.route.params.endDate)
         }
@@ -77,7 +75,6 @@ export default class SelectedItem extends React.Component{
             loadingVisible: true
         })
         const totalPrice = Days*this.state.listing.price1
-        console.log("Days", Days,totalPrice)
         this.setState({
             totalPrice: totalPrice,
             startDate:SD,
@@ -87,9 +84,9 @@ export default class SelectedItem extends React.Component{
     }
 
     orderNow = async () =>{
-        // this.setState({
-        //     loadingVisible: true
-        // })
+        this.setState({
+            loadingVisible: true
+        })
         const ID = Math.random()
         const userID = getUSERID()
         userID.then(
@@ -104,84 +101,21 @@ export default class SelectedItem extends React.Component{
                 )
                 addORder.then(
                     res =>{
-                        const getDocID = await this.orderDoc(ID)
-                        if(getDocID){
-                            firestore().collection('Orders')
-                            .doc(getDocID)
-                            .update({
-                                orderID: getDocID
-                            })
-                            .then(()=>{
-                                this.setState({
-                                    loadingVisible: false
-                                })
-                                this.props.navigation.navigate('MainContainer')
-                            })
-                        }
+                        firestore().collection('OrderItems')
+                        .doc(res.id)
+                        .update({
+                            orderID: res.id
+                        })
+                        .then(()=>{
+                            this.setState({
+                            loadingVisible: false
+                        })
+                        this.props.navigation.navigate('ExploreContainer')
+                      })
                     }
                 )
             }
         )
-        // const userID = await this.getData()
-        // if(userID){
-        //     const uploadData = await this.orderData(userID, ID)
-        //     if(uploadData){
-        //         const getDocID = await this.orderDoc(ID)
-        //         if(getDocID){
-        //             firestore().collection('Orders')
-        //             .doc(getDocID)
-        //             .update({
-        //                 orderID: getDocID
-        //             })
-        //             .then(()=>{
-        //                 this.setState({
-        //                     loadingVisible: false
-        //                 })
-        //                 this.props.navigation.navigate('MainContainer')
-        //             })
-        //         }
-        //     }
-        // } else {
-        //     this.setState({
-        //         loadingVisible: false
-        //     })
-        // }
-    }
-
-    orderData = (userID, ID) =>{
-        const { endDate, startDate, totalPrice, listing  } = this.state
-        return new Promise((resolve, reject)=>{
-            console.log("Order Now", endDate, startDate, totalPrice, listing.userID)
-            firestore().collection('Orders')
-            .add({
-                    renterID: userID,
-                    supplierID: listing.userID,
-                    startDate:startDate,
-                    endDate:endDate,
-                    orderID: ID,
-                    isCompleted: false,
-                    totalPrice: totalPrice,
-                    listItem: listing
-                })
-                .then(() => {
-                    resolve(true)
-                })
-                .catch(e =>{
-                    resolve(false)
-                })
-        })
-    }
-
-    orderDoc = ID =>{
-        return new Promise((resolve, reject)=>{
-            firestore().collection('Orders').where('orderID','==',ID)
-            .get()
-            .then(querySnapshot =>{
-                querySnapshot.docs.map((item)=>{
-                    resolve(item.id)
-                })
-            })
-        })
     }
 
     getData = async() =>{
@@ -206,57 +140,31 @@ export default class SelectedItem extends React.Component{
     saveData =  async() =>{
         const {listing} = this.state
         listing.favourite = true
-        const ID =  Math.random()
         this.setState({
             loadingVisible: true
         })
-        const userID = await this.getData()
-        if(userID){
-            const getID = await this.uploadItem(ID, userID)
-            console.log("listing", getID)
-            if(getID){
-                const getDocID = await this.getDocID(ID)
-                if(getDocID){
-                    firestore().collection("SavedPlaces").doc(getDocID)
-                    .update({
-                        savedID:getDocID
-                    })
-                    .then(()=>{
-                        console.log("Updated !")
-                        this.setState({
-                            listing: listing,
-                            loadingVisible: false
-                        })
-                        this.props.navigation.navigate('MainContainer')
-                    })
-                }
-            }
-        }
+        const userID = getUSERID()
+        userID.then(response =>{
+            const saveItem = SaveItemData(response, this.state.listing.id)
+            saveItem.then(res =>{
+                this.setState({
+                    loadingVisible: false
+                })
+            })
+        })
     } 
 
     uploadItem = (ID,userID) =>{
         const {listing} = this.state
         return new Promise((resolve, reject)=>{
-            firestore().collection('SavedPlaces')
-            .add({
-                location: listing.location,
-                favourite: true,
-                price1: listing.price1,
-                priceResT:listing.priceResT,
-                type:listing.type,
-                title:listing.title,
-                totalRating:listing.totalRating,
-                details: listing.details,
-                segmenttype:listing.segmenttype,
-                priceType:listing.priceType,
-                photo:listing.photo,
-                id:listing.id,
-                savedID:ID,
-                userID: userID
-            })
-            .then((response) =>{
-                // this.setState({ loadingVisible: false }, () => goBack());
-              resolve(true)  
+            firestore().
+            collection('SavedPlaces').
+            where("userID",'==',"shd5NG3uF3gE8gia7Gjncts6EgE3")
+            .get()
+            .then(function(querySnapshot) {
+               querySnapshot.forEach(function(doc) {
+                console.log(doc.data().saved, doc.id)
+             })
             })
             .catch((e)=>{
                 resolve(false)
@@ -277,7 +185,6 @@ export default class SelectedItem extends React.Component{
     }
 
     contactUser = () =>{
-        console.log("here messages")
         this.props.navigation.navigate('Messages',{
             listing: this.state.listing,
             userDetails: this.state.userDetails
@@ -286,7 +193,7 @@ export default class SelectedItem extends React.Component{
 
     render(){
         const { listing,isModalVisible, userDetails } = this.state
-        console.log("userDetails", userDetails)
+        console.log("listing", listing.photo)
         return(
             <Container style={{backgroundColor: "white"}}>
                 <Loader
@@ -304,7 +211,7 @@ export default class SelectedItem extends React.Component{
                     </TouchableOpacity> */}
                     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                         {
-                            listing.photo !== undefined
+                            listing.photo !== undefined && listing.photo.length > 0
                             ?
                             listing.photo.map((i,ind)=>(
                                 // <TouchableOpacity 

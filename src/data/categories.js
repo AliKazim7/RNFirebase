@@ -18,8 +18,7 @@ const CategoriesList = [
     listings: [
       {
         id: 1,
-        iconType:'AntDesign',
-        iconName:'home',
+        photo:'https://firebasestorage.googleapis.com/v0/b/saagg-e874a.appspot.com/o/categories%2Fcamping.png?alt=media&token=e1adc1b5-824c-49d2-9732-1813e8ef0874',
         title: 'HOME',
       },
       {
