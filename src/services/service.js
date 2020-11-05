@@ -335,17 +335,3 @@ export async function SaveItemData(userID, listing){
     })
 })
 }
-
-export async function getSavedItem(ID){
-  const result = []
-  return new Promise((resolve,reject)=>{
-    firestore().collection('ItemList').where('id','==', ID)
-    .get()
-    .then(querySnapshot => {
-      querySnapshot.forEach(documentSnapshot => {
-      result.push(documentSnapshot.data())
-      });
-      resolve(result)
-    });
-  })
-}
