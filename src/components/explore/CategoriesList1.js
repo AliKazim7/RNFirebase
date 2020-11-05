@@ -17,7 +17,7 @@ import FastImage from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 
-export default class CategoriesList extends Component {
+export default class CategoriesArray extends Component {
   constructor(props) {
     super(props);
 
@@ -42,16 +42,17 @@ export default class CategoriesList extends Component {
 
   renderListings() {
   	const {
-      listings, showSelected
+      listing, showSelected
     } = this.props;
-    return listings.map((listing, index) => (
+    return listing.map((listing, index) => (
       <TouchableHighlight
         // style={styles.card}
         style={this.state.orientation === "portrait" ? styles.card : styles.cardLand}
-        // onPress={() => showSelected(listing)}
+        onPress={() => showSelected(listing.categoryName)}
         key={`listing-${index}`}
       >
         <View style={{alignItems:'center'}}>
+            {/* <Icon  style={{fontSize: 30, marginTop:widthPercentageToDP('5%')}} type={listing.iconType} name={listing.iconName} /> */}
             <FastImage
                 style={styles.image}
                 resizeMode="contain"
@@ -59,7 +60,7 @@ export default class CategoriesList extends Component {
                 source={listing.photo && { uri : listing.photo}}
             />
             <Text textBreakStrategy="highQuality" style={this.state.orientation === "portrait" ? [{ color: listing.color }, styles.listingType] : [{ color: listing.color }, styles.listingTypeLand]}>
-                {listing.title}{" "}
+                {listing.categoryName}{" "}
             </Text>
         </View>    
       </TouchableHighlight>
@@ -67,7 +68,8 @@ export default class CategoriesList extends Component {
   }
 
   render() {
-  	const { title, boldTitle, seeAll } = this.props;
+      const { title, boldTitle, seeAll } = this.props;
+      console.log("props come here", this.props)
   	const titleStyle = boldTitle ? { fontSize: 22, fontWeight: '600' } : { fontSize: 18 };
     return (
     <View style={styles.wrapper}>
@@ -161,13 +163,11 @@ const styles = StyleSheet.create({
     borderRadius:150
   },
   image: {
-  	width: 80,
+    width: 80,
     flex: 1,
-    // borderColor:'black',
-    // borderWidth:2,
-  	height: 100,
-  	borderRadius: 8,
-  	marginBottom: 7,
+    height: 50,
+    borderRadius: 8,
+    marginBottom: 7,
   },
   listingTitle: {
     fontSize: 14,

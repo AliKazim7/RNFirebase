@@ -3,30 +3,71 @@ import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import storage from '@react-native-firebase/storage'
 
+export async function getCategories(){
+  const result = []
+  return new Promise((resolve, reject)=>{
+    firestore().collection("Categories")
+    .get()
+    .then((querySnapshot)=>{
+      querySnapshot.forEach(documentSnapshot => {
+        result.push(documentSnapshot.data())
+      });
+      resolve(result)
+    })
+  })
+}
+
+
+export async function createUser(emailAddress, password){
+    return new Promise((resolve, reject)=>{
+      auth().createUserWithEmailAndPassword(emailAddress, password)
+        .then((response) =>{
+          resolve(response.user.uid )
+        })
+        .catch(error => {
+          if (error.code === 'auth/email-already-in-use') {
+            resolve(false)
+          }
+          if (error.code === 'auth/invalid-email') {
+            resolve(false)
+          }
+        });
+    })
+}
+
+export async function userProfile(firstName, emailAddress, password, receiveEmail, uid){
+  return new Promise((resolve, reject)=>{
+    firestore().collection('Users').add({
+      firstName: firstName,
+      email: emailAddress,
+      password: password,
+      accountCreate:moment().format("MMMM , YYYY"),
+      receiveEmail: receiveEmail,
+      supplierRating:0,
+      renterRating:0,
+      uid: uid
+    }).then((response) => {
+      resolve(response)
+    });
+  })
+}
 
 export function LoginUser(email, password){
-    console.log("email, password",email, password)
     return auth().signInWithEmailAndPassword(email, password)
     .then(()=>{
-    //   resolve(true)
         return (true)
     }).catch(error => {
-        // this.setState({
-        //   validPassword: false,
-        //   formValid: false,
-        //   loadingVisible: false
-        // })
     });
 }
 
-export async function  getUSERID(email, password){
-    return new Promise((resolve, reject)=>{
-        auth().onAuthStateChanged(user => {
-            if (user) {
-              resolve(user.uid)
-            }
-          })
+export async function  getUSERID(){
+  return new Promise((resolve, reject)=>{
+    auth().onAuthStateChanged(user => {
+    if(user){
+      resolve(user.uid)
+     }
     })
+  })
 }
 
 export async function getItemList(){
@@ -43,10 +84,10 @@ export async function getItemList(){
       })
 }
 
-export async function getSavedItem(){
+export async function getSavedItem(ID){
     const result = []
     return new Promise((resolve, reject)=>{
-      firestore().collection('SavedPlaces')
+      firestore().collection('SavedItems')
       .where('userID', '==', ID)
       .get()
       .then(querySnapshot => {
@@ -191,39 +232,120 @@ export async function getOrderDOC(ID){
 }
 
 export async function addFeedBack(feedBack, emailAddress, userID){
-    return new Promise((resolve, reject)=>{
-        firestore().collection('FeedBacks').add({
-            feedBack: feedBack,
-            Topic: emailAddress,
-            userID: userID,
-        }).then(() => {
-            resolve(true)
-        })
-        .catch(()=>{
-            resolve(false)
-        })
+  return new Promise((resolve, reject)=>{
+    firestore().collection('FeedBacks').add({
+      feedBack: feedBack,
+      Topic: emailAddress,
+      userID: userID,
+    }).then(() => {
+      resolve(true)
     })
+    .catch(()=>{
+      resolve(false)
+    })
+  })
 }
 
 export async function addOrder(userID,ID,listing,startDate,endDate, totalPrice){
     return new Promise((resolve, reject)=>{
-        console.log("Order Now", userID, ID, listing, startDate, endDate, totalPrice)
-        firestore().collection('Orders')
-        .add({
-                renterID: userID,
-                supplierID: listing.userID,
-                startDate:startDate,
-                endDate:endDate,
-                itemID: listing.id,
-                orderID: ID,
-                isCompleted: false,
-                totalPrice: totalPrice,
-            })
-            .then(() => {
-                resolve(true)
-            })
-            .catch(e =>{
-                resolve(false)
-            })
+      firestore().collection('OrderItems')
+      .add({
+        renterID: userID,
+        supplierID: listing.userID,
+        startDate:startDate,
+        endDate:endDate,
+        itemID: listing.id,
+        orderID: ID,
+        isCompleted: false,
+        totalPrice: totalPrice,
+      })
+      .then((response) => {
+        resolve(response)
+      })
+      .catch(e =>{
+        resolve(false)
+      })
     })
+}
+
+export async function saveItems(userID){
+  return new Promise((resolve, reject)=>{
+    firestore().collection('SavedItems')
+      .add({
+        userID: userID,
+        saved:[]
+      })
+      .then((response) => {
+        firestore().collection('SavedItems')
+        .doc(response.id).update({
+          savedID: response.id
+        })
+        .then((results)=>{
+          resolve(true)
+        })
+      })
+      .catch(e =>{
+        resolve(false)
+      })
+  })
+}
+
+export async function getCategoriesData(type){
+  const result = []
+  return new Promise((resolve, reject)=>{
+      firestore().
+      collection('ItemList').
+      where('type', '==',type)
+      .limit(20)
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          result.push(doc.data())
+      });
+      resolve(result)
+    })
+  })
+}
+
+export async function SaveItemData(userID, listing){
+  console.log("userID, listing",userID, listing)
+  return new Promise((resolve, reject)=>{
+    firestore().
+    collection('SavedItems').
+    where("userID",'==',userID)
+    .get()
+    .then(function(querySnapshot) {
+       querySnapshot.forEach(function(doc) {
+        const saved = doc.data().saved
+        saved.push(listing)
+        console.log(saved, doc.id)
+        firestore().
+        collection('SavedItems').
+        doc(doc.id).
+        update({
+          saved: saved
+        })
+        .then(response =>{
+          resolve(true)
+        })
+     })
+    })
+    .catch((e)=>{
+        resolve(false)
+    })
+})
+}
+
+export async function getSavedItem(ID){
+  const result = []
+  return new Promise((resolve,reject)=>{
+    firestore().collection('ItemList').where('id','==', ID)
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(documentSnapshot => {
+      result.push(documentSnapshot.data())
+      });
+      resolve(result)
+    });
+  })
 }

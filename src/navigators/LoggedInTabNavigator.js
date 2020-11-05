@@ -52,6 +52,7 @@ import Messages from '../screen/ExploreScreen/Messages';
 import ChatMessages from '../screen/InboxScreen/ChatMessages';
 import RenterMessage from '../screen/InboxScreen/RenterMessage';
 import RenterProfile from '../screen/ListingScreens/RenterProfile';
+import GetFiltered from '../screen/ExploreScreen/GetFiltered';
 const Tabs = createBottomTabNavigator()
 const Stack = createStackNavigator()
 const RootStack = createStackNavigator()
@@ -82,7 +83,7 @@ function RootStacks(){
       <RootStack.Screen options={{headerShown: false}} name="MainContainer" component={ExploreTab} />
       <RootStack.Screen options={{headerShown: false}} name="FilterModal" component={FilterModal} />
       <RootStack.Screen options={{headerShown: false}} name="CreateModal" component={CreateModal} />
-            <Stack.Screen options={{headerShown: false}} name="ImageGallery" component={ImageList} />
+      <Stack.Screen options={{headerShown: false}} name="ImageGallery" component={ImageList} />
     </RootStack.Navigator>
   )
 }
@@ -107,6 +108,7 @@ function ExploreTab(){
       <Stack.Screen options={{headerShown: false}} name="SelectedItem" component={SelectedItem} />
       <Stack.Screen options={{headerShown: false}} name="Availability" component={Availability} />
       <Stack.Screen options={{headerShown: false}} name="ViewCategory" component={ViewCategory} />
+      <Stack.Screen options={{headerShown: false}} name="GetFiltered" component={GetFiltered} />
       <Stack.Screen options={{headerShown: false}} name="Messages" component={Messages} />
       <Stack.Screen options={{headerShown: false}} name="HostProfile" component={HostProfile} />
       <Stack.Screen options={{headerShown: false}} name="ImageGallery" component={ImageList} />

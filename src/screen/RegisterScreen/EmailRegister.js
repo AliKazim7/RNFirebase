@@ -19,6 +19,7 @@ import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import { Header, Left, Button,Icon, Body, Right, CheckBox } from 'native-base';
 import moment from 'moment'
+import { saveItems } from '../../services/service';
 const airbnbLogo = require('../../img/airbnb-logo.png');
 
 export default class EmailRegister extends Component {
@@ -81,10 +82,11 @@ export default class EmailRegister extends Component {
       if(userCretedAuth){
         const userProfile = await this.userProfile(userCretedAuth)
          if(userProfile === true){
+          const saveItem = saveItems(userCretedAuth)
           setTimeout(() => {
-            this.setState({ formValid: true, loadingVisible: false });
-             navigate('LoggedIn');
-          }, 2000);
+           this.setState({ formValid: true, loadingVisible: false });
+            navigate('LoggedIn');
+          }, 4000);
         } else {
           setTimeout(() => {
             this.setState({ formValid: false, loadingVisible: false });

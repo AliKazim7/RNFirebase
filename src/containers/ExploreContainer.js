@@ -19,13 +19,15 @@ const { width, height } = Dimensions.get("window");
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import CategoriesList from '../components/explore/CategoriesList';
-import { getItemList, getSavedItem, getUSERID, mergeList } from '../services/service';
+import CategoriesArray from '../components/explore/CategoriesList1'
+import { getCategories, getItemList, getSavedItem, getUSERID, mergeList } from '../services/service';
 class ExploreContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
       favouriteListings: [],
       listing:[],
+      CategoriesList:[],
       searchAbleList:[],
       loadingVisible:false
     };
@@ -41,6 +43,13 @@ class ExploreContainer extends Component {
     })
     var UID = ""
     var items = []
+    const categoriesList = getCategories()
+    categoriesList.then(response =>{
+      console.log("response",response)
+      this.setState({
+        CategoriesList:response
+      })
+    })
     const userData = getUSERID()
     userData.then(response =>{
       UID = response
@@ -236,24 +245,34 @@ handleBackButton() {
   // }
 }
 
+showSelected = (value) => {
+  console.log("get values", value)
+  this.props.navigation.navigate("GetFiltered", {
+    category: value
+  })
+}
   renderCategories = () => {
-    return categoriesList.map((listing, index) => (
-      <View
-        key={`listing-${index}`}
-      >
-        <CategoriesList
-          key={`listing-item-${index}`}
-          title={listing.title}
-          boldTitle={listing.boldTitle}
-          listings={listing.listings}
-          // showAddToFav={listing.showAddToFav}
-          // showSelected={this.onCardDetail}
-          // handleAddToFav={this.handleAddToFav}
-          // favouriteListings={this.state.favouriteListings}
-          // seeAll={this.seeAllData}
+    if(this.state.CategoriesList.length > 0){
+      return(
+        <CategoriesArray
+          listing={this.state.CategoriesList}
+          showSelected={this.showSelected}
         />
-      </View>
-    ));
+      )
+    } else {
+      return categoriesList.map((listing, index) => (
+        <View
+          key={`listing-${index}`}
+        >
+          <CategoriesList
+            key={`listing-item-${index}`}
+            title={listing.title}
+            boldTitle={listing.boldTitle}
+            listings={listing.listings}
+          />
+        </View>
+      ));
+    }
   }
 
 
