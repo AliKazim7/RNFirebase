@@ -72,17 +72,13 @@ export default class SavedContainer extends Component {
   }
 
   apiCall = async(ID) =>{
-    console.log("array vale", ID)
     let result = []
     return new Promise((resolve, reject)=>{
       firestore().collection('SavedPlaces')
       .where('userID', '==', ID)
       .get()
       .then(querySnapshot => {
-        console.log("array vale", querySnapshot)
         querySnapshot.forEach(documentSnapshot => {
-          // resolve(documentSnapshot.data())
-          console.log("array vale", documentSnapshot.data())
           result.push(documentSnapshot.data())
         });
         resolve(result)
@@ -97,7 +93,6 @@ export default class SavedContainer extends Component {
   }
 
   render() {
-    console.log("saved places", this.state.listing)
     return (
       <View style={styles.wrapper}>
         <Loader 

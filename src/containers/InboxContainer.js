@@ -60,11 +60,9 @@ apiCall = async() =>{
 }
 
 componentWillUnmount(){
-  console.log("wil unmount")
 }
 
 componentWillReceiveProps(nextProps){
-  console.log("nextProps", nextProps.route.params.userID)
   if(nextProps.route.params.userID){
     this.apiCall()
   }
@@ -117,14 +115,12 @@ getSupplierID = async (ID)=>{
 }
 
 handleIndexChange = (values) =>{
-  console.log(values)
   this.setState({
     selectedIndex:values
   })
 }
 
 showSupplier = () =>{
-  console.log("listitem", this.state.supplierChat)
   return(
     <ScrollView style={{marginTop:30}}>
       {
@@ -152,7 +148,6 @@ showSupplier = () =>{
 }
 
 showRenter = () =>{
-  console.log("listitem", this.state.renterChat)
   return(
     <ScrollView style={{marginTop:30}}>
       {
@@ -180,21 +175,18 @@ showRenter = () =>{
 }
 
   chatbuble = value =>{
-    console.log("value", value)
     this.props.navigation.navigate("ChatBubble",{
       listing: value
     })
   }
 
   chatbubleRent = value =>{
-    console.log("value", value)
     this.props.navigation.navigate("RenterChat",{
       listing: value
     })
   }
 
   render() {
-    console.log("supplier chat and renter chat", this.state.supplierChat, this.state.renterChat)
     return (
       <Container>
         <Header transparent>

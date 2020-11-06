@@ -69,7 +69,6 @@ export default class CategoriesArray extends Component {
 
   render() {
       const { title, boldTitle, seeAll } = this.props;
-      console.log("props come here", this.props)
   	const titleStyle = boldTitle ? { fontSize: 22, fontWeight: '600' } : { fontSize: 18 };
     return (
     <View style={styles.wrapper}>
