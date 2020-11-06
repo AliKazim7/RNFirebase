@@ -8,6 +8,10 @@
         "source": "/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
     },
     {
+        "merged": "/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/build/intermediates/res/merged/debug/mipmap-ldpi_ic_launcher.png.flat",
+        "source": "/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/res/mipmap-ldpi/ic_launcher.png"
+    },
+    {
         "merged": "/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/build/intermediates/res/merged/debug/mipmap-xhdpi_ic_launcher_round.png.flat",
         "source": "/Users/focusteck-mac/Documents/Work Place/SAG/RNFirebase/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"
     },
