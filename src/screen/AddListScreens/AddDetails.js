@@ -113,7 +113,7 @@ export default class AddListDetails extends React.Component{
                         borderBottomColor={colors.white}
                         inputType="email"
                         placeholderTextColor={colors.white}
-                        placeholder="Tokyo, Japan"
+                        placeholder="New York, America"
                         customStyle={{ marginBottom: 30 }}
                         onChangeText={(text) => this.dataHandle('location', text)}
                         value={this.state.location}
@@ -130,7 +130,7 @@ export default class AddListDetails extends React.Component{
                                 borderBottomColor={colors.white}
                                 inputType="email"
                                 placeholderTextColor={colors.white}
-                                placeholder="Tokyo Tower"
+                                placeholder="Trump Tower"
                                 customStyle={{ marginBottom: 30 }}
                                 onChangeText={(text) => this.dataHandle('title', text)}
                                 value={this.state.title}
@@ -149,7 +149,7 @@ export default class AddListDetails extends React.Component{
                                 borderBottomColor={colors.white}
                                 inputType="email"
                                 placeholderTextColor={colors.white}
-                                placeholder="Bike riding"
+                                placeholder="Biking"
                                 customStyle={{ marginBottom: 30 }}
                                 onChangeText={(text) => this.dataHandle('type', text)}
                                 value={this.state.type}
