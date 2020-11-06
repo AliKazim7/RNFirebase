@@ -58,7 +58,6 @@ class ExploreContainer extends Component {
       if(res.length > 0){
         const data = mergeList(res)
         data.then(response=>{
-          console.log("response comes here", response )
           if(response){
             this.setState({
               segmentList: response,
@@ -198,7 +197,6 @@ handleBackButton() {
 }
 
 showSelected = (value) => {
-  console.log("get values", value)
   this.props.navigation.navigate("GetFiltered", {
     category: value
   })
