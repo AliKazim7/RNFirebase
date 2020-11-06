@@ -18,7 +18,7 @@ import NoResults from '../components/saved/NoResults';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import Loader from '../components/Loader';
-import { Card, CardItem, H1, H2,
+import { Card, CardItem, Container, H1, H2,
   Text,
   Thumbnail, } from 'native-base';
 import colors from '../screen/styles/colors';
@@ -46,12 +46,17 @@ export default class SavedContainer extends Component {
 
 
   apiCall = async() =>{
+    this.setState({
+      listing:[]
+    })
     const userID = getUSERID()
     userID.then(
       response =>{
         const saveValue = getSavedItem(response)
         saveValue.then(res =>{
           
+        console.log("querySnapshot",res)
+        if(res[0].saved.length > 0){
           res[0].saved.map((item, index)=>{
             const savedItems = getSavedValues(item)
             savedItems.then(array =>{
@@ -61,6 +66,12 @@ export default class SavedContainer extends Component {
               })
             })
           })
+        } else {
+          this.setState({
+            listing:[],
+            loading:false
+          })
+        }
         })
       }
     )
@@ -86,20 +97,14 @@ export default class SavedContainer extends Component {
 
   render() {
     return (
-      <View style={styles.wrapper}>
-        <ScrollView
-          refreshControl={
-            <RefreshControl refreshing={this.state.loading} onRefresh={this.onRefresh} />
-          }
-        >
+      <Container>
         <Loader 
           modalVisible={this.state.loading}
           animationType="fade"
         />
         {this.state.listing.length > 0 && this.state.listing ? <H1 style={{marginTop:hp('5%'), marginLeft:wp('5%')}}>Saved</H1> : null}
-        {this.state.listing.length > 0 && this.state.listing  ? <CardView navigation={this.navigationRoute} result={this.state.listing} /> : <NoResults goHome={this.goBack} />}
-        </ScrollView>
-      </View>
+        {this.state.listing.length > 0 && this.state.listing  ? <CardView onReferesh={this.onReferesh} loading={this.state.loading} navigation={this.navigationRoute} result={this.state.listing} /> : <NoResults onReferesh={this.onReferesh} loading={this.state.loading} goHome={this.goBack} />}
+      </Container>
     );
   }
 }
@@ -132,6 +137,9 @@ const CardView = (props) =>{
     <View style={{flex:1}}>
       <FlatList
         data={result}
+        refreshControl={
+          <RefreshControl onRefresh={props.onReferesh} refreshing={props.loading} />
+        }
         renderItem={({item, index})=>(
           <TouchableOpacity 
           onPress={() => props.navigation(item)} 

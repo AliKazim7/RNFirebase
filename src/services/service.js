@@ -92,8 +92,9 @@ export async function getSavedItem(ID){
       .where('userID', '==', ID)
       .get()
       .then(querySnapshot => {
+        console.log("querySnapshot",querySnapshot)
         querySnapshot.forEach(documentSnapshot => {
-          // resolve(documentSnapshot.data())
+          console.log("documentSnapshot.data()",documentSnapshot.data())
           result.push(documentSnapshot.data())
         });
         resolve(result)

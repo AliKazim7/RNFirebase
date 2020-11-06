@@ -5,14 +5,24 @@ import {
   TouchableHighlight,
   StyleSheet,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 import colors from '../../styles/colors';
 
 export default class NoLists extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      loading: false,
+      listing:[]
+    }
+  }
   render() {
   	return (
     <View>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView refreshControl={
+        <RefreshControl onRefresh={this.props.onRefresh} refreshing={this.props.loading}/>
+      } style={styles.scrollView}>
         <Text style={styles.heading}>
 Lists
         </Text>

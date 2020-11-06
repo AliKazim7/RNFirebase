@@ -38,6 +38,9 @@ export default class TripsContainer extends Component {
   }
 
   apiCall = async() =>{
+    this.setState({
+      listing:[]
+    })
     const userID = await this.getApi()
     if(userID){
       const getName = await this.getUSERDATA(userID)
@@ -144,16 +147,16 @@ export default class TripsContainer extends Component {
   render() {
     return (
       <Container>
-        <ScrollView refreshControl={
+        {/* <ScrollView refreshControl={
           <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.loading} />
-        }>
+        }> */}
           <Loader 
             modalVisible={this.state.loading}
             animationType="fade"
           />
           {this.state.listing.length > 0 && this.state.listing ? <H1 style={{marginTop:hp('5%'), marginLeft:wp('5%')}}>Listing</H1> : null}
-          {this.state.listing.length > 0 && this.state.listing  ? <CardView navigation={this.navigationRoute} result={this.state.listing} /> : <NoLists goBack={this.goBack} />}
-        </ScrollView>
+          {this.state.listing.length > 0 && this.state.listing  ? <CardView onRefresh={this.onRefresh} loading={this.state.loading} navigation={this.navigationRoute} result={this.state.listing} /> : <NoLists onRefresh={this.onRefresh} loading={this.state.loading} goBack={this.goBack} />}
+        {/* </ScrollView> */}
       </Container>
     );
   }
@@ -187,6 +190,9 @@ const CardView = (props) =>{
     <View style={{flex:1}}>
       <FlatList
         data={result}
+        refreshControl={
+          <RefreshControl onRefresh={props.onRefresh} refreshing={props.loading} />
+        }
         renderItem={({item, index})=>(
           <TouchableOpacity 
           onPress={() => props.navigation(item)} 

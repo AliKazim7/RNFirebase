@@ -52,6 +52,9 @@ class ExploreContainer extends Component {
   }
 
   apiCall = async() =>{
+    this.setState({
+      listing:[]
+    })
     var UID = ""
     var items = []
     const userData = getUSERID()

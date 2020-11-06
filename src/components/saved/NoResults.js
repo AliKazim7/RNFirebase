@@ -5,32 +5,62 @@ import {
   TouchableHighlight,
   StyleSheet,
   ScrollView,
+  RefreshControl,
 } from 'react-native';
 import colors from '../../styles/colors';
 
 export default class NoResults extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      loading: false,
+      listing:[]
+    }
+  }
   render() {
   	return (
-    <View>
-      <ScrollView style={styles.scrollView}>
-        <Text style={styles.heading}>
-Saved
-        </Text>
-        <Text style={styles.description}>
-Not every day is filled with adventures, but you can start planning for the next one.
-        </Text>
-        <Text style={styles.description}>
-Tap the heart on any home to start saving your favorites here.
-        </Text>
-      </ScrollView>
-      <View style={styles.footer}>
-        <TouchableHighlight onPress={() => this.props.goHome()} style={styles.findHomesButton}>
-          <Text style={styles.findHomesButtonText}>
-Find Items
-          </Text>
-        </TouchableHighlight>
-      </View>
-    </View>
+//     <View>
+//       <ScrollView style={styles.scrollView}>
+//         <Text style={styles.heading}>
+// Saved
+//         </Text>
+//         <Text style={styles.description}>
+// Not every day is filled with adventures, but you can start planning for the next one.
+//         </Text>
+//         <Text style={styles.description}>
+// Tap the heart on any home to start saving your favorites here.
+//         </Text>
+//       <View style={styles.footer}>
+//         <TouchableHighlight onPress={() => this.props.goHome()} style={styles.findHomesButton}>
+//           <Text style={styles.findHomesButtonText}>
+// Find Items
+//           </Text>
+//         </TouchableHighlight>
+//       </View>
+//       </ScrollView>
+//     </View>
+<View>
+<ScrollView refreshControl={
+  <RefreshControl onRefresh={this.props.onRefresh} refreshing={this.props.loading} />
+} style={styles.scrollView}>
+  <Text style={styles.heading}>
+  Saved
+  </Text>
+  <Text style={styles.description}>
+  Not every day is filled with adventures, but you can start planning for the next one..
+  </Text>
+  <Text style={styles.description}>
+  Tap the heart on any home to start saving your favorites here.
+  </Text>
+</ScrollView>
+<View style={styles.footer}>
+  <TouchableHighlight style={styles.findHomesButton}>
+    <Text style={styles.findHomesButtonText}>
+    Find Items
+    </Text>
+  </TouchableHighlight>
+</View>
+</View>
   	);
   }
 }
