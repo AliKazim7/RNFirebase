@@ -197,12 +197,11 @@ export default class SelectedListItem extends React.Component{
                                     }
                                 </ScrollView>
                             :
-                            // <Image
-                            // style={{ height: hp('40%'),flex:1,width:wp('100%')}}
-                            // source={require('../../img/noImage.jpeg')}
-                            // resizeMode="cover"
-                            // />   
-                            <Text>dada</Text>                             
+                            <Image
+                                            style={{ height: hp('40%'),flex:1,width:wp('100%')}}
+                                            source={require('../../img/noImage.jpeg')}
+                                            resizeMode="cover"
+                                        />                             
                         }
                     </ScrollView>
                     <View style={headStyle.leftHeader}>
