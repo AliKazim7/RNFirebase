@@ -40,7 +40,8 @@ export default class SavedDetail extends React.Component{
       //  this.setState({
       //    loading: true
       //  })
-       const listed = await this.sectionFilter(this.props.route.params.result.segmenttype)
+      console.log("props come here", this.props.route.params.result)
+       const listed = await this.sectionFilter(this.props.route.params.result.segmentType)
        this.setState({
            listing: this.props.route.params.result,
            searchAbleList:this.props.route.params.result,
@@ -50,11 +51,12 @@ export default class SavedDetail extends React.Component{
        })
       }
 
-      sectionFilter = value =>{
+      sectionFilter = (value) =>{
         var arrau = []
         return new Promise((resolve, reject)=>{
           firestore().collection('ItemList')
-          .where('segmenttype','==',value)
+          .where('segmentType','==',value)
+          .limit(20)
           .get()
           .then(querySnapshot => {
             const data = querySnapshot.docs.map(doc => doc.data());
@@ -138,35 +140,15 @@ export default class SavedDetail extends React.Component{
                         </Button>
                     </View>
                         <TouchableHighlight
-                        style={styles.card}
-                        onPress={() => this.onCardDetail(listing)}
-                        // key={index}
-                      >
+                          style={styles.card}
+                          onPress={() => this.onCardDetail(listing)}
+                        >
                         <View>
-                          {/* {showAddToFav
-                              ? ( */}
-                            {/* <View style={styles.addToFavoriteBtn}>
-                              <HeartButton
-                                color={colors.white}
-                                selectedColor={colors.saagColor}
-                                // selected={favouriteListings.indexOf(listing.id) > -1}
-                                onPress={() => this.handleAddToFav(listing)}
-                              />
-                            </View> */}
-                            {/* // )
-                            // : null} */}
                           <ScrollView horizontal style={{flex:1}} showsHorizontalScrollIndicator={false}>
                         {
                             listing.photo !== undefined
                             ?
                             listing.photo.map((i,ind)=>(
-                                // <Thumbnail
-                                //     square
-                                //     key={ind}
-                                //     style={{ height: hp('40%'),flex:1,width:wp('100%') , backgroundColor:'red'}}
-                                //     source={i && {uri: i}}
-                                //     resizeMode='stretch'
-                                // />
                                 <FastImage 
                                   source={i && {uri: i}}
                                   key={ind}
@@ -233,7 +215,7 @@ export default class SavedDetail extends React.Component{
                          ? ( */}
                         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                           {
-                          item.photo !== undefined
+                          item.photo !== undefined &&item.photo.length> 0
                             ?
                           item.photo.map((i,ind)=>(
                             <FastImage 
@@ -245,7 +227,7 @@ export default class SavedDetail extends React.Component{
                             ))
                               :
                             <Image
-                              style={styles.image}
+                              style={styles.image1}
                               resizeMode='cover'
                               source={require('../../img/noImage.jpeg')}
                             />

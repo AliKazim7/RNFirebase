@@ -55,7 +55,6 @@ export default class AddListDetails extends React.Component{
 
     handleChange = async() => {
         // this.props.navigation.navigate('AddListPhoto')
-        const listID = Math.random()
         const addPlace = addOrderList(
             this.state.location,
             this.state.title,
@@ -64,23 +63,13 @@ export default class AddListDetails extends React.Component{
             this.state.priceResT,
             this.state.userName,
             this.state.type,
-            listID,
             this.state.details,
             this.state.priceType,
             this.state.userID
         )
         addPlace.then(response =>{
-            const getDocID = getOrderDOC(listID)
-            getDocID.then(res =>{
-                firestore().collection("ItemList").doc(res)
-                .update({
-                    id:res
-                })
-                .then(()=>{
-                console.log("Updated !")
-                this.props.navigation.navigate('AddListPhoto',{listID: res})
-              })
-            })
+            console.log(response)
+            this.props.navigation.navigate('AddListPhoto',{listID: response})
         })
     }
     changeCheck = () => { 
@@ -207,7 +196,7 @@ export default class AddListDetails extends React.Component{
                                 value={this.state.price1}
                             /> */}
                             <Textarea placeholder="Add new details" value={this.state.details} bordered onChangeText={(text) => this.dataHandle('details', text)}
-                                placeholderTextColor={colors.saagColor} style={{color:'white', fontSize:14,marginBottom: 30, width:wp('90%')}} />
+                                placeholderTextColor={colors.saagColor} rowSpan={8} style={{color:'white', fontSize:14,marginBottom: 30, width:wp('90%')}} />
                         </View>
                         :
                         null

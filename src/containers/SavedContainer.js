@@ -25,7 +25,7 @@ import colors from '../screen/styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 // import colors from '../styles/colors';
 import MainImage from '../data/photos/listing6.png'
-
+import { getSavedItem, getUSERID,getSavedValues } from '../services/service'
 const uri = "https://firebasestorage.googleapis.com/v0/b/saagg-e874a.appspot.com/o/images%2Flisting6.png?alt=media&token=66d9d57c-86f7-4d0a-b7fb-ed5950ab4019"
 
 export default class SavedContainer extends Component {
@@ -39,23 +39,25 @@ export default class SavedContainer extends Component {
 
   async componentDidMount(){
     this.setState({
-      loading: true
+      // loading: true
     })
-    const dataResult = await this.getApi()
-    if(dataResult){
-      const arrayValue = await this.apiCall(dataResult)
-      console.log ("array vAkue", arrayValue)
-      if(arrayValue){
-        this.setState({
-          listing: arrayValue,
-          loading: false
-        })
-      } else {
-        this.setState({
-          loading: false
+    const userID = getUSERID()
+    userID.then(
+      response =>{
+        const saveValue = getSavedItem(response)
+        saveValue.then(res =>{
+          res[0].saved.map((item, index)=>{
+            const newArray = []
+            const savedItems = getSavedValues(item)
+            savedItems.then(array =>{
+              this.setState({
+                listing: [...this.state.listing, array]
+              })
+            })
+          })
         })
       }
-    }
+    )
   }
 
   getApi = async() =>{

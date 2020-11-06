@@ -30,10 +30,11 @@ export default class HostProfile extends React.Component{
         this.setState({
           loadingVisible: true
         })
-        const userID = await this.getUserID()
-        if(userID){
-          const getName = await this.getUSERDATA(userID)
-          const response = await this.getItemList(userID)
+        console.log("Response of filtered", this.props.route.params.userID)
+        // const userID = await this.getUserID()
+        if(this.props.route.params.userID){
+          const getName = await this.getUSERDATA(this.props.route.params.userID)
+          const response = await this.getItemList(this.props.route.params.userID)
           console.log("getName[0]",getName[0])
           const photo = getName[0].photo
           const userWork = getName[0].userWork
@@ -51,7 +52,7 @@ export default class HostProfile extends React.Component{
             userLocation: userLocation,
             userDetail: userDetail,
             userLanguage:userLanguage,
-            userID:userID,
+            userID:this.props.route.params.userID,
             supplierRating: supplierRating,
             renterRating: renterRating,
             userName: userName,

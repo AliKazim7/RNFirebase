@@ -199,21 +199,6 @@ export default class SelectedSavedItem extends React.Component{
                         <Right />
                     </ListItem>
                     <ListItem>
-                        <Body>
-                            <Text>
-                                <Text style={{fontWeight:'bold'}}> Book now and get 20% off. </Text> Be one of the first 3 people who Book
-                                this place and save. Book your trip 
-                            </Text>
-                        </Body>
-                        <Right>
-                            <Icon
-                                type="FontAwesome"
-                                name="tags"
-                                color="#ee6a56"
-                            />
-                        </Right>
-                    </ListItem>
-                    <ListItem>
                         <Left>
                             <Body>
                                 <Text>

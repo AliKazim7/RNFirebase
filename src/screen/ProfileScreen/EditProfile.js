@@ -72,7 +72,7 @@ export default class EditProfile extends Component {
 
   async handleNextButton() {
     this.setState({
-      loadingVisible: true
+      // loadingVisible: true
     })
     const userDATA = getUSERDOC(this.state.userID)
     userDATA.then(response=>{
@@ -104,18 +104,6 @@ export default class EditProfile extends Component {
       }
     })
   }
-
-  getDocID = async() => {
-    return new Promise((resolve, reject)=>{
-      firestore().collection('Users').where('uid', '==', this.state.userID).get()
-      .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          resolve(doc.id)
-        });
-    })
-    })
-  }
-
   async componentDidMount(){
     this.setState({
       loadingVisible: true
@@ -143,34 +131,6 @@ export default class EditProfile extends Component {
       })
     })
   }
-  getApi = async() =>{
-    return new Promise((resolve, reject)=>{
-      auth().onAuthStateChanged(user => {
-        if (!user) {
-        } else {
-          resolve(user.uid)
-        }
-      })
-    })
-  }
-
-  getUSERDATA = async(userID) =>{
-    let result = []
-    return new Promise((resolve, reject)=>{
-      firestore()
-        .collection('Users')
-        .where('uid', '==', userID)
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            // resolve(documentSnapshot.data())
-            result.push(documentSnapshot.data())
-          });
-          resolve(result)
-        });
-    })
-  }
-
   handleCloseNotification() {
     this.setState({ formValid: true });
   }
@@ -189,17 +149,17 @@ export default class EditProfile extends Component {
   }
 
   changeCheck = (key) =>{
-    if(key === "male"){
+    if(key === "Male"){
       this.setState({
         gender: key,
         isVisible: false
       })
-    } else if(key === "female"){
+    } else if(key === "Female"){
       this.setState({
         gender:key,
         isVisible: false
       })
-    } else if(key === "other"){
+    } else if(key === "Other"){
       this.setState({
         gender:key,
         isVisible: false
@@ -232,7 +192,6 @@ export default class EditProfile extends Component {
     const showNotification = !formValid;
     const background = formValid ? colors.saagColor : colors.darkOrange;
     const notificationMarginTop = showNotification ? 10 : 0;
-    console.log("userID", this.state.userID)
     return (
       <Container style={{backgroundColor: background}}>
         <Header transparent>
@@ -261,16 +220,16 @@ export default class EditProfile extends Component {
                 placeholder="Gender"
                 placeholderStyle={{ color: "white" }}
                 placeholder="Gender"
-                textStyle={{ color: "white" }}
-                itemTextStyle={{ color: 'white' }}
+                textStyle={{ color: "black" }}
+                itemTextStyle={{ color: 'black' }}
                 placeholderIconColor="#007aff"
                 style={{ width: wp('100%') }}
                 selectedValue={this.state.gender}
                 onValueChange={this.changeCheck.bind(this)}
               >
-                <Picker.Item label="Male" value="male" />
-                <Picker.Item label="Female" value="female" />
-                <Picker.Item label="Other" value="other" />
+                <Picker.Item label="Male" value="Male" />
+                <Picker.Item label="Female" value="Female" />
+                <Picker.Item label="Other" value="Other" />
               </Picker>
               <DatePicker
                 locale={"en"}

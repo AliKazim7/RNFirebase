@@ -17,6 +17,7 @@ import colors from '../../styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import Loader from '../../components/Loader';
 import StarRating from 'react-native-star-rating';
+import { getSegmentData } from '../../services/service';
 
 export default class ViewCategory extends React.Component{
     constructor(props){
@@ -33,6 +34,11 @@ export default class ViewCategory extends React.Component{
       componentDidMount(){
         this.setState({
           loadingVisible:true
+        })
+        console.log("props come here", this.props.route.params.listing)
+        const getCategories = getSegmentData(this.props.route.params.listing.title)
+        getCategories.then(res =>{
+          console.log("props come here", res)
         })
         this.setState({
             listing: this.props.route.params.listing.Listing,

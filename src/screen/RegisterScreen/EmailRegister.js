@@ -127,14 +127,13 @@ export default class EmailRegister extends Component {
   }
 
   userProfile = async(uid) =>{
-    const { firstName, lastName, emailAddress, password } = this.state;
+    const { firstName, lastName, emailAddress } = this.state;
     return new Promise((resolve, reject)=>{
       firestore().collection('Users').add({
         firstName: firstName,
         email: emailAddress,
-        password: password,
         accountCreate:moment().format("MMMM , YYYY"),
-        receiveEmail: this.state.receiveEmail,
+        receiveEmail: this.state.receiveEmail === true ? true : false,
         supplierRating:0,
         renterRating:0,
         uid: uid
