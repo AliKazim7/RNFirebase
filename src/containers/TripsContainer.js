@@ -220,7 +220,6 @@ const CardView = (props) =>{
             <CardItem cardBody style={{marginLeft:10,marginTop:10, marginBottom:10, backgroundColor:'white'}}>
               <View style={{marginTop:10, marginBottom:10}}>
                 <H2 style={{marginTop:10}}>
-                  {item.location}
                   {item.title}
                 </H2>
                 <Text style={styles.contentType}>
