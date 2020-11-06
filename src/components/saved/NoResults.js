@@ -17,7 +17,14 @@ export default class NoResults extends Component {
       listing:[]
     }
   }
+
+  onRefresh=()=>{
+    console.log("refreshing")
+    this.props.onReferesh()
+  }
+
   render() {
+    console.log("props come here", this.props)
   	return (
 //     <View>
 //       <ScrollView style={styles.scrollView}>
@@ -41,7 +48,7 @@ export default class NoResults extends Component {
 //     </View>
 <View>
 <ScrollView refreshControl={
-  <RefreshControl onRefresh={this.props.onRefresh} refreshing={this.props.loading} />
+  <RefreshControl onRefresh={this.props.onReferesh} refreshing={this.props.loading} />
 } style={styles.scrollView}>
   <Text style={styles.heading}>
   Saved

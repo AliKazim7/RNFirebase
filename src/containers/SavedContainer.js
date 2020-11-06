@@ -89,6 +89,7 @@ export default class SavedContainer extends Component {
 
   onReferesh = () => {
     console.log("On Refresh")
+    console.log("value")
     this.setState({
       loading:true
     })
