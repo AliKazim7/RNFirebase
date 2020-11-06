@@ -77,17 +77,11 @@ export default class CategoriesArray extends Component {
         <Text  textBreakStrategy="highQuality" adjustsFontSizeToFit={true} style={[titleStyle, styles.title]}>
           {title}
         </Text>
-        <TouchableOpacity style={styles.seeAllBtn}>
+        {/* <TouchableOpacity style={styles.seeAllBtn}>
           <Text textBreakStrategy="highQuality" adjustsFontSizeToFit={true} style={styles.seeAllBtnText}>
 See all
           </Text>
-          {/* <Icon
-            name="angle-right"
-            type="FontAwesome"
-            size={18}
-            color={colors.gray04}
-          /> */}
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <ScrollView
         style={styles.scrollView}

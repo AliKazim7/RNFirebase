@@ -90,7 +90,7 @@ class Home extends Component {
     const result = this.state.segmentTab[0]
     return new Promise((resolve, reject)=>{
       const response = lists.filter((item,index)=>{
-        if(item.segmenttype === result){
+        if(item.segmentType === result){
           return item
         }
       })
@@ -182,7 +182,7 @@ class Home extends Component {
     var value = []
     return new Promise((resolve, reject) =>{
       this.state.listing.filter((elmt) => {
-        if(elmt.segmenttype === result){
+        if(elmt.segmentType === result){
           value.push(elmt)
         }
       })

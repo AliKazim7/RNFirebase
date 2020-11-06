@@ -45,7 +45,6 @@ class ExploreContainer extends Component {
     var items = []
     const categoriesList = getCategories()
     categoriesList.then(response =>{
-      console.log("response",response)
       this.setState({
         CategoriesList:response
       })
@@ -100,54 +99,7 @@ handleBackButton() {
     })
   } 
 
-  getApi = async() =>{
-    return new Promise((resolve, reject)=>{
-      firestore().collection('ItemList')
-      .get()
-      .then(querySnapshot => {
-        const data = querySnapshot.docs.map(doc => doc.data());
-        if(data.length > 0){
-          resolve(data)
-        }
-      });
-    })
-  }
 
-  mergeList = async(lists) => {
-    const result = [{
-      'title':'Trending',
-      'Listing':[]
-    },{
-      'title':'Wanted',
-      'Listing':[]
-    }]
-    return new Promise((resolve, reject)=>{
-      const response = lists.filter((item,index)=>{
-        if(item.segmenttype === "Trending"){
-          result[0].Listing.push(item)
-        } else if(item.segmenttype === "Wanted"){
-          result[1].Listing.push(item)
-        }
-      })
-      resolve(result)
-    })
-  }
-
-  savedPlace  = async(ID) => {
-    const result = []
-    return new Promise((resolve, reject)=>{
-      firestore().collection('SavedPlaces')
-      .where('userID', '==', ID)
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(documentSnapshot => {
-          // resolve(documentSnapshot.data())
-          result.push(documentSnapshot.data())
-        });
-        resolve(result)
-      });
-    })
-  }
 
   handleAddToFav(listing) {
     const { navigate } = this.props.navigation;
@@ -279,7 +231,7 @@ showSelected = (value) => {
   render() {
     return (
       <View style={styles.wrapper}>
-        <Header style={{marginTop:20}} transparent>
+        {/* <Header style={{marginTop:20}} transparent>
           <View style={styles.searchContainer}>
             <Icon
               name="search"
@@ -289,7 +241,7 @@ showSelected = (value) => {
             />
             <Input placeholder="Search any address" style={styles.textInput} />
           </View>
-        </Header>
+        </Header> */}
         <ScrollView
             style={styles.scrollview}
             contentContainerStyle={styles.scrollViewContent}

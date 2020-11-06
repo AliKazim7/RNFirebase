@@ -17,7 +17,7 @@ import colors from '../../styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import Loader from '../../components/Loader';
 import StarRating from 'react-native-star-rating';
-import { getCategoriesData } from '../../services/service';
+import { getAllCategoryItems, getCategoriesData } from '../../services/service';
 
 export default class GetFiltered extends React.Component{
     constructor(props){
@@ -35,9 +35,10 @@ export default class GetFiltered extends React.Component{
         this.setState({
           loadingVisible:true
         })
-        const getData = getCategoriesData(this.props.route.params.category)
+        console.log("Response of filtered", this.props.route.params.category)
+        const getData = getAllCategoryItems(this.props.route.params.category)
         getData.then(response =>{
-            console.log("Response of filtered", response)
+            console.log("Response of", response)
             this.setState({
                 listing: response,
                 searchAbleList:response,

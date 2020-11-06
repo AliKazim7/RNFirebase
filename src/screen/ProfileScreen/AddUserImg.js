@@ -239,19 +239,7 @@ export default class AddUserImg extends React.Component{
                     </View>
                     }
                 </TouchableOpacity>
-                     {/* <InputField
-                        labelText="Edit about me"
-                        labelTextSize={14}
-                        labelColor={colors.black}
-                        textColor={colors.black}
-                        borderBottomColor={colors.black}
-                        inputType="email"
-                        value={this.state.userDetail}
-                        customStyle={{ marginBottom: 30 }}
-                        onChangeText={this.handleChange}
-                        // showCheckmark={validNewPass}
-                    /> */}
-                    <Item fixedLabel style={{marginBottom:30}}>
+                    <Item fixedLabel style={{marginBottom:30, marginTop:20}}>
                       <Label>Edit about me</Label>
                       <Input
                         onChangeText={this.handleChange}
@@ -260,23 +248,10 @@ export default class AddUserImg extends React.Component{
                       />
                     </Item>
                     <H3 style={{marginBottom:20}}>Optional Details</H3>
-                    {/* <InputField
-                        labelText="Location"
-                        labelTextSize={12}
-                        labelColor={colors.black}
-                        textColor={colors.black}
-                        borderBottomColor={colors.black}
-                        inputType="email"
-                        value={this.state.userLocation}
-                        customStyle={{ marginBottom: 30 }}
-                        placeholder="e.g. Paris, FR/ Brooklyn, NY/ Chicago, IL"
-                        onChangeText={this.handleLocation}
-                        // showCheckmark={validNewPass}
-                    /> */}
                     <Item fixedLabel style={{marginBottom:30}}>
                       <Label>Language</Label>
                       <Input
-                        placeholder="e.g. Paris, FR/ Brooklyn, NY/ Chicago, IL"
+                        placeholder="e.g. English/ Spanish/ French "
                         onChangeText={this.handleLanguage}
                         value={this.state.userLanguage}
                         style={{color:'black'}}
@@ -291,24 +266,10 @@ export default class AddUserImg extends React.Component{
                         style={{color:'black'}}
                       />
                     </Item>
-                    {/* <InputField
-                        labelText="Work"
-                        labelTextSize={12}
-                        labelColor={colors.black}
-                        textColor={colors.black}
-                        borderBottomColor={colors.black}
-                        inputType="email"
-                        customStyle={{ marginBottom: 30 }}
-                        placeholder="e.g. FOCUSTECK/ Airbnb/ Apple"
-                        onChangeText={this.handleWork}
-                        value={this.state.userWork && this.state.userWork }
-                        defaultValue={this.state.userWork ? this.state.userWork : null}
-                        // showCheckmark={validNewPass}
-                    /> */}
                     <Item fixedLabel style={{marginBottom:30}}>
                       <Label>Work</Label>
                       <Input
-                        placeholder="e.g. FOCUSTECK/ Airbnb/ Apple"
+                        placeholder="e.g. SAG"
                         onChangeText={this.handleWork}
                         value={this.state.userWork}
                         style={{color:'black'}}

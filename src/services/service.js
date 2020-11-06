@@ -45,7 +45,8 @@ export async function userProfile(firstName, emailAddress, password, receiveEmai
       receiveEmail: receiveEmail,
       supplierRating:0,
       renterRating:0,
-      uid: uid
+      uid: uid,
+      role: 'client'
     }).then((response) => {
       resolve(response)
     });
@@ -101,6 +102,7 @@ export async function getSavedItem(ID){
 }
 
 export async function mergeList(lists){
+  console.log("listed items", lists)
     const result = [{
         'title':'Trending',
         'Listing':[]
@@ -110,9 +112,9 @@ export async function mergeList(lists){
       }]
       return new Promise((resolve, reject)=>{
         const response = lists.filter((item,index)=>{
-          if(item.segmenttype === "Trending"){
+          if(item.segmentType === "Trending"){
             result[0].Listing.push(item)
-          } else if(item.segmenttype === "Wanted"){
+          } else if(item.segmentType === "Wanted"){
             result[1].Listing.push(item)
           }
         })
@@ -165,21 +167,21 @@ export async function updateUser(photourl, userDetail, userLocation, userLanguag
 }
 
 export async function updateUserEdit(gender, PhoneNumber, DoB, Email, receiveEmail,FirstName, docID){
-    return new Promise((resolve, reject)=>{
-        firestore().collection('Users').doc(docID).update({
-          Gender: gender,
-          PhoneNumber: PhoneNumber,
-          DoB: DoB,
-          email: Email,
-          receiveEmail: receiveEmail,
-          firstName: FirstName
-        }).then(() => {
-            resolve(true)
-        })
-        .catch(e =>{
-            resolve(false)
-        })
+  return new Promise((resolve, reject)=>{
+    firestore().collection('Users').doc(docID).update({
+    gender: gender,
+    phone: PhoneNumber,
+    DOB: DoB,
+    email: Email,
+    receiveEmail: receiveEmail,
+    firstName: FirstName
+    }).then(() => {
+      resolve(true)
     })
+    .catch(e =>{
+     resolve(false)
+    })
+  })
 }
 
 export async function updateWorkEmail(email, docID){
@@ -195,26 +197,32 @@ export async function updateWorkEmail(email, docID){
     })
 }
 
-export async function addOrderList(location, title, price1,NotfixedPrice, priceResT, userName, type, ID, details, priceType, userID){
+export async function addOrderList(location, title, price1,NotfixedPrice, priceResT, userName, type, details, priceType, userID){
+  console.log(location, title, typeof price1, Number(price1),NotfixedPrice, priceResT, userName, type,  details, priceType, userID)
     return new Promise((resolve, reject)=>{
         firestore()
           .collection("ItemList")
             .add({
                 location: location,
+                locationLower:location.toLowerCase(),
                 title: title,
-                price1: price1,
-                priceResT:NotfixedPrice ? priceResT : price1,
+                titleLower: title.toLowerCase(),
+                price1: Number(price1),
+                priceResT:NotfixedPrice ? Number(priceResT) : Number(price1),
                 userName:userName,
                 type: type,
-                id: ID,
                 totalRating:0,
-                segmenttype:'Trending',
+                segmentType:'Wanted',
                 details:details,
                 priceType: priceType,
                 userID: userID
             })
-          .then(()=>{
-            resolve(true)
+          .then((response)=>{
+            firestore().collection("ItemList").doc(response.id).update({
+              id:response.id
+            }).then((res) =>{
+              resolve(response.id)
+            })
         })
     })
 }
@@ -290,12 +298,13 @@ export async function saveItems(userID){
   })
 }
 
-export async function getCategoriesData(type){
+export async function getSegmentData(type){
   const result = []
+  console.log("tyoe come here", type)
   return new Promise((resolve, reject)=>{
       firestore().
       collection('ItemList').
-      where('type', '==',type)
+      where('segmentType', '==',type)
       .limit(20)
       .get()
       .then(function(querySnapshot) {
@@ -334,4 +343,53 @@ export async function SaveItemData(userID, listing){
         resolve(false)
     })
 })
+}
+
+export async function getSavedValues(ID){
+  const result = []
+  return new Promise((resolve, reject)=>{
+    firestore().collection('ItemList')
+    .where('id', '==', ID)
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(documentSnapshot => {
+        resolve(documentSnapshot.data())
+        // result.push(documentSnapshot.data())
+      });
+      // resolve(result)
+    });
+  })
+}
+
+export async function getCategoriesData(ID){
+  const result = []
+  return new Promise((resolve, reject)=>{
+    firestore().collection('ItemList')
+    .where('id', '==', ID)
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(documentSnapshot => {
+        resolve(documentSnapshot.data())
+        // result.push(documentSnapshot.data())
+      });
+      // resolve(result)
+    });
+  })
+}
+
+export async function getAllCategoryItems(ID){
+  const result = []
+  return new Promise((resolve, reject)=>{
+    firestore().collection('ItemList')
+    .where('type', '==', ID)
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(documentSnapshot => {
+        // resolve(documentSnapshot.data())
+        // console.log(documentSnapshot.data())
+        result.push(documentSnapshot.data())
+      });
+      resolve(result)
+    });
+  })
 }

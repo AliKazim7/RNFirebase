@@ -5,9 +5,12 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  StyleSheet,
   Dimensions
 } from 'react-native';
 import Modal from 'react-native-modal'
+import FastImage from 'react-native-image-progress';
+import ProgressBar from 'react-native-progress/Bar';
 import colors from '../styles/colors';
 import styles from '../styles/CreateList';
 import { Icon, Header, Container, Left, Button, Right, Body, Title, List, ListItem, Text, H1, H2, H3, Thumbnail, Content } from 'native-base';
@@ -68,10 +71,11 @@ export default class HostSelected extends React.Component{
 
     render(){
         const { listing,isModalVisible } = this.state
+        console.log("listed", listing)
         // CreateList
         return(
             <Container style={{backgroundColor: "white"}}>
-                <View style={{flex: 1}}>
+                {/* <View style={{flex: 1}}>
                     <Modal isVisible={isModalVisible}>
                         <View style={{flex: 1}}>
                             <Text>Hello!</Text>
@@ -79,33 +83,29 @@ export default class HostSelected extends React.Component{
                             <Button title="Hide modal" />
                         </View>
                     </Modal>
-                </View>
+                </View> */}
                 <ScrollView>
-                <Content>
-                <View style={{width:'100%',flex:1, backgroundColor:'red'}}>
+                <View style={{width:'100%',flex:1,}}>
                     {/* <Image 
                         style={{width:'100%'}}
                         // resizeMode="stretch"
                         source={listing.photo}
                     /> */}
-                    {
-                        this.state.photo.length > 0
-                        ?
-                        <ScrollView 
+                    
+                    <ScrollView 
                         horizontal
-                        style={{flex:1, backgroundColor:'yellow'}}
-                        showsHorizontalScrollIndicator={false}>
-                            {listing.photo.map((item,index)=>(
-                                <Image
-                                    source={item && {uri: item}}
-                                    style={{flex:1,height: hp('40%'), backgroundColor:'green'}}
-                                    resizeMode="cover"
-                                    />
-                            ))}
-                        </ScrollView>
-                        :
-                        null
-                    }
+                        style={{flex:1}}
+                        showsHorizontalScrollIndicator={false}
+                    >
+                    {listing.photo.map((item,index)=>(
+                        <FastImage
+                            style={styled.image}
+                            resizeMode="cover"
+                            indicator={ProgressBar} 
+                            source={item && {uri: item}}
+                        />
+                    ))}
+                    </ScrollView>
                     <View style={headStyle.leftHeader}>
                         <Icon type="AntDesign" onPress={() => this.goBack()} style={{color:'black', marginTop:12.5, marginLeft:12.5, fontSize:25}} name="arrowleft" />
                     </View>
@@ -145,45 +145,6 @@ export default class HostSelected extends React.Component{
                         <Right />
                     </ListItem>
                     <ListItem>
-                        <Body>
-                            <Text>
-                                <Text style={{fontWeight:'bold'}}> Book now and get 20% off. </Text> Be one of the first 3 people who Book
-                                this place and save. Book your trip 
-                            </Text>
-                        </Body>
-                        <Right>
-                            <Icon
-                                type="FontAwesome"
-                                name="tags"
-                                color="green"
-                            />
-                        </Right>
-                    </ListItem>
-                    <ListItem>
-                        <Left>
-                            <Body>
-                                <Text>
-                                    {listing.type}
-                                </Text>
-                                <Text>hosted by <Text style={{fontWeight:'bold'}}> Kazim </Text> </Text>
-                            </Body>
-                        </Left>
-                        <Right>
-                        </Right>
-                    </ListItem>
-                    <ListItem>
-                        <Left>
-                            <Body>
-                                <Text>
-                                    {listing.type}
-                                </Text>
-                                <Text>hosted by <Text style={{fontWeight:'bold'}}> Kazim </Text> </Text>
-                            </Body>
-                        </Left>
-                        <Right>
-                        </Right>
-                    </ListItem>
-                    <ListItem>
                         <Left>
                             <Body>
                                 <Text>
@@ -196,7 +157,6 @@ export default class HostSelected extends React.Component{
                         </Right>
                     </ListItem>
                 </List>
-                </Content>
                 </ScrollView>
                 <View style={{flexDirection:'row', borderColor:'2px solid black'}}>
                         <View>
@@ -225,3 +185,14 @@ export default class HostSelected extends React.Component{
         )
     }
 }
+
+
+const styled = StyleSheet.create({
+    image: {
+        // flex: 1,
+        borderRadius: 18,
+        width:'100%',
+        flex: 1,
+        height: hp('40%'),
+    },
+  });

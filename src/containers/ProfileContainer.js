@@ -147,14 +147,6 @@ export default class ProfileContainer extends Component {
                       <Icon type="FontAwesome" name="credit-card-alt" />
                     </Right>
                 </ListItem>
-                <ListItem bordered onPress={() => this.props.navigation.navigate("TravelWork")}>
-                    <Left>
-                      <Text style={{color:'black', fontSize:15}}>Travel for work</Text>
-                    </Left>
-                    <Right>
-                      <Icon type="FontAwesome" name="building-o" />
-                    </Right>
-                 </ListItem>
                  <ListItem bordered onPress={() => this.props.navigation.navigate("MyOrders")}>
                     <Left>
                       <Text style={{color:'black', fontSize:15}}>My Orders</Text>
@@ -176,14 +168,6 @@ export default class ProfileContainer extends Component {
                           <Icon type="FontAwesome" name="gear" />
                         </Right>
                   </ListItem>
-              <ListItem bordered>
-                      <Left>
-                        <Text>Learn about become a supplier</Text>
-                      </Left>
-                      <Right>
-                        <Icon type="FontAwesome" name="gear" />
-                      </Right>
-                    </ListItem>
             </List>
             <List>
               <ListItem itemDivider>
