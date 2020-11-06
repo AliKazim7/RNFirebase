@@ -102,7 +102,6 @@ export async function getSavedItem(ID){
 }
 
 export async function mergeList(lists){
-  console.log("listed items", lists)
     const result = [{
         'title':'Trending',
         'Listing':[]
@@ -198,7 +197,6 @@ export async function updateWorkEmail(email, docID){
 }
 
 export async function addOrderList(location, title, price1,NotfixedPrice, priceResT, userName, type, details, priceType, userID){
-  console.log(location, title, typeof price1, Number(price1),NotfixedPrice, priceResT, userName, type,  details, priceType, userID)
     return new Promise((resolve, reject)=>{
         firestore()
           .collection("ItemList")
@@ -300,7 +298,6 @@ export async function saveItems(userID){
 
 export async function getSegmentData(type){
   const result = []
-  console.log("tyoe come here", type)
   return new Promise((resolve, reject)=>{
       firestore().
       collection('ItemList').
@@ -317,7 +314,6 @@ export async function getSegmentData(type){
 }
 
 export async function SaveItemData(userID, listing){
-  console.log("userID, listing",userID, listing)
   return new Promise((resolve, reject)=>{
     firestore().
     collection('SavedItems').
@@ -327,7 +323,6 @@ export async function SaveItemData(userID, listing){
        querySnapshot.forEach(function(doc) {
         const saved = doc.data().saved
         saved.push(listing)
-        console.log(saved, doc.id)
         firestore().
         collection('SavedItems').
         doc(doc.id).
@@ -386,7 +381,6 @@ export async function getAllCategoryItems(ID){
     .then(querySnapshot => {
       querySnapshot.forEach(documentSnapshot => {
         // resolve(documentSnapshot.data())
-        // console.log(documentSnapshot.data())
         result.push(documentSnapshot.data())
       });
       resolve(result)
