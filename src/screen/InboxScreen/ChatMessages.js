@@ -8,7 +8,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  StyleSheet, ScrollView
+  StyleSheet, ScrollView, RefreshControl
 } from 'react-native';
 import { Body, Container, H1, H3, Header, Icon, Left, Right, Title } from 'native-base';
 import auth from '@react-native-firebase/auth'
@@ -37,6 +37,10 @@ export default class ChatMessages extends Component {
 
 async componentDidMount(){
   this.getTotalMessages()
+  this.apiCall()
+}
+
+apiCall = async() =>{
   const userID = await this.getUSERID()
   const getUSER = await this.getUSERDATA(userID)
   console.log("props messages",  this.props.route.params.listing)
@@ -46,6 +50,7 @@ async componentDidMount(){
       const user ={
         _id: getUSER.uid,
         name: getUSER.firstName,
+        loading: false
       }
     this.setState({
       userID: user,
@@ -138,27 +143,37 @@ sendDATA = async (value) =>{
     }
 }
 
+onRefresh = () =>{
+  this.setState({
+    loading:true
+  })
+  this.apiCall()
+}
 
   render() {
       console.log("user id", this.state.messages)
     return (
       <Container>
-          <Header transparent>
-              <Left>
-                  <Icon type="AntDesign" name="arrowleft" onPress={() => this.props.navigation.navigate('InboxTab',{userID: this.state.userID})} />
-              </Left>
-              <Body>
-                <Title>
-                  {this.state.lisitng.title}
-                </Title>
-              </Body>
-              <Right />
+       <ScrollView refreshControl={
+         <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.loading} />
+       }>
+        <Header transparent>
+            <Left>
+              <Icon type="AntDesign" name="arrowleft" onPress={() => this.props.navigation.navigate('InboxTab',{userID: this.state.userID})} />
+            </Left>
+            <Body>
+              <Title>
+                {this.state.lisitng.title}
+              </Title>
+            </Body>
+          <Right />
           </Header>
-          <GiftedChat
-                messages={this.state.messages}
-                user={this.state.userID}
-                onSend={newMessage => this.sendDATA(newMessage)}
+            <GiftedChat
+              messages={this.state.messages}
+              user={this.state.userID}
+              onSend={newMessage => this.sendDATA(newMessage)}
             />
+       </ScrollView>
       </Container>
     );
   }

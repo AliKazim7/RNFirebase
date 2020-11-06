@@ -5,7 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   // Image,
-  TouchableOpacity, FlatList
+  TouchableOpacity, FlatList, RefreshControl
 } from 'react-native';
 import Image from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar';
@@ -34,6 +34,10 @@ export default class TripsContainer extends Component {
     this.setState({
       loading: true
     })
+    this.apiCall()
+  }
+
+  apiCall = async() =>{
     const userID = await this.getApi()
     if(userID){
       const getName = await this.getUSERDATA(userID)
@@ -120,21 +124,36 @@ export default class TripsContainer extends Component {
   }
 
   navigationRoute = (value) =>{
-  this.props.navigation.navigate('SelectList', {
-    result: value
-  })
+    this.props.navigation.navigate('SelectList', {
+      result: value
+    })
   }
+
+  onRefresh = () =>{
+    this.setState({
+      loading:true
+    })
+    this.apiCall()
+  }
+
+  goBack = () =>{
+    // this.props.navigation.navigate('')
+  }
+
 
   render() {
     return (
       <Container>
-        <Loader 
-          modalVisible={this.state.loading}
-          animationType="fade"
-        />
-        {this.state.listing.length > 0 && this.state.listing ? <H1 style={{marginTop:hp('5%'), marginLeft:wp('5%')}}>Listing</H1> : null}
-        {this.state.listing.length > 0 && this.state.listing  ? <CardView navigation={this.navigationRoute} result={this.state.listing} /> : <NoLists />}
-        
+        <ScrollView refreshControl={
+          <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.loading} />
+        }>
+          <Loader 
+            modalVisible={this.state.loading}
+            animationType="fade"
+          />
+          {this.state.listing.length > 0 && this.state.listing ? <H1 style={{marginTop:hp('5%'), marginLeft:wp('5%')}}>Listing</H1> : null}
+          {this.state.listing.length > 0 && this.state.listing  ? <CardView navigation={this.navigationRoute} result={this.state.listing} /> : <NoLists goBack={this.goBack} />}
+        </ScrollView>
       </Container>
     );
   }
@@ -175,7 +194,6 @@ const CardView = (props) =>{
         >
           <Card>
             <CardItem cardBody>
-              {/* <Image source={item.photo[0] && {uri:item.photo[0]}} resizeMode="cover" style={{flex:1, height:hp('40%')}} /> */}
               {
                 item.photo !== undefined
                 ?
@@ -203,9 +221,10 @@ const CardView = (props) =>{
               <View style={{marginTop:10, marginBottom:10}}>
                 <H2 style={{marginTop:10}}>
                   {item.location}
+                  {item.title}
                 </H2>
                 <Text style={styles.contentType}>
-                  {item.title}
+                  {item.location}
                 </Text>
                 <Text style={styles.contentType}>
                   {item.type}

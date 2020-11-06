@@ -136,7 +136,8 @@ export default class EmailRegister extends Component {
         receiveEmail: this.state.receiveEmail === true ? true : false,
         supplierRating:0,
         renterRating:0,
-        uid: uid
+        uid: uid,
+        role: 'client'
       }).then(() => {
         resolve(true)
       });

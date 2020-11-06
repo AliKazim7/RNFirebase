@@ -9,10 +9,10 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  // Image,
-  TouchableOpacity, FlatList
+  Image,
+  TouchableOpacity, FlatList, RefreshControl
 } from 'react-native';
-import Image from 'react-native-image-progress';
+import Fastimage from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar';
 import NoResults from '../components/saved/NoResults';
 import auth from '@react-native-firebase/auth'
@@ -39,19 +39,25 @@ export default class SavedContainer extends Component {
 
   async componentDidMount(){
     this.setState({
-      // loading: true
+      loading: true
     })
+    this.apiCall()
+  }
+
+
+  apiCall = async() =>{
     const userID = getUSERID()
     userID.then(
       response =>{
         const saveValue = getSavedItem(response)
         saveValue.then(res =>{
+          
           res[0].saved.map((item, index)=>{
-            const newArray = []
             const savedItems = getSavedValues(item)
             savedItems.then(array =>{
               this.setState({
-                listing: [...this.state.listing, array]
+                listing: [...this.state.listing, array],
+                loading: false
               })
             })
           })
@@ -60,48 +66,39 @@ export default class SavedContainer extends Component {
     )
   }
 
-  getApi = async() =>{
-    return new Promise((resolve, reject)=>{
-      auth().onAuthStateChanged(user => {
-        if (!user) {
-        } else {
-          resolve(user.uid)
-        }
-      })
-    })
-  }
-
-  apiCall = async(ID) =>{
-    let result = []
-    return new Promise((resolve, reject)=>{
-      firestore().collection('SavedPlaces')
-      .where('userID', '==', ID)
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(documentSnapshot => {
-          result.push(documentSnapshot.data())
-        });
-        resolve(result)
-      });
-    })
-  }
-
   navigationRoute = (value) =>{
   this.props.navigation.navigate('SavedDetail', {
     result: value
   })
   }
+  goBack = () =>{
+    console.log("value")
+    this.props.navigation.navigate('ExploreContainer')
+  }
+
+  onReferesh = () => {
+    console.log("On Refresh")
+    this.setState({
+      loading:true
+    })
+    this.apiCall()
+  }
 
   render() {
     return (
       <View style={styles.wrapper}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={this.state.loading} onRefresh={this.onRefresh} />
+          }
+        >
         <Loader 
           modalVisible={this.state.loading}
           animationType="fade"
         />
         {this.state.listing.length > 0 && this.state.listing ? <H1 style={{marginTop:hp('5%'), marginLeft:wp('5%')}}>Saved</H1> : null}
-        {this.state.listing.length > 0 && this.state.listing  ? <CardView navigation={this.navigationRoute} result={this.state.listing} /> : <NoResults />}
-        {/* <NoResults /> */}
+        {this.state.listing.length > 0 && this.state.listing  ? <CardView navigation={this.navigationRoute} result={this.state.listing} /> : <NoResults goHome={this.goBack} />}
+        </ScrollView>
       </View>
     );
   }
@@ -130,6 +127,7 @@ const styles = StyleSheet.create({
 
 const CardView = (props) =>{
   const result = props.result
+  console.log("results", result)
   return(
     <View style={{flex:1}}>
       <FlatList
@@ -142,19 +140,32 @@ const CardView = (props) =>{
           <Card>
             <CardItem cardBody>
               {/* <Image source={item.photo[0] && {uri:item.photo[0]}} resizeMode="cover" style={{flex:1, height:hp('40%')}} /> */}
-              <Image 
+              {
+                item.photo !== undefined && item.photo.length > 0
+                ?
+                <Fastimage 
                   source={item.photo[0] && {uri:item.photo[0]}} 
                   indicator={ProgressBar} 
                   style={{
                     flex:1, height:hp('40%')
-                  }}/>
+                  }}
+                />
+                :
+                <Image 
+                  source ={require('../img/noImage.jpeg')}
+                  style={{
+                    flex:1, height:hp('40%')
+                  }}
+                />
+              }
             </CardItem>
             <CardItem cardBody style={{marginLeft:10,marginTop:10, marginBottom:10, backgroundColor:'white'}}>
               <View style={{marginTop:10, marginBottom:10}}>
                 <H2 style={styles.contentType}>
-                  {item.location}
+                  {item.title}
                 </H2>
-                <Text style={styles.contentType}>{item.title}</Text>
+                <Text style={styles.contentType}>{item.location}</Text>
+                <Text style={styles.contentType}>{item.type}</Text>
               </View>
             </CardItem>
           </Card>

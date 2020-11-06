@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  StyleSheet, ScrollView
+  StyleSheet, ScrollView, RefreshControl
 } from 'react-native';
 import { Body, Container, H1, H3, Header, Icon, Left, List, ListItem, Right, Title } from 'native-base';
 import SegmentedControlTab from 'react-native-segmented-control-tab'
@@ -186,42 +186,53 @@ showRenter = () =>{
     })
   }
 
+  onRefresh = () =>{
+    this.setState({
+      loading: false
+    })
+    this.apiCall()
+  }
+
   render() {
     return (
       <Container>
-        <Header transparent>
-          <Left>
-            <H3>Inbox</H3>
-          </Left>
-          <Body />
-          <Right />
-        </Header>
-        <SegmentedControlTab
-          borderRadius={0}
-          tabsContainerStyle={{ height: 50, backgroundColor: '#F2F2F2',marginLeft:10, marginRight:10 }}
-          tabStyle={{ backgroundColor: 'white',fontSize:16, borderWidth: 0, borderColor: 'transparent', alignItems:'baseline' }}
-          activeTabStyle={{ backgroundColor: 'white',borderBottomColor:colors.saagColor, marginBottom: 2, borderBottomWidth:2, textAlign:'left' }}
-          tabTextStyle={{ color: 'black', }}
-          activeTabTextStyle={{ color: 'black' }}
-          values={this.state.segmentTab}
-          selectedIndex={this.state.selectedIndex}
-          onTabPress={this.handleIndexChange}
-        />
-        {
-          this.state.supplierChat.length > 0
-          ? 
-            this.showSupplier() 
-          :
-          null
-        }
-        {
-          this.state.renterChat.length > 0
-          ?
-          // <NotificationNot />
-            this.showRenter()
-          :
-          null
-        }
+        <ScrollView refreshControl={
+          <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.loading} />
+        }>
+          <Header transparent>
+            <Left>
+              <H3>Inbox</H3>
+            </Left>
+            <Body />
+            <Right />
+          </Header>
+          <SegmentedControlTab
+            borderRadius={0}
+            tabsContainerStyle={{ height: 50, backgroundColor: '#F2F2F2',marginLeft:10, marginRight:10 }}
+            tabStyle={{ backgroundColor: 'white',fontSize:16, borderWidth: 0, borderColor: 'transparent', alignItems:'baseline' }}
+            activeTabStyle={{ backgroundColor: 'white',borderBottomColor:colors.saagColor, marginBottom: 2, borderBottomWidth:2, textAlign:'left' }}
+            tabTextStyle={{ color: 'black', }}
+            activeTabTextStyle={{ color: 'black' }}
+            values={this.state.segmentTab}
+            selectedIndex={this.state.selectedIndex}
+            onTabPress={this.handleIndexChange}
+          />
+          {
+            this.state.supplierChat.length > 0
+            ? 
+              this.showSupplier() 
+            :
+            null
+          }
+          {
+            this.state.renterChat.length > 0
+            ?
+            // <NotificationNot />
+              this.showRenter()
+            :
+            null
+          }
+        </ScrollView>
         <Loader
         modalVisible={this.state.loading}
         animationType="fade"

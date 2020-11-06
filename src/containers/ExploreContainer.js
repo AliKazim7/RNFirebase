@@ -5,6 +5,7 @@ import {
   Dimensions,
   Image,
   StyleSheet,
+  RefreshControl,
   TouchableOpacity, BackHandler
 } from 'react-native';
 import Listings from '../components/explore/Listings';
@@ -41,14 +42,18 @@ class ExploreContainer extends Component {
     this.setState({
       loadingVisible: true
     })
-    var UID = ""
-    var items = []
     const categoriesList = getCategories()
     categoriesList.then(response =>{
       this.setState({
         CategoriesList:response
       })
     })
+    this.apiCall()
+  }
+
+  apiCall = async() =>{
+    var UID = ""
+    var items = []
     const userData = getUSERID()
     userData.then(response =>{
       UID = response
@@ -225,24 +230,23 @@ showSelected = (value) => {
     }
   }
 
+  onReferesh = () => {
+    console.log("On Refresh")
+    this.setState({
+      loadingVisible:true
+    })
+    this.apiCall()
+  }
 
   render() {
     return (
       <View style={styles.wrapper}>
-        {/* <Header style={{marginTop:20}} transparent>
-          <View style={styles.searchContainer}>
-            <Icon
-              name="search"
-              type="EvilIcons"
-              color={colors.saagColor}
-              style={styles.searchIcon}
-            />
-            <Input placeholder="Search any address" style={styles.textInput} />
-          </View>
-        </Header> */}
         <ScrollView
             style={styles.scrollview}
             contentContainerStyle={styles.scrollViewContent}
+            refreshControl={
+              <RefreshControl onRefresh={this.onReferesh} refreshing={this.state.loadingVisible} />
+            }
           >
             {this.renderCategories()}
             {this.renderListings()}

@@ -4,7 +4,9 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity, 
-  Platform
+  Platform,
+  ScrollView,
+  RefreshControl
 } from 'react-native';
 import { Container, List, Content, Card,ListItem, CardItem, Thumbnail, Text, Button, Left, Body, Right, Icon, H2 } from 'native-base';
 import auth from '@react-native-firebase/auth';
@@ -31,7 +33,10 @@ export default class ProfileContainer extends Component {
     this.setState({
       loading: true
     })
-    // const userID = await this.getApi()
+    this.apiCall()
+  }
+
+  apiCall = async() =>{
     const userData = getUSERID()
     userData.then(response =>{
       if(response){
@@ -52,32 +57,6 @@ export default class ProfileContainer extends Component {
       }
     })
   }
-  getApi = async() =>{
-    return new Promise((resolve, reject)=>{
-      auth().onAuthStateChanged(user => {
-        if (!user) {
-        } else {
-          resolve(user.uid)
-        }
-      })
-    })
-  }
-
-  getUSERDATA = async(userID) =>{
-    let result = []
-    return new Promise((resolve, reject)=>{
-      firestore()
-        .collection('Users')
-        .where('uid', '==', userID)
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            result.push(documentSnapshot.data())
-          });
-          resolve(result)
-        });
-    })
-  }
 
   logout = async() =>{
     auth()
@@ -87,150 +66,161 @@ export default class ProfileContainer extends Component {
     });
   }
 
+  onRefresh = async() =>{
+    this.setState({
+      loading:true
+    })
+    this.apiCall()
+  }
+
   render() {
     const { navigate } = this.props.navigation;
     return (
       <Container>
         <Content>
-          <Card>
-            <CardItem header bordered>
-              <Left style={{width:40, flex:1.5, marginTop:10}}>
-                 {
-                   this.state.userPhoto
-                   ?
-                   <View>
-                     {
-                        Platform.OS === 'android'
-                        ?
-                        <Thumbnail resizeMethod="auto" source={this.state.userPhoto ? {uri:this.state.userPhoto} : null}  />
-                        :
-                        <Image style={{ height: heightPercentageToDP('8%'), width:wp('18%'), borderRadius:50}} resizeMode="center" source={this.state.userPhoto ? {uri:this.state.userPhoto} : null} />
-                     }
-                   </View>
-                   :
-                   <Image style={{ height: heightPercentageToDP('5%'), width:wp('10%')}} resizeMode="contain" source={require('../img/images.png')} />
-                 }
-              </Left>
-              <Body style={{flex:4}}>
-                  <H2 style={{marginTop:10}}>{this.state.userName}</H2>
-                  <TouchableOpacity onPress={() => this.props.navigation.navigate("UserProfile")}>
-                    <Text note>View Profile</Text>
-                  </TouchableOpacity>
-              </Body>
-              <Right />
-            </CardItem>
-            <List>
-              <ListItem itemDivider>
-                <Text>ACCOUNT SETTINGS</Text>
-              </ListItem>
-              <ListItem onPress={() => this.props.navigation.navigate("EditProfile")}>
-                  <Left>
-                      <Text style={{color:'black', fontSize:15}}>Personal Information</Text>
-                  </Left>
-                  <Right>
-                  <Icon type="SimpleLineIcons" name="user" />             
-                  </Right>
+          <ScrollView refreshControl={
+            <RefreshControl refreshing={this.state.loading} onRefresh={this.onRefresh} />
+          }>
+            <Card>
+              <CardItem bordered>
+                <Left style={{width:40, flex:1.5, marginTop:10}}>
+                  {
+                    this.state.userPhoto
+                    ?
+                    <View>
+                      {
+                          Platform.OS === 'android'
+                          ?
+                          <Thumbnail resizeMethod="auto" source={this.state.userPhoto ? {uri:this.state.userPhoto} : null}  />
+                          :
+                          <Image style={{ height: heightPercentageToDP('8%'), width:wp('18%'), borderRadius:50}} resizeMode="center" source={this.state.userPhoto ? {uri:this.state.userPhoto} : null} />
+                      }
+                    </View>
+                    :
+                    <Image style={{ height: heightPercentageToDP('5%'), width:wp('10%')}} resizeMode="contain" source={require('../img/images.png')} />
+                  }
+                </Left>
+                <Body style={{flex:4}}>
+                    <H2 style={{marginTop:10}}>{this.state.userName}</H2>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate("UserProfile")}>
+                      <Text note>View Profile</Text>
+                    </TouchableOpacity>
+                </Body>
+                <Right />
+              </CardItem>
+              <List>
+                <ListItem itemDivider>
+                  <Text>ACCOUNT SETTINGS</Text>
                 </ListItem>
-                  <ListItem onPress={() => this.props.navigation.navigate('Notifications')}>
+                <ListItem onPress={() => this.props.navigation.navigate("EditProfile")}>
                     <Left>
-                      <Text>Notification</Text>
+                        <Text style={{color:'black', fontSize:15}}>Personal Information</Text>
                     </Left>
                     <Right>
-                      <Icon type="SimpleLineIcons" name="bell" />
+                    <Icon type="SimpleLineIcons" name="user" />             
                     </Right>
                   </ListItem>
-              <ListItem bordered onPress={() => this.props.navigation.navigate("PaymentScreen")}>
-                    <Left>
-                      <Text style={{color:'black', fontSize:15}}>Payments and payouts</Text>
-                    </Left>
-                    <Right>
-                      <Icon type="FontAwesome" name="credit-card-alt" />
-                    </Right>
+                    <ListItem onPress={() => this.props.navigation.navigate('Notifications')}>
+                      <Left>
+                        <Text>Notification</Text>
+                      </Left>
+                      <Right>
+                        <Icon type="SimpleLineIcons" name="bell" />
+                      </Right>
+                    </ListItem>
+                <ListItem bordered onPress={() => this.props.navigation.navigate("PaymentScreen")}>
+                      <Left>
+                        <Text style={{color:'black', fontSize:15}}>Payments and payouts</Text>
+                      </Left>
+                      <Right>
+                        <Icon type="FontAwesome" name="credit-card-alt" />
+                      </Right>
+                  </ListItem>
+                  <ListItem bordered onPress={() => this.props.navigation.navigate("MyOrders")}>
+                      <Left>
+                        <Text style={{color:'black', fontSize:15}}>My Orders</Text>
+                      </Left>
+                      <Right>
+                        <Icon type="FontAwesome" name="list-alt" />
+                      </Right>
+                  </ListItem>
+              </List>
+              <List>
+                <ListItem itemDivider>
+                  <Text>Become a supplier</Text>
                 </ListItem>
-                 <ListItem bordered onPress={() => this.props.navigation.navigate("MyOrders")}>
-                    <Left>
-                      <Text style={{color:'black', fontSize:15}}>My Orders</Text>
-                    </Left>
-                    <Right>
-                      <Icon type="FontAwesome" name="list-alt" />
-                    </Right>
-                 </ListItem>
-            </List>
-            <List>
-              <ListItem itemDivider>
-                <Text>Become a supplier</Text>
-              </ListItem>
-              <ListItem bordered onPress={() => this.props.navigation.navigate('ListItems')}>
+                <ListItem bordered onPress={() => this.props.navigation.navigate('ListItems')}>
+                          <Left>
+                            <Text style={{color:'black'}}>List your gear</Text>
+                          </Left>
+                          <Right>
+                            <Icon type="FontAwesome" name="gear" />
+                          </Right>
+                    </ListItem>
+              </List>
+              <List>
+                <ListItem itemDivider>
+                  <Text>Invite Friends</Text>
+                </ListItem>
+                  <ListItem onPress={() => this.props.navigation.navigate('InviteFriends')} bordered>
                         <Left>
-                          <Text style={{color:'black'}}>List your gear</Text>
+                          <Text style={{color:'black', fontSize:15}}>Get 15% off for your next two gears</Text>
                         </Left>
                         <Right>
-                          <Icon type="FontAwesome" name="gear" />
+                          <Icon type="Feather" name="gift" />
                         </Right>
                   </ListItem>
-            </List>
-            <List>
-              <ListItem itemDivider>
-                <Text>Invite Friends</Text>
-              </ListItem>
-                <ListItem onPress={() => this.props.navigation.navigate('InviteFriends')} bordered>
-                      <Left>
-                        <Text style={{color:'black', fontSize:15}}>Get 15% off for your next two gears</Text>
-                      </Left>
-                      <Right>
-                        <Icon type="Feather" name="gift" />
-                      </Right>
+              </List>
+              <List>
+                <ListItem itemDivider>
+                  <Text>SUPPORT</Text>
                 </ListItem>
-            </List>
-            <List>
-              <ListItem itemDivider>
-                <Text>SUPPORT</Text>
-              </ListItem>
-              <ListItem bordered>
-                      <Left>
-                        <Text>How SAAG works</Text>
-                      </Left>
-                      <Right>
-                        <Icon type="FontAwesome" name="globe" />
-                      </Right>
-                    </ListItem>
-              <ListItem bordered>
-                      <Left>
-                        <Text>Get help</Text>
-                      </Left>
-                      <Right>
-                        <Icon type="FontAwesome" name="question" />
-                      </Right>
-              </ListItem>
-                <ListItem bordered onPress={() => this.props.navigation.navigate('FeedBack')}>
+                <ListItem bordered>
                         <Left>
-                          <Text>Give us feedback</Text>
-                          </Left>
+                          <Text>How SAAG works</Text>
+                        </Left>
                         <Right>
-                          <Icon type="AntDesign" name="creditcard" />
+                          <Icon type="FontAwesome" name="globe" />
                         </Right>
                       </ListItem>
-            </List>
-            <List>
-              <ListItem itemDivider>
-                <Text>LEGAL</Text>
-              </ListItem>
-                    <ListItem onPress={() => this.props.navigation.navigate('TermsService')}>
-                      <Left>
-                        <Text>Terms of services</Text>
-                      </Left>
-                      <Right>
-                        <Icon type="FontAwesome" name="file-text" />
-                      </Right>
+                <ListItem bordered>
+                        <Left>
+                          <Text>Get help</Text>
+                        </Left>
+                        <Right>
+                          <Icon type="FontAwesome" name="question" />
+                        </Right>
+                </ListItem>
+                  <ListItem bordered onPress={() => this.props.navigation.navigate('FeedBack')}>
+                          <Left>
+                            <Text>Give us feedback</Text>
+                            </Left>
+                          <Right>
+                            <Icon type="AntDesign" name="creditcard" />
+                          </Right>
+                        </ListItem>
+              </List>
+              <List>
+                <ListItem itemDivider>
+                  <Text>LEGAL</Text>
+                </ListItem>
+                      <ListItem onPress={() => this.props.navigation.navigate('TermsService')}>
+                        <Left>
+                          <Text>Terms of services</Text>
+                        </Left>
+                        <Right>
+                          <Icon type="FontAwesome" name="file-text" />
+                        </Right>
+                      </ListItem>
+              </List>
+                    <ListItem  onPress={() => this.logout()}>
+                      <TouchableOpacity onPress={() => this.logout()}>
+                        <Text style={{color:'black'}}>Log Out</Text>
+                      </TouchableOpacity>
                     </ListItem>
-            </List>
-                  <ListItem  onPress={() => this.logout()}>
-                    <TouchableOpacity onPress={() => this.logout()}>
-                      <Text style={{color:'black'}}>Log Out</Text>
-                    </TouchableOpacity>
-                  </ListItem>
-            
-          </Card>
+              
+            </Card>
+          </ScrollView>
         </Content>
         <Loader
          modalVisible={this.state.loading}

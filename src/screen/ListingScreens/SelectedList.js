@@ -176,7 +176,7 @@ export default class SelectedListItem extends React.Component{
                         {
                             listing.photo !== undefined
                             ?
-                                <View>
+                                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                                    {
                                        listing.photo.length > 0
                                        ?
@@ -195,7 +195,7 @@ export default class SelectedListItem extends React.Component{
                                             resizeMode="cover"
                                         />   
                                     }
-                                </View>
+                                </ScrollView>
                             :
                             // <Image
                             // style={{ height: hp('40%'),flex:1,width:wp('100%')}}
