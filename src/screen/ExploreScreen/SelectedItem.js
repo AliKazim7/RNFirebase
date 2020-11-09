@@ -131,12 +131,14 @@ export default class SelectedItem extends React.Component{
         if(listing.favourite === false){
             listing.favourite = true
             this.setState({
-                loadingVisible: true
+                loadingVisible: true,
+                listing:listing
             })
             const userID = getUSERID()
             userID.then(response =>{
                 const saveItem = SaveItemData(response, this.state.listing.id)
                 saveItem.then(res =>{
+                    console.log(res)
                     this.setState({
                         loadingVisible: false
                     })

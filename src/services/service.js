@@ -109,13 +109,21 @@ export async function mergeList(lists){
       },{
         'title':'Wanted',
         'Listing':[]
+      },{
+        'title':'All Listings',
+        'Listing':[]
       }]
       return new Promise((resolve, reject)=>{
         const response = lists.filter((item,index)=>{
           if(item.segmentType === "Trending"){
             result[0].Listing.push(item)
-          } else if(item.segmentType === "Wanted"){
+          }  
+          if(item.segmentType === "Wanted"){
             result[1].Listing.push(item)
+          }
+          if(item){
+            item.segmentType === "All"
+            result[2].Listing.push(item)
           }
         })
         resolve(result)

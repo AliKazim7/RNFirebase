@@ -5,7 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   // Image,
-  TouchableOpacity, FlatList, RefreshControl
+  TouchableOpacity, FlatList, RefreshControl, TouchableHighlight
 } from 'react-native';
 import Image from 'react-native-image-progress';
 import ProgressBar from 'react-native-progress/Bar';
@@ -156,6 +156,19 @@ export default class TripsContainer extends Component {
           />
           {this.state.listing.length > 0 && this.state.listing ? <H1 style={{marginTop:hp('5%'), marginLeft:wp('5%')}}>Listing</H1> : null}
           {this.state.listing.length > 0 && this.state.listing  ? <CardView onRefresh={this.onRefresh} loading={this.state.loading} navigation={this.navigationRoute} result={this.state.listing} /> : <NoLists onRefresh={this.onRefresh} loading={this.state.loading} goBack={this.goBack} />}
+          {
+            this.state.listing.length > 0 && this.state.listing
+            ?
+            <View style={styles.footer}>
+              <TouchableHighlight onPress={this.goBack} style={styles.findHomesButton}>
+                <Text style={styles.findHomesButtonText}>
+      New Listing
+                </Text>
+              </TouchableHighlight>
+            </View>
+            :
+            null
+          }
         {/* </ScrollView> */}
       </Container>
     );
@@ -180,7 +193,29 @@ const styles = StyleSheet.create({
     borderColor:'white',
     backgroundColor:'red',
     marginTop:50
-  }
+  },
+  footer: {
+  	position: 'absolute',
+  	width: '100%',
+  	height: 80,
+  	bottom: 0,
+  	borderTopWidth: 1,
+  	borderTopColor: colors.gray05,
+  	paddingLeft: 20,
+  	paddingRight: 20,
+  },
+  findHomesButton: {
+  	paddingTop: 15,
+  	paddingBottom: 15,
+  	marginTop: 16,
+  	borderRadius: 3,
+  	backgroundColor: colors.saagColor,
+  },
+  findHomesButtonText: {
+    color: colors.white,
+    textAlign: 'center',
+    fontWeight: '600',
+  },
 });
 
 const CardView = (props) =>{
