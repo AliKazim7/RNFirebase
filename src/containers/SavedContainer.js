@@ -54,12 +54,11 @@ export default class SavedContainer extends Component {
       response =>{
         const saveValue = getSavedItem(response)
         saveValue.then(res =>{
-          
-        console.log("querySnapshot",res)
         if(res[0].saved.length > 0){
           res[0].saved.map((item, index)=>{
             const savedItems = getSavedValues(item)
             savedItems.then(array =>{
+              console.log("querySnapshot",array)
               this.setState({
                 listing: [...this.state.listing, array],
                 loading: false

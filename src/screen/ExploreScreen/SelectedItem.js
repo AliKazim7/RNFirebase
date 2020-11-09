@@ -117,18 +117,7 @@ export default class SelectedItem extends React.Component{
             }
         )
     }
-
-    getData = async() =>{
-        return new Promise((resolve, reject)=>{
-            auth().onAuthStateChanged(user => {
-              if (!user) {
-              } else {
-                resolve(user.uid)
-              }
-            })
-          })
-    }
-
+    
     goBack = () =>{
       this.props.navigation.goBack()
     }
@@ -139,51 +128,23 @@ export default class SelectedItem extends React.Component{
 
     saveData =  async() =>{
         const {listing} = this.state
-        listing.favourite = true
-        this.setState({
-            loadingVisible: true
-        })
-        const userID = getUSERID()
-        userID.then(response =>{
-            const saveItem = SaveItemData(response, this.state.listing.id)
-            saveItem.then(res =>{
-                this.setState({
-                    loadingVisible: false
+        if(listing.favourite === false){
+            listing.favourite = true
+            this.setState({
+                loadingVisible: true
+            })
+            const userID = getUSERID()
+            userID.then(response =>{
+                const saveItem = SaveItemData(response, this.state.listing.id)
+                saveItem.then(res =>{
+                    this.setState({
+                        loadingVisible: false
+                    })
                 })
             })
-        })
+        }
     } 
-
-    uploadItem = (ID,userID) =>{
-        const {listing} = this.state
-        return new Promise((resolve, reject)=>{
-            firestore().
-            collection('SavedPlaces').
-            where("userID",'==',"shd5NG3uF3gE8gia7Gjncts6EgE3")
-            .get()
-            .then(function(querySnapshot) {
-               querySnapshot.forEach(function(doc) {
-                console.log(doc.data().saved, doc.id)
-             })
-            })
-            .catch((e)=>{
-                resolve(false)
-            })
-        })
-    }
-
-    getDocID = async(ID) =>{
-        return new Promise((resolve, reject)=>{
-            firestore().collection('SavedPlaces').where('savedID','==', ID)
-            .get()
-            .then(querySnapshot =>{
-                querySnapshot.docs.map((item)=>{
-                    resolve(item.id)
-                })
-            })
-        })
-    }
-
+    
     contactUser = () =>{
         this.props.navigation.navigate('Messages',{
             listing: this.state.listing,

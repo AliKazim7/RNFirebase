@@ -54,6 +54,8 @@ export default class EmailLogin extends Component {
       validEmail: false,
       emailAddress: '',
       password: '',
+      passwordError:false,
+      emailAddressError: false,
       validPassword: false,
       loadingVisible: false,
     };
@@ -92,24 +94,35 @@ export default class EmailLogin extends Component {
     this.setState({ loadingVisible: true });
     const { logIn, navigation } = this.props;
     const { navigate } = navigation;
-    const userSigning = await this.signUser()
-    if(userSigning === true){
-      setTimeout(() => {
-      // const { emailAddress, password } = this.state;
-      // if (logIn(emailAddress, password)) {
-        AsyncStorage.setItem("LoggedIn", "true")
-        this.setState({ formValid: true, loadingVisible: false });
-        navigate('LoggedIn');
-      // } else {
-      //   this.setState({ formValid: false, loadingVisible: false });
-      // }
-    }, 2000);
-    } else {
-      this.setState({
-        formValid: false
-      })
+    var validationArray = []
+    if(this.state.emailAddress === ''){
+      validationArray.push("email address")
+      this.state.emailAddressError = true
     }
-
+    if(this.state.password === '' && this.state.password.length > 7){
+      validationArray.push("password error")
+      this.state.passwordError = true
+    }
+    if(validationArray.length > 0){
+      this.setState({
+        emailAddressError: this.state.emailAddressError,
+        passwordError: this.state.passwordError,
+        formValid:false
+      })
+    } else {
+      const userSigning = await this.signUser()
+      if(userSigning === true){
+        setTimeout(() => {
+          AsyncStorage.setItem("LoggedIn", "true")
+          this.setState({ formValid: true, loadingVisible: false });
+          navigate('LoggedIn');
+        }, 2000);
+      } else {
+        this.setState({
+          formValid: false
+        })
+      }
+    }
   }
 
   signUser = async() =>{
@@ -137,7 +150,7 @@ export default class EmailLogin extends Component {
     // eslint-disable-next-line
     const emailCheckRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const { validEmail } = this.state;
-    this.setState({ emailAddress: email });
+    this.setState({ emailAddress: email, emailAddressError: false });
 
     if (!validEmail) {
       if (emailCheckRegex.test(email)) {
@@ -151,7 +164,7 @@ export default class EmailLogin extends Component {
   handlePasswordChange(password) {
     const { validPassword } = this.state;
 
-    this.setState({ password });
+    this.setState({ password:password, passwordError:false });
 
     if (!validPassword) {
       if (password.length > 4) {
@@ -197,7 +210,7 @@ Log In
               labelTextSize={14}
               labelColor={colors.white}
               textColor={colors.white}
-              borderBottomColor={colors.white}
+              borderBottomColor={this.state.emailAddressError ? colors.black : colors.white}
               inputType="email"
               customStyle={{ marginBottom: 30 }}
               onChangeText={this.handleEmailChange}
@@ -209,7 +222,7 @@ Log In
               labelTextSize={14}
               labelColor={colors.white}
               textColor={colors.white}
-              borderBottomColor={colors.white}
+              borderBottomColor={this.state.passwordError ? colors.black :colors.white}
               inputType="password"
               // customStyle={{ marginBottom: 30 }}
               onChangeText={this.handlePasswordChange}
@@ -243,18 +256,3 @@ Log In
     );
   }
 }
-
-// const mapStateToProps = state => ({
-//   loggedInStatus: state.loggedInStatus,
-// });
-
-
-// LogIn.propTypes = {
-//   logIn: PropTypes.func.isRequired,
-//   navigation: PropTypes.shape({
-//     navigate: PropTypes.func,
-//     goBack: PropTypes.func,
-//   }).isRequired,
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(LogIn);

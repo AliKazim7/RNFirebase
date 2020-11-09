@@ -149,7 +149,7 @@ export default class ProfileContainer extends Component {
                 <ListItem itemDivider>
                   <Text>Become a supplier</Text>
                 </ListItem>
-                <ListItem bordered onPress={() => this.props.navigation.navigate('ListItems')}>
+                <ListItem bordered onPress={() => this.props.navigation.navigate('AddListDetail')}>
                           <Left>
                             <Text style={{color:'black'}}>List your gear</Text>
                           </Left>

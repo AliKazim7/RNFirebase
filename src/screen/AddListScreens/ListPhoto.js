@@ -17,66 +17,34 @@ const isPortrait= () =>{
 }
 
 export default class ListPhoto extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-          formValid: true,
-          validEmail: false,
-          validFirstName: false,
-          imageData: "",
-          userWork:'',
-          Isdisabled:false,
-          userLocation: '',
-          userID:'',
-          userDetail: '',
-          avatarSource:'',
-          newpassword:'',
-          validPassword: false,
-          loadingVisible: false,
-          photourl:'',
-          userPhoto:'',
-          orientation: isPortrait() ? 'portrait' : 'landscape',
-          photoArray:[],
-          photoArray1:[],
-          docID:''
-        //   photoName: Math.random()
-        };
-
-        Dimensions.addEventListener('change', () =>{
-          this.setState({
-            orientation: isPortrait() ? 'portrait' : 'landscape',
-          })
-        })
-      }
-
-      async componentDidMount(){
-          this.setState({
-              loadingVisible: true
-          })
-        const itemID = await this.getApi(this.props.route.params.listID)
-        if(itemID){
-            this.setState({
-                loadingVisible: false,
-                docID: itemID
-            })
-        } else {
-            this.setState({
-                loadingVisible: false
-            })
-        }
-    }
-
-    getApi = async(ID) =>{
-        return new Promise((resolve, reject)=>{
-            firestore().collection('ItemList').where('id', '==', ID).get()
-            .then(function(querySnapshot) {
-              querySnapshot.forEach(function(doc) {
-                resolve(doc.id)
-              });
-          })
-          })
-      }
-
+  constructor(props) {
+    super(props);
+    this.state = {
+    formValid: true,
+    validEmail: false,
+    validFirstName: false,
+    imageData: "",
+    userWork:'',
+    Isdisabled:false,
+    userLocation: '',
+    userID:'',
+    userDetail: '',
+    avatarSource:'',
+    newpassword:'',
+    validPassword: false,
+    loadingVisible: false,
+    photourl:'',
+    userPhoto:'',
+    orientation: isPortrait() ? 'portrait' : 'landscape',
+    photoArray:[],
+    photoArray1:[],
+  };
+  Dimensions.addEventListener('change', () =>{
+      this.setState({
+        orientation: isPortrait() ? 'portrait' : 'landscape',
+      })
+    })
+  }
 
     clickedImage = async () =>{
         this.setState({
@@ -101,83 +69,65 @@ export default class ListPhoto extends React.Component{
         }
     }
 
-    uploadImage = async() =>{
-      const { photoArray } = this.state
-      const options = {
-        title: 'Select Avatar',
-        storageOptions: {
-          skipBackup: true,
-          path: 'images',
-        },
-      };
-       return new Promise((resolve, reject)=>{
-            ImagePicker.launchImageLibrary(options, (response) => {
-        
-                if (response.didCancel) {
-                  this.setState({
-                    loadingVisible: false
-                   })
-                } else if (response.error) {
-                  this.setState({
-                    loadingVisible: false
-                   })
-                } else if (response.customButton) {
-                } else {
-                  const source = { uri: response.uri };
-                  this.setState({
-                    photoArray: [...this.state.photoArray, source.uri],
-                    showOptions: false,
-                    showIcon: false,
-                    imageUri:response.uri,               
-                    showImageView:true
-                  });
-                  setTimeout(function(){
-                      resolve(response)
-                  }, 1000)
-                }
-              });
+  uploadImage = async() =>{
+    const { photoArray } = this.state
+    const options = {
+    title: 'Select Avatar',
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
+  return new Promise((resolve, reject)=>{
+    ImagePicker.launchImageLibrary(options, (response) => {      
+      if (response.didCancel) {
+          this.setState({
+            loadingVisible: false
         })
-    }
-
-    handleChange = (value) =>{
+     } else if (response.error) {
+        this.setState({
+          loadingVisible: false
+        })
+      } else if (response.customButton) {
+        } else {
+      const source = { uri: response.uri };
       this.setState({
-        userDetail: value
-      })
-    }
-
-    handleLocation = (value) =>{
-      this.setState({
-        userLocation: value
-      })
-    }
-
-    handleWork = (value) =>{
-      this.setState({
-        userWork: value
-      })
-    }
+        photoArray: [...this.state.photoArray, source.uri],
+        showOptions: false,
+        showIcon: false,
+        imageUri:response.uri,               
+        showImageView:true
+      });
+      setTimeout(function(){
+          resolve(response)
+        }, 1000)
+      }
+    });
+  })}
 
     handleSave = async() =>{
       this.setState({
         loadingVisible: true,
         Isdisabled:true
       })
-      if(this.state.docID && this.state.docID){
-        firestore().collection('ItemList').doc(this.state.docID).update({
-          photo: this.state.photoArray1,
-        }).then(() => {
-          this.setState({
-            loadingVisible: false
-          })
-          this.props.navigation.navigate('ListItems',{docID: this.state.docID, documentAdded:true})
-        })
-        .catch(e =>{
-          this.setState({
-            loadingVisible: false
-          })
-          this.props.navigation.navigate('ListItems',{docID: this.state.docID, documentAdded: false})
-        })
-      }
+      console.log("photoArray1", this.state.photoArray1)
+      this.props.navigation.navigate('AddListDetail',{photo: this.state.photoArray1})
+      // if(this.state.docID && this.state.docID){
+      //   firestore().collection('ItemList').doc(this.state.docID).update({
+      //     photo: this.state.photoArray1,
+      //   }).then(() => {
+      //     this.setState({
+      //       loadingVisible: false
+      //     })
+      //     this.props.navigation.navigate('ListItems',{docID: this.state.docID, documentAdded:true})
+      //   })
+      //   .catch(e =>{
+      //     this.setState({
+      //       loadingVisible: false
+      //     })
+      //     this.props.navigation.navigate('ListItems',{docID: this.state.docID, documentAdded: false})
+      //   })
+      // }
     }
 
     render(){
@@ -223,7 +173,7 @@ export default class ListPhoto extends React.Component{
                         </ScrollView>
                     :
                         <View style={{ flex:1}}>
-                            <Image style={this.state.orientation === "portrait" ? styles.defaultImage : styles.defaultImageLand} resizeMode="cover" source={require('../../img/mountain.png')} />
+                            <Image style={this.state.orientation === "portrait" ? styles.defaultImage : styles.defaultImageLand} resizeMode="cover" source={require('../../img/noImage.jpeg')} />
                             <View style={styles.addToFavoriteBtn}>
                                 <Icon type='FontAwesome5' name="camera-retro" />
                             </View>
@@ -257,10 +207,10 @@ const styles = StyleSheet.create({
       color: colors.gray04,
     },
     seeAllBtn: {
-        marginTop: 2,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+      marginTop: 2,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
     },
     seeAllBtnText: {
         color: colors.gray04,
@@ -279,11 +229,11 @@ const styles = StyleSheet.create({
       minHeight: 100,
     },
     image: {
-        width: undefined,
-        flex: 1,
-        height: 100,
-        borderRadius: 8,
-        marginBottom: 7,
+      width: undefined,
+      flex: 1,
+      height: 100,
+      borderRadius: 8,
+      marginBottom: 7,
     },
     listingTitle: {
       fontSize: 14,
@@ -292,8 +242,8 @@ const styles = StyleSheet.create({
       marginTop: 2,
     },
     listingType: {
-        fontWeight: '700',
-        fontSize: 10,
+      fontWeight: '700',
+      fontSize: 10,
     },
     addToFavoriteBtn: {
       position: 'absolute',
@@ -302,11 +252,11 @@ const styles = StyleSheet.create({
       zIndex: 2,
     },
     listingPrice: {
-        color: colors.gray04,
-        marginTop: 4,
-        marginBottom: 2,
-        fontSize: 12,
-        fontWeight: '300',
+      color: colors.gray04,
+      marginTop: 4,
+      marginBottom: 2,
+      fontSize: 12,
+      fontWeight: '300',
     },
     defaultImage:{
       height:hp('20%'),
@@ -314,7 +264,7 @@ const styles = StyleSheet.create({
       flex:1, 
     },
     defaultImageLand:{
-      height:hp('50%'),
+      height:hp('25%'),
       width:wp('100%'),
       flex:1, 
     },

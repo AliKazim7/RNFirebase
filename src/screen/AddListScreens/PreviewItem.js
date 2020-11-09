@@ -15,6 +15,7 @@ import { widthPercentageToDP, heightPercentageToDP } from 'react-native-responsi
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import StarRating from 'react-native-star-rating';
+import { getItemID } from '../../services/service'
 
 export default class PreviewItem extends React.Component{
     static navigationOptions = ({ navigation }) => ({
@@ -47,29 +48,19 @@ export default class PreviewItem extends React.Component{
         }
       }
 
-      async componentDidMount(){
-          var array =[]
-        // this.setState({
-        //   loading: true
-        // })
-        if(this.props.route.params.result){
-            const result = this.props.route.params.result
-            result.photo.map((item,index)=>{
-                array.push(item)
-            })
-            this.setState({
-                location: result.location,
-                title: result.title,
-                type: result.type,
-                price: result.price1,
-                photo: array,
-                listing:result
-            })
-        }
-      }
+    async componentDidMount(){
+        const itemID = getItemID(this.props.route.params.listID)
+        itemID.then(
+            respone =>{
+                this.setState({
+                    listing: respone[0]
+                })
+            }
+        )
+    }
 
     goBack = () =>{
-      this.props.navigation.goBack()
+        this.props.navigation.navigate("ProfileTab")
     }
 
     checkAvail = () =>{
@@ -89,17 +80,7 @@ export default class PreviewItem extends React.Component{
         // CreateList
         return(
             <Container style={{backgroundColor: "white"}}>
-                <View style={{flex: 1}}>
-                    <Modal isVisible={isModalVisible}>
-                        <View style={{flex: 1}}>
-                            <Text>Hello!</Text>
-
-                            <Button title="Hide modal" />
-                        </View>
-                    </Modal>
-                </View>
                 <ScrollView>
-                <Content>
                 <View>
                     {
                         listing.photo &&
@@ -118,7 +99,16 @@ export default class PreviewItem extends React.Component{
                             ))}
                         </ScrollView>
                         :
-                        null
+                        <Image 
+                            resizeMode="cover"
+                            style={{
+                                width:widthPercentageToDP('100%'),
+                                flex:1,
+                                // backgroundColor:'red',
+                                height: heightPercentageToDP('40%')
+                            }}
+                            source={require('../../img/noImage.jpeg')} 
+                        /> 
                     }
                     <View style={headStyle.leftHeader}>
                         <Icon type="AntDesign" onPress={() => this.goBack()} style={{color:'black', marginTop:12.5, marginLeft:12.5, fontSize:25}} name="arrowleft" />
@@ -156,28 +146,16 @@ export default class PreviewItem extends React.Component{
                         </Right>
                     </ListItem>
                 </List>
-                </Content>
                 </ScrollView>
                 <View style={{flexDirection:'row', borderColor:'2px solid black'}}>
-                        <View>
-                            <Text style={{marginTop:15, marginLeft:10}}> ${listing.price1}</Text>
-                            {listing.totalRating > 0 ? 
-                                <View style={{marginLeft:20}}>
-                                    <StarRating
-                                        maxStars={5}
-                                        starSize={20}
-                                        starStyle={colors.saagColor}
-                                        fullStarColor={colors.saagColor}
-                                        rating={listing.totalRating}
-                                    />
-                                </View>
-                            :
-                            null
-                            }
-                        </View>
+                    <View>
+                        <Text style={{marginTop:0, marginLeft:10}}> ${listing.price1}</Text>
+                    </View>
+                    <View style={{position:'absolute', bottom:0, right:widthPercentageToDP('5%')}}>
                         <Button style={{marginLeft:40, marginBottom:5, marginTop:5}} danger>
                             <Text>Check availablility</Text>
                         </Button>
+                    </View>
                 </View>
             </Container>
         )

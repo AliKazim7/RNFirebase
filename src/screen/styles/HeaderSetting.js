@@ -6,7 +6,7 @@ const headStyle = StyleSheet.create({
     leftHeader:{
         position:"absolute", 
         left:10,
-        top: Platform.OS === "android" ? hp('2%') : hp('5%'), 
+        top: Platform.OS === "android" ? hp('5%') : hp('5%'), 
         height:50,
         width:50, 
         backgroundColor:'white', 
@@ -15,7 +15,7 @@ const headStyle = StyleSheet.create({
     leftHeader1:{
         position:"absolute", 
         left:10,
-        top: Platform.OS === "android" ? hp('2%') : hp('5%'), 
+        top: Platform.OS === "android" ? hp('5%') : hp('5%'), 
         // height:50,
         width:55,
         color:'white', 
@@ -36,7 +36,7 @@ const headStyle = StyleSheet.create({
     rightHeader1:{
         position:"absolute",
         right:10,
-        top: Platform.OS === "android" ? hp('2%') : hp('5%'),  
+        top: Platform.OS === "android" ? hp('5%') : hp('5%'),  
         height:50,
         width:50, 
         backgroundColor:'white', 
@@ -45,7 +45,7 @@ const headStyle = StyleSheet.create({
     rightHeader2:{
         position:"absolute",
         right:80, 
-        top: Platform.OS === "android" ? hp('2%') : hp('5%'),  
+        top: Platform.OS === "android" ? hp('5%') : hp('5%'),  
         height:50,
         width:50, 
         backgroundColor:'white', 

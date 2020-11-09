@@ -147,9 +147,9 @@ export default class ViewCategory extends React.Component{
                     <View style={styles.TitleView}>
                       <Text style={{marginBottom:5, color:colors.saagColor}} note>{this.state.listing.length} places</Text>
                       <H1 style={{marginBottom:5}}>{this.state.title}</H1>
-                        <Button onPress={() => this.showFilter()} transparent style={{borderColor:colors.saagColor,width:wp('30%'), borderWidth:1,marginTop:10, marginBottom:20}}>
-                          <Icon style={{fontSize:20,color:'black'}} type="Octicons" name="settings" />
-                          <Text style={{color:'black',fontSize:16, marginLeft:-20}}>Filters</Text>
+                        <Button onPress={() => this.showFilter()} style={{backgroundColor:colors.saagColor,width:wp('30%'), marginTop:10, marginBottom:20}}>
+                          <Icon style={{fontSize:20,color:'white'}} type="Octicons" name="settings" />
+                          <Text style={{color:'white',fontSize:16, marginLeft:-20}}>Filters</Text>
                         </Button>
                         {
                           this.state.filtered.Location !== undefined

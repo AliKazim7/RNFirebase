@@ -197,7 +197,7 @@ export async function updateWorkEmail(email, docID){
     })
 }
 
-export async function addOrderList(location, title, price1,NotfixedPrice, priceResT, userName, type, details, priceType, userID){
+export async function addOrderList(location, title, price1,NotfixedPrice, priceResT, userName, type, details, priceType, userID, photo){
     return new Promise((resolve, reject)=>{
         firestore()
           .collection("ItemList")
@@ -214,7 +214,8 @@ export async function addOrderList(location, title, price1,NotfixedPrice, priceR
                 segmentType:'Wanted',
                 details:details,
                 priceType: priceType,
-                userID: userID
+                userID: userID,
+                photo:photo
             })
           .then((response)=>{
             firestore().collection("ItemList").doc(response.id).update({
@@ -382,6 +383,21 @@ export async function getAllCategoryItems(ID){
     .then(querySnapshot => {
       querySnapshot.forEach(documentSnapshot => {
         // resolve(documentSnapshot.data())
+        result.push(documentSnapshot.data())
+      });
+      resolve(result)
+    });
+  })
+}
+
+export async function getItemID(ID){
+  const result = []
+  return new Promise((resolve, reject)=>{
+    firestore().collection('ItemList')
+    .where('id', '==', ID)
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(documentSnapshot => {
         result.push(documentSnapshot.data())
       });
       resolve(result)

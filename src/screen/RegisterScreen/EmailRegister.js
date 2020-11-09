@@ -58,6 +58,10 @@ export default class EmailRegister extends Component {
       newpassword:'',
       firstName:'',
       lastName:'',
+      firstNameError:false,
+      emailAddressError:false,
+      passwordError:false,
+      newpasswordError:false,
       validPassword: false,
       loadingVisible: false,
     };
@@ -68,16 +72,50 @@ export default class EmailRegister extends Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.toggleNextButtonState = this.toggleNextButtonState.bind(this);
     this.handleUserName = this.handleUserName.bind(this);
-    this.handleLastName = this.handleLastName.bind(this)
   }
 
   handleNextButton = async () => {
-    const { password, newpassword, firstName, lastName } = this.state
     this.setState({ loadingVisible: true });
-    const { logIn, navigation } = this.props;
+    const { navigation } = this.props;
     const { navigate } = navigation;
-    if(firstName !== '')
-    {
+    this.setState({
+      loadingVisible:true
+    })
+    var validationArray = []
+    if(this.state.firstName === ''){
+      validationArray.push("firstName")
+      this.state.firstNameError = true
+    }
+    if(this.state.emailAddress === ''){
+      validationArray.push("email Address")
+      this.state.emailAddressError = true
+    }
+    if(this.state.password === '' && this.state.password.length > 7){
+      validationArray.push("password not correct")
+      this.state.passwordError = true
+    }
+    if(this.state.newpassword === '' && this.state.newpassword.length > 7){
+      validationArray.push("newpassword not correct")
+      this.state.newpasswordError = true
+    }
+    if(this.state.newpassword === this.state.password){
+      validationArray.push("newpassword not correct")
+      this.state.passwordError = true
+      this.state.newpasswordError = true
+    }
+    if(validationArray.length > 0){
+      this.setState({
+        firstNameError: this.state.firstNameError,
+        emailAddressError: this.state.emailAddressError,
+        passwordError: this.state.passwordError,
+        newpasswordError: this.state.newpasswordError,
+        buttonDisabled:true,
+        loadingVisible:false
+      })
+    } else {
+      this.setState({
+        buttonDisabled:false
+      })
       const userCretedAuth = await this.createUser()
       if(userCretedAuth){
         const userProfile = await this.userProfile(userCretedAuth)
@@ -96,16 +134,11 @@ export default class EmailRegister extends Component {
         setTimeout(() =>{
           this.setState({
             loadingVisible: false,
-            formValid: false
+            formValid: false,
+            emailAddressError: true
           })
         }, 2000)
       }
-    } else {
-      setTimeout(() =>{
-        this.setState({
-          loadingVisible: false,
-        })
-      }, 2000)
     }
   }
 
@@ -152,7 +185,7 @@ export default class EmailRegister extends Component {
     // eslint-disable-next-line
     const emailCheckRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const { validEmail } = this.state;
-    this.setState({ emailAddress: email });
+    this.setState({ emailAddress: email, emailAddressError: false });
 
     if (!validEmail) {
       if (emailCheckRegex.test(email)) {
@@ -167,7 +200,8 @@ export default class EmailRegister extends Component {
     if(name !== ""){
       this.setState({
         firstName: name,
-        validFirstName:true
+        validFirstName:true, 
+        firstNameError:false
       })
     } else {
       this.setState({
@@ -176,25 +210,10 @@ export default class EmailRegister extends Component {
       })
     }
   }
-
-  handleLastName(name){
-    if(name !== ""){
-      this.setState({
-        lastName: name,
-        validLastName:true
-      })
-    } else {
-      this.setState({
-        lastName: name,
-        validLastName:false
-      })
-    }
-  }
-
   handlePasswordChange(password) {
     const { validPassword } = this.state;
 
-    this.setState({ password });
+    this.setState({ password: password , passwordError:false});
 
     if (!validPassword) {
       if (password.length > 4) {
@@ -209,7 +228,7 @@ export default class EmailRegister extends Component {
   handlePasswordChange1 =(password) => {
     const { validNewPass } = this.state;
 
-    this.setState({ newpassword: password });
+    this.setState({ newpassword: password, newpasswordError:false });
 
     if (!validNewPass) {
       if (password.length > 4) {
@@ -262,7 +281,7 @@ export default class EmailRegister extends Component {
               labelTextSize={14}
               labelColor={colors.white}
               textColor={colors.white}
-              borderBottomColor={colors.white}
+              borderBottomColor={this.state.firstNameError ? colors.black : colors.white}
               inputType="email"
               customStyle={{ marginBottom: 30 }}
               onChangeText={this.handleUserName}
@@ -274,7 +293,7 @@ export default class EmailRegister extends Component {
               labelTextSize={14}
               labelColor={colors.white}
               textColor={colors.white}
-              borderBottomColor={colors.white}
+              borderBottomColor={this.state.emailAddressError ? colors.black :colors.white}
               inputType="email"
               customStyle={{ marginBottom: 30 }}
               onChangeText={this.handleEmailChange}
@@ -286,7 +305,7 @@ export default class EmailRegister extends Component {
               labelTextSize={14}
               labelColor={colors.white}
               textColor={colors.white}
-              borderBottomColor={colors.white}
+              borderBottomColor={this.state.password ? colors.black : colors.white}
               inputType="password"
               customStyle={{ marginBottom: 30 }}
               onChangeText={this.handlePasswordChange}
@@ -297,7 +316,7 @@ export default class EmailRegister extends Component {
               labelTextSize={14}
               labelColor={colors.white}
               textColor={colors.white}
-              borderBottomColor={colors.white}
+              borderBottomColor={this.state.newpasswordError ? colors.black : colors.white}
               inputType="password"
               customStyle={{ marginBottom: 30 }}
               onChangeText={this.handlePasswordChange1}

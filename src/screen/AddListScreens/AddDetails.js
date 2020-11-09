@@ -1,17 +1,25 @@
 import React from 'react'
-import { View, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
-import { Text, Container, Header, Left, Body, Right, H1, List, ListItem, Button, Icon, Input, CheckBox, H2, Textarea } from 'native-base'
+import { View, Image, StyleSheet, TouchableOpacity, ScrollView,Dimensions } from 'react-native'
+import { Text, Container, Header, Left, Body, Right, H1, List, ListItem, Button, Icon, Input, CheckBox, H2, Textarea, Thumbnail, Picker } from 'native-base'
 import InputField from '../../components/form/InputField';
 import colors from '../../styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import NextArrowButton from '../../components/buttons/NextArrowButton';
-import { addOrderList, getOrderDOC, getUSERDATA, getUSERID } from '../../services/service';
+import ImagePicker from 'react-native-image-picker';
+import storage from '@react-native-firebase/storage'
+import { addOrderList, getCategories, getOrderDOC, getUSERDATA, getUSERID } from '../../services/service';
+import styles from '../styles/LogIn';
+const isPortrait= () =>{
+    const dim = Dimensions.get('screen')
+    return dim.height > dim.width      
+  }
+  
 // import Icon from 'react-native-vector-icons/Feather';
 export default class AddListDetails extends React.Component{
     constructor(props) {
-        super(props);
+    super(props);
         this.state = {
           formValid: true,
           location: '',
@@ -27,35 +35,93 @@ export default class AddListDetails extends React.Component{
           details:'',
           userID:'',
           userName:'',
-          checked: false
+          checked: false,
+          checkedImage: false,
+          locationError: '',
+          titleError: '',
+          price1Error:'',
+          priceResTError:'',
+          stayError:'',
+          typeError:'',
+          priceTypeError:'',
+          NotfixedPriceError: false,
+          disabledError: true,
+          loadingVisible: false,
+          detailsError:'',
+          userID:'',
+          userNameError:'',
+          checkedError: false,
+          photourl:'',
+          userPhoto:'',
+          orientation: isPortrait() ? 'portrait' : 'landscape',
+          photoArray:[],
+          photoArray1:[],
+          avatarSource:'',
+          CategoriesList:[]
         };
-        this.toggleNextButtonState = this.toggleNextButtonState.bind(this);
-      }
+    this.changeCheck = this.changeCheck.bind(this);
+    this.addCategory = this.addCategory.bind(this);
+}
 
-    async componentDidMount(){
-        const UID = getUSERID()
-        UID.then(
-            resp =>{
-                const getName = getUSERDATA(resp)
-                getName.then(response =>{
-                    const firstName = response[0].firstName
-                    this.setState({
-                        userName: firstName,
-                        userID: resp
-                    })
-                })
-            }
-        )
+async componentDidMount(){
+    const UID = getUSERID()
+    const categoriesList = getCategories()
+    categoriesList.then(response =>{
+        this.setState({
+        CategoriesList:response
+        })
+    })
+    UID.then(
+    resp =>{
+    const getName = getUSERDATA(resp)
+        getName.then(response =>{
+        const firstName = response[0].firstName
+        this.setState({
+            userName: firstName,
+            userID: resp
+            })
+        })
+      }
+    )
+}
+
+async componentWillReceiveProps(nextProps){
+    if(nextProps.route.params.photo.length > 0){
+        this.setState({
+            photoArray:nextProps.route.params.photo
+        })
     }
+}
+
     dataHandle = (key, value) =>{
         this.setState({
             [key]: value
         })
+        if([key] === "location"){
+            this.setState({
+                locationError:false
+            })
+        }
+        if([key] === "title"){
+            this.setState({
+                titleError:false
+            })
+        }
+        if([key] === "type"){
+            this.setState({
+                typeError:false
+            })
+        }
+        if([key] === "price1"){
+            this.setState({
+                price1Error:false
+            })
+        }
     }
 
     handleChange = async() => {
-        // this.props.navigation.navigate('AddListPhoto')
-        const addPlace = addOrderList(
+        var validationArray = []
+        console.log(
             this.state.location,
             this.state.title,
             this.state.price1,
@@ -67,26 +133,67 @@ export default class AddListDetails extends React.Component{
             this.state.priceType,
             this.state.userID
         )
+        if(this.state.location === ""){
+            validationArray.push("locationError")
+            this.state.locationError = true
+        }
+        if(this.state.title === ""){
+            validationArray.push("locationError")
+            this.state.titleError = true
+        }
+        if(this.state.price1 === ""){
+            validationArray.push("locationError")
+            this.state.price1Error = true
+        }
+        if(this.state.type === ""){
+            validationArray.push("locationError")
+            this.state.typeError = true
+        }
+        if(validationArray.length > 0){
+            this.setState({
+                locationError: this.state.locationError,
+                titleError: this.state.titleError,
+                price1Error:this.state.price1Error,
+                typeError: this.state.typeError
+            })
+        } else {
+        const addPlace = addOrderList(
+        this.state.location,
+        this.state.title,
+        this.state.price1,
+        this.state.NotfixedPrice,
+        this.state.priceResT,
+        this.state.userName,
+        this.state.type,
+        this.state.details,
+        this.state.priceType,
+        this.state.userID,
+        this.state.photoArray
+        )
         addPlace.then(response =>{
-            console.log(response)
-            this.props.navigation.navigate('AddListPhoto',{listID: response})
+            this.props.navigation.navigate('PreviewItemDetail',{listID: response})
         })
     }
+}
     changeCheck = () => { 
         this.setState({
             NotfixedPrice: !this.state.NotfixedPrice
         })
-     }
+    }
 
-     toggleNextButtonState() {
-        const { title, type, location, price1, NotfixedPrice, priceResT } = this.state;
-        if ( title && type && location && price1) {
-            if ( NotfixedPrice === false || priceResT !== ''  ) {
-                return false;
-            }
-        }
-        return true;
-      }
+    changeImage = async () => { 
+        this.setState({
+            checkedImage: !this.state.checkedImage,
+        })
+        this.props.navigation.navigate('AddListPhoto')
+    }
+
+    addCategory = value =>{
+        console.log(value)
+        this.setState({
+            type:value
+        })
+    }
 
     render(){
         return(
@@ -101,230 +208,150 @@ export default class AddListDetails extends React.Component{
                     <Right />
                 </Header>
                 <ScrollView>
-                <List style={{marginTop:10, marginLeft:20,marginRight:20}}>
-                    <View style={{ marginRight:10,marginBottom:30}}>
-                        <H2 style={{color:'white'}}>Add information about your gear</H2>
-                    </View>
-                    <InputField
-                        labelText="Location"
-                        labelTextSize={14}
-                        labelColor={colors.white}
-                        textColor={colors.white}
-                        borderBottomColor={colors.white}
-                        inputType="email"
-                        placeholderTextColor={colors.white}
-                        placeholder="New York, America"
-                        customStyle={{ marginBottom: 30 }}
-                        onChangeText={(text) => this.dataHandle('location', text)}
-                        value={this.state.location}
-                        autoFocus
-                    />
-                    {
-                        this.state.location !== ''
-                        ?
-                            <InputField
-                                labelText="Title"
-                                labelTextSize={14}
-                                labelColor={colors.white}
-                                textColor={colors.white}
-                                borderBottomColor={colors.white}
-                                inputType="email"
-                                placeholderTextColor={colors.white}
-                                placeholder="Trump Tower"
-                                customStyle={{ marginBottom: 30 }}
-                                onChangeText={(text) => this.dataHandle('title', text)}
-                                value={this.state.title}
-                            />
-                        :
-                        null
-                    }
-                    {
-                        this.state.title !== ''
-                        ?
-                            <InputField
-                                labelText="Type"
-                                labelTextSize={14}
-                                labelColor={colors.white}
-                                textColor={colors.white}
-                                borderBottomColor={colors.white}
-                                inputType="email"
-                                placeholderTextColor={colors.white}
-                                placeholder="Biking"
-                                customStyle={{ marginBottom: 30 }}
-                                onChangeText={(text) => this.dataHandle('type', text)}
-                                value={this.state.type}
-                            />
-                        :
-                        null
-                    }
-                    {
-                        this.state.type !== ''
-                        ?
+                    <List style={{marginTop:10, marginLeft:20,marginRight:20}}>
+                        <View style={{ marginRight:10,marginBottom:30}}>
+                            <H2 style={{color:'white'}}>Add information about your gear</H2>
+                        </View>
+                        <InputField
+                            labelText="Location"
+                            labelTextSize={14}
+                            labelColor={colors.white}
+                            textColor={colors.white}
+                            borderBottomColor={this.state.locationError ? colors.black : colors.white}
+                            inputType="email"
+                            placeholderTextColor='rgba(0,0,0,0.6)'
+                            placeholder="New York, America"
+                            customStyle={{ marginBottom: 30 }}
+                            onChangeText={(text) => this.dataHandle('location', text)}
+                            value={this.state.location}
+                            autoFocus
+                        />
+                        <InputField
+                            labelText="Title"
+                            labelTextSize={14}
+                            labelColor={colors.white}
+                            textColor={colors.white}
+                            borderBottomColor={this.state.titleError ? colors.black : colors.white}
+                            inputType="email"
+                            placeholderTextColor='rgba(0,0,0,0.6)'
+                            placeholder="Statue of Liberty"
+                            customStyle={{ marginBottom: 30 }}
+                            onChangeText={(text) => this.dataHandle('title', text)}
+                            value={this.state.title}
+                        />
+                        <Picker
+                            mode="dropdown"
+                            placeholderStyle={{ color: "white", borderBottomColor:'black', borderBottomWidth:1 }}
+                            placeholder="Type"
+                            textStyle={{ color: "white" }}
+                            itemTextStyle={{ color: 'black' }}
+                            placeholderIconColor="#007aff"
+                            style={{ width: wp('100%'), textAlign:'left', marginLeft:'-5%', marginBottom:30 }}
+                            selectedValue={this.state.type}
+                            onValueChange={this.addCategory.bind(this)}
+                        >
+                        {
+                        this.state.CategoriesList.map((item, index)=>(
+                            <Picker.Item label={item.categoryName} value={item.categoryName} />
+                        ))
+                        }
+                        </Picker>
+                        <View style={{flexDirection:'row', marginBottom:30}} >
+                            <Left style={{flex:0.5}}>
+                                <CheckBox color="white" onPress={() => this.changeImage()} checked={this.state.checkedImage} />
+                            </Left>
+                            <Body style={{flex:2, alignItems:'flex-start'}}>
+                                <Text style={{color:'white'}}>
+                                    Do you want to attach an Image?
+                                </Text>
+                            </Body>
+                        </View>
                         <View style={{flexDirection:'row', width: wp('100%')}}>
                             <InputField
                                 labelText="Price For Day One"
                                 labelTextSize={14}
                                 labelColor={colors.white}
                                 textColor={colors.white}
-                                borderBottomColor={colors.white}
+                                borderBottomColor={this.state.price1Error ? colors.black : colors.white}
                                 inputType="email"
-                                placeholderTextColor={colors.white}
+                                placeholderTextColor='rgba(0,0,0,0.6)'
                                 placeholder="70"
                                 customStyle={{ marginBottom: 30, width:wp('40%') }}
                                 onChangeText={(text) => this.dataHandle('price1', text)}
                                 value={this.state.price1}
                             />
                         </View>
-                        :
-                        null
-                    }
-                    {
-                        this.state.type !== ''
-                        ?
-                        <View style={{flexDirection:'row', width: wp('100%')}}>
-                            {/* <InputField
-                                labelText="Price For Day One"
-                                labelTextSize={14}
-                                labelColor={colors.white}
-                                textColor={colors.white}
-                                borderBottomColor={colors.white}
-                                inputType="email"
-                                placeholderTextColor={colors.white}
-                                placeholder="70"
-                                customStyle={{ marginBottom: 30, width:wp('40%') }}
-                                onChangeText={(text) => this.dataHandle('price1', text)}
-                                value={this.state.price1}
-                            /> */}
-                            <Textarea placeholder="Add new details" value={this.state.details} bordered onChangeText={(text) => this.dataHandle('details', text)}
-                                placeholderTextColor={colors.saagColor} rowSpan={8} style={{color:'white', fontSize:14,marginBottom: 30, width:wp('90%')}} />
+                        {
+                            this.state.type !== ''
+                            ?
+                            <View style={{flexDirection:'row', width: wp('100%')}}>
+                                <Textarea placeholder="Add new details" value={this.state.details} bordered onChangeText={(text) => this.dataHandle('details', text)}
+                                    placeholderTextColor="rgba(0,0,0,0.6)" rowSpan={8} style={{color:'white', fontSize:14,marginBottom: 30, width:wp('90%')}} />
+                            </View>
+                            :
+                            null
+                        }
+                        {
+                            this.state.type !== ''
+                            ?
+                        <View style={{flexDirection:'row'}} >
+                            <Left style={{flex:0.5}}>
+                                <CheckBox color="white" onPress={() => this.changeCheck()} checked={this.state.NotfixedPrice} />
+                            </Left>
+                            <Body style={{flex:2, alignItems:'flex-start'}}>
+                                <Text style={{color:'white'}}>
+                                    Use different price for other days
+                                </Text>
+                            </Body>
                         </View>
                         :
                         null
                     }
-                    {
-                        this.state.type !== ''
-                        ?
-                    <View style={{flexDirection:'row'}} >
-                        <Left style={{flex:0.5}}>
-                            <CheckBox color="white" onPress={() => this.changeCheck()} checked={this.state.NotfixedPrice} />
-                        </Left>
-                        <Body style={{flex:2, alignItems:'flex-start'}}>
-                            <Text style={{color:'white'}}>
-                                Use different price for other days
-                            </Text>
-                        </Body>
-                    </View>
-                    :
-                    null
-                }
-
                     {
                         this.state.NotfixedPrice
                         ?
                         <View style={{flexDirection:'row', width: wp('100%'), marginTop:hp('3%')}}>
-                            <InputField
-                                labelText="Price For Other days"
-                                labelTextSize={14}
-                                labelColor={colors.white}
-                                textColor={colors.white}
-                                borderBottomColor={colors.white}
-                                inputType="email"
-                                placeholderTextColor={colors.white}
-                                placeholder="70"
-                                customStyle={{ marginBottom: 30, width:wp('40%') }}
-                                onChangeText={(text) => this.dataHandle('priceResT', text)}
-                                value={this.state.priceResT}
-                            />
+                        <InputField
+                            labelText="Price For Other days"
+                            labelTextSize={14}
+                            labelColor={colors.white}
+                            textColor={colors.white}
+                            borderBottomColor={colors.white}
+                            inputType="email"
+                            placeholderTextColor="rgba(0,0,0,0.6)"
+                            placeholder="70"
+                            customStyle={{ marginBottom: 30, width:wp('40%') }}
+                            onChangeText={(text) => this.dataHandle('priceResT', text)}
+                            value={this.state.priceResT}
+                        />
                         </View>
                         :
                         null
                     }
-
-                </List>
+                    </List>
                 </ScrollView>
                 <View style={{bottom:0, right:20, position:'absolute'}}>
                     <NextArrowButton 
                         handleNextButton={() => this.handleChange()}
-                        disabled={this.toggleNextButtonState()}
                     />
-                    {/* <Button 
-                        disabled={this.state.disabled} 
-                        style={{backgroundColor:colors.saagColor}}
-                        onPress={() => this.handleChange()} >
-                        <Text>Next</Text>
-                    </Button> */}
                 </View>
             </Container>
         )
     }
 }
 
-{/* <Container>
-                <Header transparent>
-                    <Left>
-                        <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-                            <Icon name="arrowleft" type="AntDesign" />
-                        </TouchableOpacity>
-                    </Left>
-                    <Body />
-                    <Right />
-                </Header>
-                <View>
-                    <H1>Tell us about your place</H1>
-                </View>
-                <List>
-                    <ListItem>
-                        <Body>
-                            <Text>First, let's narrow things down</Text>
-                            <DropDownPicker
-                                items={[
-                                    {label: 'Apartment', value: 'uk'},
-                                    {label: 'House', value: 'house'},
-                                    {label: 'Secondary unit', value: 'SU'},
-                                    {label: 'Unique space', value: 'US'},
-                                    {label: 'Bed and breakfast', value: 'b&b'},
-                                    {label: 'Boutique hotel', value: 'boutique'},
-                                ]}
-                                defaultValue={this.state.country}
-                                containerStyle={{height: 40, borderWidth:0, borderColor:'transparent', marginTop:20}}
-                                style={{backgroundColor: '#fafafa', borderWidth:0, borderColor:'transparent'}}
-                                itemStyle={{
-                                    justifyContent: 'flex-start'
-                                }}
-                                dropDownStyle={{backgroundColor: '#fafafa', borderWidth:0, borderColor:'transparent'}}
-                                onChangeItem={item => this.setState({
-                                    country: item.value
-                                })}
-                            />
-                        </Body>
-                    </ListItem>
-                    <ListItem>
-                        <Body>
-                            <Text>Now choose a property type</Text>
-                            <DropDownPicker
-                                items={[
-                                    {label: 'Guest House', value: 'uk'},
-                                    {label: 'Guest suite', value: 'house'},
-                                    {label: 'Farm stay', value: 'SU'},
-                                ]}
-                                defaultValue={this.state.country}
-                                containerStyle={{height: 40, borderWidth:0, borderColor:'transparent', marginTop:20}}
-                                style={{backgroundColor: '#fafafa', borderWidth:0, borderColor:'transparent'}}
-                                itemStyle={{
-                                    justifyContent: 'flex-start'
-                                }}
-                                dropDownStyle={{backgroundColor: '#fafafa', borderWidth:0, borderColor:'transparent'}}
-                                onChangeItem={item => this.setState({
-                                    country: item.value
-                                })}
-                                placeholder="Select One"
-                            />
-                        </Body>
-                    </ListItem>
-                </List>
-                <View style={{bottom:10, right:20, position:'absolute'}}>
-                    <Button onPress={() => this.props.navigation.navigate('ListCompany')} >
-                        <Text>Next</Text>
-                    </Button>
-                </View>
-            </Container> */}
+const ImageStyle = StyleSheet.create({
+    
+    defaultImage:{
+      height:hp('20%'),
+      width:wp('100%'),
+      flex:1, 
+      backgroundColor:'red'
+    },
+    defaultImageLand:{
+      height:hp('50%'),
+      width:wp('100%'),
+      flex:1, 
+      backgroundColor:'yellow'
+    },
+  });
