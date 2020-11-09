@@ -98,7 +98,7 @@ export default class EmailRegister extends Component {
       validationArray.push("newpassword not correct")
       this.state.newpasswordError = true
     }
-    if(this.state.newpassword === this.state.password){
+    if(this.state.newpassword !== this.state.password){
       validationArray.push("newpassword not correct")
       this.state.passwordError = true
       this.state.newpasswordError = true
