@@ -81,7 +81,7 @@ export default class ProfileContainer extends Component {
           <ScrollView refreshControl={
             <RefreshControl refreshing={this.state.loading} onRefresh={this.onRefresh} />
           }>
-            <Card>
+            <Card style={{marginTop:20}}>
               <CardItem bordered>
                 <Left style={{width:40, flex:1.5, marginTop:10}}>
                   {

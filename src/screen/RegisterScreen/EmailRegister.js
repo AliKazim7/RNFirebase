@@ -305,7 +305,7 @@ export default class EmailRegister extends Component {
               labelTextSize={14}
               labelColor={colors.white}
               textColor={colors.white}
-              borderBottomColor={this.state.password ? colors.black : colors.white}
+              borderBottomColor={this.state.passwordError ? colors.black : colors.white}
               inputType="password"
               customStyle={{ marginBottom: 30 }}
               onChangeText={this.handlePasswordChange}

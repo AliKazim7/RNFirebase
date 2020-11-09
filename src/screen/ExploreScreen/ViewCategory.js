@@ -17,7 +17,7 @@ import colors from '../../styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import Loader from '../../components/Loader';
 import StarRating from 'react-native-star-rating';
-import { getSegmentData } from '../../services/service';
+import { getSegmentData, getUSERID, SaveItemData } from '../../services/service';
 
 export default class ViewCategory extends React.Component{
     constructor(props){
@@ -82,7 +82,22 @@ export default class ViewCategory extends React.Component{
       }
 
       handleAddToFav = (listing) =>{
-        this.props.navigation.navigate('CreateModal', { listing })
+        console.log("listing",listing)
+        if(listing.favourite === false){
+          listing.favourite = true
+          this.setState({
+            loadingVisible: true
+          })
+          const userID = getUSERID()
+          userID.then(response =>{
+          const saveItem = SaveItemData(response, listing.id)
+          saveItem.then(res =>{
+          this.setState({
+            loadingVisible: false
+          })
+          })
+        })
+        }
       }
 
       changingText = text =>{
@@ -97,7 +112,10 @@ export default class ViewCategory extends React.Component{
             if(item.location.match(text)){
               array.push(item)
             }
-            if(item.price1.match(text)){
+            // if(item.price1.match(text)){
+            //   array.push(item)
+            // }
+            if(item.price1 === text){
               array.push(item)
             }
             if(item.title !== text && item.location !== text && item.type !== text){
@@ -138,7 +156,7 @@ export default class ViewCategory extends React.Component{
                         color={colors.saagColor}
                         style={styles.searchIcon}
                       />
-                      <Input onChangeText={(text) => this.changingText(text)} placeholder="Search any address" style={styles.textInput} />
+                      <Input onChangeText={(text) => this.changingText(text)} placeholder="Search any item" style={styles.textInput} />
                     </View>
                   </Body>
                   <Right />
@@ -244,6 +262,12 @@ export default class ViewCategory extends React.Component{
                             numberOfLines={2}
                           >
                             {listing.title}
+                          </Text>
+                          <Text
+                            style={styles.listingTitle}
+                            numberOfLines={2}
+                          >
+                            {listing.location}
                           </Text>
                             <Text style={{marginTop:5}}>
                               <Text style={{fontWeight:'bold', color: colors.saagColor}}>${listing.price1}</Text>

@@ -140,7 +140,7 @@ export default class TripsContainer extends Component {
   }
 
   goBack = () =>{
-    // this.props.navigation.navigate('')
+    this.props.navigation.navigate('AddListItem')
   }
 
 

@@ -260,8 +260,8 @@ export async function addOrder(userID,ID,listing,startDate,endDate, totalPrice){
       .add({
         renterID: userID,
         supplierID: listing.userID,
-        startDate:startDate,
-        endDate:endDate,
+        startDate:new Date(startDate),
+        endDate:new Date(endDate),
         itemID: listing.id,
         orderID: ID,
         isCompleted: false,
@@ -402,5 +402,58 @@ export async function getItemID(ID){
       });
       resolve(result)
     });
+  })
+}
+
+export async function getRenterOrder(ID){
+  const result = []
+  return new Promise((resolve, reject)=>{
+    firestore().collection('OrderItems')
+    .where('renterID', '==', ID)
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(documentSnapshot => {
+        result.push(documentSnapshot.data())
+      });
+      resolve(result)
+    });
+  })
+}
+
+export async function setItemRating(itemData, newRatingProd){
+  console.log("itemData, newRatingProd",itemData, newRatingProd)
+    // if(itemData.totalRating > 0){
+    //     const newRAT = ((itemData.totalRating * 5) + newRatingProd)/(5 + 1)
+    //     return new Promise((resolve, reject)=>{
+    //         firestore().collection('ItemList').doc(itemData.id).update({ 
+    //             totalRating: newRAT
+    //         })
+    //         .then(()=>{
+    //             resolve(true)
+    //         })
+    //     })
+    // } else {
+    //     const newRAT = newRatingProd
+    //     return new Promise((resolve, reject)=>{
+    //         firestore().collection('ItemList').doc(itemData.id).update({ 
+    //             totalRating: newRAT
+    //         })
+    //         .then(()=>{
+    //             resolve(true)
+    //         })
+    //     })
+    // }
+}
+export async function addComments(itemData,renterData, Comments){
+  return new Promise((resolve, reject)=>{
+      firestore().collection("Comments").add({
+          itemID: itemData.id,
+          comment: Comments,
+          renderID: renterData.uid,
+          commentDate: moment().format('L'),
+      })
+      .then(()=>{
+          resolve(true)
+      })
   })
 }

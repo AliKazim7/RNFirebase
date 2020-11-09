@@ -77,12 +77,18 @@ export default class SavedContainer extends Component {
   }
 
   navigationRoute = (value) =>{
-  this.props.navigation.navigate('SavedDetail', {
-    result: value
-  })
+    this.props.navigation.navigate('SavedDetail', {
+      result: value
+    })
   }
+
   goBack = () =>{
     console.log("value")
+    this.props.navigation.navigate('ExploreContainer')
+  }
+
+  goExplore = () =>{
+    console.log("goExplore")
     this.props.navigation.navigate('ExploreContainer')
   }
 
@@ -103,7 +109,7 @@ export default class SavedContainer extends Component {
           animationType="fade"
         />
         {this.state.listing.length > 0 && this.state.listing ? <H1 style={{marginTop:hp('5%'), marginLeft:wp('5%')}}>Saved</H1> : null}
-        {this.state.listing.length > 0 && this.state.listing  ? <CardView onReferesh={this.onReferesh} loading={this.state.loading} navigation={this.navigationRoute} result={this.state.listing} /> : <NoResults onReferesh={this.onReferesh} loading={this.state.loading} goHome={this.goBack} />}
+        {this.state.listing.length > 0 && this.state.listing  ? <CardView onReferesh={this.onReferesh} loading={this.state.loading} navigation={this.navigationRoute} result={this.state.listing} /> : <NoResults onReferesh={this.onReferesh} goExplore={this.goExplore} loading={this.state.loading} goHome={this.goBack} />}
       </Container>
     );
   }

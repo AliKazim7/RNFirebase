@@ -175,7 +175,7 @@ export default class EditProfile extends Component {
 
   toggleNextButtonState() {
     const { PhoneNumber, Email, gender, DoB, FirstName } = this.state;
-    if (PhoneNumber && Email && gender && DoB  &&  FirstName) {
+    if (PhoneNumber && Email &&  FirstName) {
         return false
       }
     return true;
@@ -214,7 +214,7 @@ export default class EditProfile extends Component {
               <Label style={{ color: colors.white}}>User Name</Label>
               <Input value={this.state.FirstName} style={{color:'white'}} onChangeText={(text) => this.handleLastName('FirstName', text)} />
             </Item>
-              <Picker
+              {/* <Picker
                 mode="dropdown"
                 iosIcon={<Icon name="arrowdown" type="AntDesign" /> }
                 placeholder="Gender"
@@ -245,7 +245,7 @@ export default class EditProfile extends Component {
               />
               <Text style={{color:'white', marginLeft:5, borderBottomColor:'white', borderBottomWidth:1}}>
                 Date: {this.state.DoB.toString()}
-              </Text>
+              </Text> */}
             <Item style={styles.inputStyle} stackedLabel>
               <Label style={{ color: colors.white}}>Email</Label>
               <Input value={this.state.Email} keyboardType="email-address" style={{color:'white'}} onChangeText={(text) => this.handleLastName('Email', text)} />

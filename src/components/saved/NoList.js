@@ -34,7 +34,7 @@ You can list item from the Profile tab.
         </Text>
       </ScrollView>
       <View style={styles.footer}>
-        <TouchableHighlight style={styles.findHomesButton}>
+        <TouchableHighlight onPress={this.props.goBack} style={styles.findHomesButton}>
           <Text style={styles.findHomesButtonText}>
 List Items
           </Text>

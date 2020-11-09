@@ -15,6 +15,7 @@ import NoHistory from '../../components/saved/NoHistory';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import Loader from '../../components/Loader'
+import { getItemID, getRenterOrder, getUSERID } from '../../services/service'
 export default class MyOrders extends Component {
   constructor(props){
     super(props)
@@ -30,42 +31,87 @@ export default class MyOrders extends Component {
 }
 
 async componentDidMount(){
-  this.setState({
-    loading: true
+  this.apiCall()
+  // this.setState({
+  //   loading: true
+  // })
+  // const completed = []
+  // const completedNot = []
+  // const userID = await this.getApi()
+  // if(userID){
+  //   const getOrders = await this.getOrders(userID)
+  //   if(getOrders){
+  //     const notCompleted = getOrders.filter((item)=>{
+  //       if(item.isCompleted === false){
+  //         completedNot.push(item)
+  //       }
+  //     })
+  //     const Completed = getOrders.filter((item)=>{
+  //       if(item.isCompleted === true){
+  //         completed.push(item)
+  //       }
+  //     })
+  //     if(completedNot.length > 0 || completed.length > 0){
+  //       this.setState({
+  //         completedArray : completed,
+  //         loading: false,
+  //         notcompletedArray : completedNot
+  //       })
+  //     } else {
+  //       this.setState({
+  //         loading: false
+  //       })
+  //     }
+  //   } else{
+  //     this.setState({
+  //       loading: false
+  //     })
+  //   }
+  // }
+}
+
+apiCall = async() =>{
+  const userID = getUSERID()
+  const array = []
+  userID.then(response =>{
+    const getOrders = getRenterOrder(response)
+    getOrders.then(res =>{
+      res.map((item, index)=>{
+        const getItems = getItemID(item.itemID)
+        getItems.then(result=>{
+          result.map((i, ind)=>{
+            if(item.itemID === i.id){
+              if(item.isCompleted === false){
+                console.log("to be completed",i)
+                i.price1 = item.totalPrice
+                i.supplierID = item.supplierID
+                i.startDate = item.startDate
+                i.renterID = item.renterID
+                i.orderID = item.orderID
+                i.isCompleted = item.isCompleted
+                i.endDate = item.endDate
+                this.setState({
+                  notcompletedArray:[i,...this.state.notcompletedArray]
+                })
+              } else {
+                console.log("completed",i)
+                i.price1 = item.totalPrice
+                i.supplierID = item.supplierID
+                i.startDate = item.startDate
+                i.renterID = item.renterID
+                i.orderID = item.orderID
+                i.isCompleted = item.isCompleted
+                i.endDate = item.endDate
+                this.setState({
+                  completedArray:[i,...this.state.completedArray]
+                })
+              }
+            }
+          })
+        })
+      })
+    })
   })
-  const completed = []
-  const completedNot = []
-  const userID = await this.getApi()
-  if(userID){
-    const getOrders = await this.getOrders(userID)
-    if(getOrders){
-      const notCompleted = getOrders.filter((item)=>{
-        if(item.isCompleted === false){
-          completedNot.push(item)
-        }
-      })
-      const Completed = getOrders.filter((item)=>{
-        if(item.isCompleted === true){
-          completed.push(item)
-        }
-      })
-      if(completedNot.length > 0 || completed.length > 0){
-        this.setState({
-          completedArray : completed,
-          loading: false,
-          notcompletedArray : completedNot
-        })
-      } else {
-        this.setState({
-          loading: false
-        })
-      }
-    } else{
-      this.setState({
-        loading: false
-      })
-    }
-  }
 }
 
 async componentWillReceiveProps(nextProps){
@@ -122,6 +168,7 @@ orderHistory = () =>{
   }
 
   render() {
+    console.log(this.state.notcompletedArray)
     return (
       <Container>
         <Header transparent>

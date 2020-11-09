@@ -18,6 +18,7 @@ import headStyle from '../styles/HeaderSetting';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import Carousel from 'react-native-snap-carousel'
 import StarRating from 'react-native-star-rating';
+import { getItemID } from '../../services/service';
 const sliderWidth = Dimensions.get('window').width;
 const itemHeight = Dimensions.get('window').height;
 export default class HostSelected extends React.Component{
@@ -46,11 +47,19 @@ export default class HostSelected extends React.Component{
         }
       }
 
-    componentDidMount(){
-        this.setState({
-            listing: this.props.route.params.listed,
-            photo: this.props.route.params.listed.photo
+    async componentDidMount(){
+        const getItem = getItemID(this.props.route.params.ID)
+        getItem.then(response =>{
+            console.log("Dasd adasda",response)
+            this.setState({
+                listing: response[0],
+                photo: response[0].photo
+            })
         })
+        // this.setState({
+        //     listing: this.props.route.params.listed,
+        //     photo: this.props.route.params.listed.photo
+        // })
     }
 
     goBack = () =>{
@@ -71,40 +80,36 @@ export default class HostSelected extends React.Component{
 
     render(){
         const { listing,isModalVisible } = this.state
-        console.log("listed", listing)
+        console.log("listed", listing.photo)
         // CreateList
         return(
             <Container style={{backgroundColor: "white"}}>
-                {/* <View style={{flex: 1}}>
-                    <Modal isVisible={isModalVisible}>
-                        <View style={{flex: 1}}>
-                            <Text>Hello!</Text>
-
-                            <Button title="Hide modal" />
-                        </View>
-                    </Modal>
-                </View> */}
                 <ScrollView>
                 <View style={{width:'100%',flex:1,}}>
-                    {/* <Image 
-                        style={{width:'100%'}}
-                        // resizeMode="stretch"
-                        source={listing.photo}
-                    /> */}
                     
                     <ScrollView 
                         horizontal
                         style={{flex:1}}
                         showsHorizontalScrollIndicator={false}
                     >
-                    {listing.photo.map((item,index)=>(
-                        <FastImage
-                            style={styled.image}
+                    {
+                        listing.photo !== undefined
+                        ?
+                        listing.photo.map((item,index)=>(
+                            <FastImage
+                                style={styled.image}
+                                resizeMode="cover"
+                                indicator={ProgressBar} 
+                                source={item && {uri: item}}
+                            />
+                        ))
+                        :
+                        <Image
+                            style={{ height:hp('40%'),width:wp('100%'), borderRadius:10}}
                             resizeMode="cover"
-                            indicator={ProgressBar} 
-                            source={item && {uri: item}}
+                            source={require('../../img/noImage.jpeg')}
                         />
-                    ))}
+                    }
                     </ScrollView>
                     <View style={headStyle.leftHeader}>
                         <Icon type="AntDesign" onPress={() => this.goBack()} style={{color:'black', marginTop:12.5, marginLeft:12.5, fontSize:25}} name="arrowleft" />
@@ -115,7 +120,7 @@ export default class HostSelected extends React.Component{
                     <View style={headStyle.rightHeader1}>
                         <Icon type="FontAwesome" onPress={() => this.saveData()} style={headStyle.rightIcon} name="heart-o" />
                     </View>
-                    {
+                    {/* {
                         this.state.photo.length > 0
                         ?
                         <View style={headStyle.bottomCorousal}>
@@ -123,7 +128,7 @@ export default class HostSelected extends React.Component{
                         </View>
                         :
                         null
-                    }
+                    } */}
                 </View>
                 <List>
                     <ListItem>

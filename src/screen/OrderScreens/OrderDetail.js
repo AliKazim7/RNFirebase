@@ -18,6 +18,7 @@ import Loader from '../../components/Loader';
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import moment from 'moment'
+import { addComments, getItemID, getUSERDATA, getUSERID, setItemRating } from '../../services/service';
 export default class OrderDetails extends React.Component{
     static navigationOptions = ({ navigation }) => ({
         headerLeft: (
@@ -59,82 +60,51 @@ export default class OrderDetails extends React.Component{
     async componentDidMount(){
         this.setState({
             listing: this.props.route.params.result,
-            result:this.props.route.params.result.listItem
+            result:this.props.route.params.result
         })
         const supplierID = this.getSuplier(this.props.route.params.result.supplierID)
         const renterID = this.getRenter(this.props.route.params.result.renterID)
-        const itemID = this.getItem(this.props.route.params.result.listItem.id)
+        const itemID = this.getItem(this.props.route.params.result.id)
     }
 
     getSuplier = async(ID) =>{
-        let result = []
-        return new Promise((resolve, reject)=>{
-        firestore()
-         .collection('Users')
-         .where('uid', '==', ID)
-         .get()
-         .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            result.push(documentSnapshot.data())
-         });
+        const itemID = getUSERDATA(ID)
+        itemID.then(respose =>{
             this.setState({
-                supplierData: result[0]
+                supplierData: respose[0]
             })
-        });
-     })
+        })
     }
 
     getRenter = async(ID) =>{
-        let result = []
-        return new Promise((resolve, reject)=>{
-        firestore()
-         .collection('Users')
-         .where('uid', '==', ID)
-         .get()
-         .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            result.push(documentSnapshot.data())
-         });
+        const itemID = getUSERDATA(ID)
+        itemID.then(respose =>{
             this.setState({
-                renterData: result[0]
+                renterData: respose[0]
             })
-        });
-     })
+        })
     }
 
     getItem = async(ID) =>{
-        let result = []
-        return new Promise((resolve, reject)=>{
-        firestore()
-         .collection('ItemList')
-         .where('id', '==', ID)
-         .get()
-         .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            result.push(documentSnapshot.data())
-         });
+    const itemID = getItemID(ID)
+        itemID.then(respose =>{
             this.setState({
-                itemData: result[0]
+                itemData: respose[0]
             })
-        });
-     })
+        })
     }
 
     orderNow = async () =>{
         const {listing} = this.state
-        const docID = await this.getDocID2(listing.orderID)
-        const settingRating = await this.setItemRating()
-        if(settingRating){
-            const supplierRating = await this.setSupplierRating()
-            if(supplierRating){
-                const comments = await this.addComents()
-                if(comments){
-                    const updateStatus = await this.updateStatus(docID)
-                    if(updateStatus){
-                        this.props.navigation.navigate('ProfileTab')
-                    }
+        console.log("lisitng items", listing)
+        this.props.navigation.navigate('ProfileTab')
+        const settingRating = setItemRating(listing, this.state.newRatingProd)
+        const comments = addComments(listing,this.state.renterData, this.state.itemComment)
+        const supplierRating = await this.setSupplierRating()
+        if(supplierRating){
+                const updateStatus = await this.updateStatus(listing.orderID)
+                if(updateStatus){
                 }
-            }
         }
     }
 
@@ -144,51 +114,6 @@ export default class OrderDetails extends React.Component{
             .update({
                 isCompleted: true
             }).then(()=>{
-                resolve(true)
-            })
-        })
-    }
-
-    setItemRating = async() =>{
-        const { itemData,newRatingProd } = this.state
-        const docID = await this.getDocID1(itemData.id)
-        if(docID.totalRating > 0){
-            const newRAT = ((itemData.totalRating * 5) + newRatingProd)/(5 + 1)
-            return new Promise((resolve, reject)=>{
-                firestore().collection('ItemList').doc(docID).update({ 
-                    totalRating: newRAT
-                })
-                .then(()=>{
-                    resolve(true)
-                })
-            })
-        } else {
-            const newRAT = newRatingProd
-            return new Promise((resolve, reject)=>{
-                firestore().collection('ItemList').doc(docID).update({ 
-                    totalRating: newRAT
-                })
-                .then(()=>{
-                    resolve(true)
-                })
-            })
-        }
-    }
-
-    addComents = async() =>{
-        const { itemData,renterData } = this.state
-        const array = []
-        array.push(this.state.itemComment)
-        return new Promise((resolve, reject)=>{
-            firestore().collection("Comments").add({
-                itemID: itemData.id,
-                comment: this.state.itemComment,
-                renderID: renterData.uid,
-                renterName: renterData.firstName,
-                renterPhoto: renterData.photo,
-                commentDate: moment().format('L'),
-            })
-            .then(()=>{
                 resolve(true)
             })
         })
@@ -230,29 +155,6 @@ export default class OrderDetails extends React.Component{
           })
         })
       }
-    
-      getDocID1 = async(ID) => {
-        return new Promise((resolve, reject)=>{
-          firestore().collection('ItemList').where('id', '==', ID).get()
-          .then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-              resolve(doc.id)
-            });
-          })
-        })
-      }
-
-      getDocID2 = async(ID) =>{
-        return new Promise((resolve, reject)=>{
-            firestore().collection('Orders').where('orderID', '==', ID).get()
-            .then(function(querySnapshot) {
-              querySnapshot.forEach(function(doc) {
-                resolve(doc.id)
-              });
-            })
-        })
-      }
-
     goBack = () =>{
       this.props.navigation.goBack()
     }
@@ -335,7 +237,7 @@ export default class OrderDetails extends React.Component{
                             <Text>Total Price</Text>
                         </Left>
                         <Right style={{flex:1}}>
-                            <Text>{this.state.listing.totalPrice}</Text>
+                            <Text>{this.state.listing.price1}</Text>
                         </Right>
                     </ListItem>
                     <ListItem>
@@ -343,7 +245,9 @@ export default class OrderDetails extends React.Component{
                             <Text>Start Date</Text>
                         </Left>
                         <Right style={{flex:1}}>
-                            <Text>{this.state.listing.startDate}</Text>
+                            <Text>
+                                {moment(this.state.listing.startDate).format("MMM Do YYYY")}
+                            </Text>
                         </Right>
                     </ListItem>
                     <ListItem>
@@ -351,7 +255,9 @@ export default class OrderDetails extends React.Component{
                             <Text>End Date</Text>
                         </Left>
                         <Right style={{flex:1}}>
-                            <Text>{this.state.listing.endDate}</Text>
+                            <Text>
+                                {moment(this.state.listing.endDate).format("MMM Do YYYY")}
+                            </Text>
                         </Right>
                     </ListItem>
                     <ListItem noBorder>

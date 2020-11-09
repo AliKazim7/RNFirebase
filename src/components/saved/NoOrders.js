@@ -22,6 +22,7 @@ export default class NoOrders extends Component {
   }
 
   componentDidMount(){
+    console.log("props come here", this.props.listing)
     if(this.props.listing.length > 0){
       this.setState({
         listing: this.props.listing
@@ -34,6 +35,7 @@ export default class NoOrders extends Component {
   }
 
   componentWillReceiveProps(nextProps){
+    console.log("nextProps come here", nextProps.listing)
     if(nextProps.listing.length > 0){
       this.setState({
         listing: nextProps.listing
@@ -83,10 +85,10 @@ Order Items
           <Card>
             <CardItem cardBody>
               {
-                item.listItem.photo !== undefined
+                item.photo !== undefined
                 ?
                 <FastImage 
-                  source={item.listItem.photo[0] && {uri:item.listItem.photo[0]}} 
+                  source={item.photo[0] && {uri:item.photo[0]}} 
                   indicator={ProgressBar} 
                   style={{
                     flex:1, height:hp('40%')
@@ -105,13 +107,12 @@ Order Items
             </CardItem>
             <CardItem cardBody style={{marginLeft:10,marginTop:10, marginBottom:10, backgroundColor:'white'}}>
               <View style={{marginTop:10, marginBottom:10}}>
-                <Text note>
-                  Anytime
-                </Text>
                 <H2 style={styles.contentType}>
-                  {item.listItem.location}
+                  {item.title}
                 </H2>
-                <Text style={styles.contentType}>1 stay</Text>
+                <Text note style={styles.contentType}>{item.location}</Text>
+                <Text note style={styles.contentType}>{item.type}</Text>
+                <Text note style={styles.contentType}>{item.price1}</Text>
               </View>
             </CardItem>
           </Card>

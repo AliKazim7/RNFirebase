@@ -100,7 +100,7 @@ export default class Availability extends React.Component{
                                     disabled={false}
                                 />
                             :
-                                    <Text onPress={() => this.startCalender()} style={{color:colors.saagColor}}> {this.state.SD} </Text>
+                                    <Text onPress={() => this.startCalender()} style={{color:colors.saagColor, paddingTop:'3%'}}> {this.state.SD} </Text>
                             }
                             {
                                 !this.state.ED
@@ -119,7 +119,7 @@ export default class Availability extends React.Component{
                                     disabled={false}
                                 />
                             :
-                                <Text onPress={() => this.endCalender()} style={{color:colors.saagColor}}>{this.state.ED}</Text>
+                                <Text onPress={() => this.endCalender()} style={{color:colors.saagColor, paddingTop:'3%'}}>{this.state.ED}</Text>
                             }
                         </View>
                     </View>

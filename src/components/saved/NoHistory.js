@@ -79,22 +79,22 @@ export default class NoHistory extends Component {
         <List>
           {
             this.state.listing.map((item, index)=>(
-                <ListItem>
-                  <Left style={{flex:1}}>
-                    {
-                      item.listItem.photo !== undefined 
-                      ?
-                      <FastImage style={{ height: hp('8%'), width:wp('18%'), borderRadius:50}} resizeMode="center" source={item.listItem.photo[0] && {uri:item.listItem.photo[0]}} />
-                      :
-                      <Image style={{ height: hp('5%'), width:wp('10%')}} resizeMode="contain" source={require('../../img/noImage.jpeg')}  />
-                    }
-                  </Left>
-                  <Body style={{flex:6}}>
-                    <Text>
-                      {item.listItem.title}
-                    </Text>
-                  </Body>
-                </ListItem>
+              <ListItem key={index}>
+                <Left style={{flex:1}}>
+                  {
+                    item.photo !== undefined 
+                    ?
+                    <FastImage style={{ height: hp('8%'), width:wp('18%'), borderRadius:50}} resizeMode="center" source={item.photo[0] && {uri:item.photo[0]}} />
+                    :
+                    <Image style={{ height: hp('5%'), width:wp('10%')}} resizeMode="contain" source={require('../../img/noImage.jpeg')}  />
+                  }
+                </Left>
+                <Body style={{flex:6}}>
+                  <Text>
+                    {item.title}
+                  </Text>
+                </Body>
+              </ListItem>
             ))
           }
         </List>

@@ -61,7 +61,7 @@ export default class NoResults extends Component {
   </Text>
 </ScrollView>
 <View style={styles.footer}>
-  <TouchableHighlight style={styles.findHomesButton}>
+  <TouchableHighlight onPress={this.props.goExplore} style={styles.findHomesButton}>
     <Text style={styles.findHomesButtonText}>
     Find Items
     </Text>

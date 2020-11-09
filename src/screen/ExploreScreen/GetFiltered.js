@@ -17,7 +17,7 @@ import colors from '../../styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import Loader from '../../components/Loader';
 import StarRating from 'react-native-star-rating';
-import { getAllCategoryItems, getCategoriesData } from '../../services/service';
+import { getAllCategoryItems, getCategoriesData, getUSERID, SaveItemData } from '../../services/service';
 
 export default class GetFiltered extends React.Component{
     constructor(props){
@@ -87,7 +87,21 @@ export default class GetFiltered extends React.Component{
       }
 
       handleAddToFav = (listing) =>{
-        this.props.navigation.navigate('CreateModal', { listing })
+        if(listing.favourite === false){
+          listing.favourite = true
+          this.setState({
+            loadingVisible: true
+          })
+          const userID = getUSERID()
+          userID.then(response =>{
+          const saveItem = SaveItemData(response, listing.id)
+          saveItem.then(res =>{
+          this.setState({
+            loadingVisible: false
+          })
+          })
+        })
+        }
       }
 
       changingText = text =>{
@@ -152,9 +166,9 @@ export default class GetFiltered extends React.Component{
                     <View style={styles.TitleView}>
                       <Text style={{marginBottom:5, color:colors.saagColor}} note>{this.state.listing.length} items</Text>
                       <H1 style={{marginBottom:5}}>{this.state.title}</H1>
-                        <Button onPress={() => this.showFilter()} transparent style={{borderColor:colors.saagColor,width:wp('30%'), borderWidth:1,marginTop:10, marginBottom:20}}>
-                          <Icon style={{fontSize:20,color:'black'}} type="Octicons" name="settings" />
-                          <Text style={{color:'black',fontSize:16, marginLeft:-20}}>Filters</Text>
+                        <Button onPress={() => this.showFilter()} style={{backgroundColor:colors.saagColor,width:wp('30%'),marginTop:10, marginBottom:20}}>
+                          <Icon style={{fontSize:20,color:'white'}} type="Octicons" name="settings" />
+                          <Text style={{color:'white',fontSize:16, marginLeft:-20}}>Filters</Text>
                         </Button>
                         {
                           this.state.filtered.Location !== undefined

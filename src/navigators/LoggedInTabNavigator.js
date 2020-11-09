@@ -53,6 +53,9 @@ import ChatMessages from '../screen/InboxScreen/ChatMessages';
 import RenterMessage from '../screen/InboxScreen/RenterMessage';
 import RenterProfile from '../screen/ListingScreens/RenterProfile';
 import GetFiltered from '../screen/ExploreScreen/GetFiltered';
+import AddListItem from '../screen/ListingScreens/AddDetails';
+import AddListPhoto from '../screen/ListingScreens/ListPhoto';
+import AddPreviewItem from '../screen/ListingScreens/PreviewItem';
 const Tabs = createBottomTabNavigator()
 const Stack = createStackNavigator()
 const RootStack = createStackNavigator()
@@ -152,6 +155,10 @@ function ListingTabs(){
       <Stack.Screen options={{headerShown: false}} name="ImageGallery" component={ImageList} />
       <Stack.Screen options={{headerShown: false}} name="UpdateList" component={UpdateList} />
       <Stack.Screen options={{headerShown: false}} name='RenterProfile' component={RenterProfile} />
+      <Stack.Screen options={{headerShown: false}} name='AddListItem' component={AddListItem} />
+      <Stack.Screen options={{headerShown: false}} name='AddListPhoto' component={AddListPhoto} />
+      <Stack.Screen options={{headerShown: false}} name='AddPreviewItem' component={AddPreviewItem} />
+      
     </Stack.Navigator>
   )
 }

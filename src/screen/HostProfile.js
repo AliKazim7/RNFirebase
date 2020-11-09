@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, ScrollView, TouchableOpacity } from 'react-native' 
+import { StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native' 
 import { Container, Header, Left, Icon, View, List, ListItem, H1, Text, Body, Right, Thumbnail, Label, H3,Card, CardItem, H2, DeckSwiper } from 'native-base'
 import Loader from '../components/Loader'
 import firestore from '@react-native-firebase/firestore'
@@ -115,6 +115,13 @@ export default class HostProfile extends React.Component{
             });
         })
       }
+    
+      getList = value =>{
+        console.log("dasdasdasd", value)
+        this.props.navigation.navigate('HostSelected', {
+            ID: value.id
+          })
+      }
 
     render(){
       const { listing } = this.state
@@ -223,29 +230,29 @@ export default class HostProfile extends React.Component{
                         ?
                         listing.map((item,index) =>(
                           <TouchableOpacity 
-                            onPress={() => this.props.navigation.navigate('HostSelected', {
-                              listed: item
-                            })} 
+                            // onPress={() => this.props.navigation.navigate('HostSelected', {
+                            //   listed: item
+                            // })} 
+                            onPress={() => this.getList(item)}
                             key={item.id}
                           >
                             <Card transparent style={styles.CardStyle}>
                               <CardItem cardBody>
                                 {/* <Thumbnail square source={item[0].photo && {uri: item[0].photo}} style={{ height:hp('30%'),width:wp('90%'), borderRadius:10}} /> */}
                                 <ScrollView horizontal style={{width: wp('100%')}} showsHorizontalScrollIndicator={false}>
-                                  {item.photo && item.photo.map((i,ind)=>(
+                                  {item.photo 
+                                  ? 
+                                  item.photo.map((i,ind)=>(
                                     <Thumbnail square source={i && {uri: i}}  style={{ height:hp('30%'),width:wp('90%'), borderRadius:10}} /> 
-                                  ))}
-                                  {/* {item.photo && 
-                                    <DeckSwiper
-                                      dataSource={item.photo}
-                                      renderItem={img =>
-                                        <Card style={{ elevation: 3 }}>
-                                          <CardItem cardBody>
-                                            <Thumbnail style={{ height: 300, flex: 1 }} source={img && {uri:img}} />
-                                          </CardItem>
-                                        </Card>
-                                      } />
-                                  } */}
+                                  )) 
+                                  :
+                                  <Image
+                                    // style={styles.image}
+                                    style={{ height:hp('30%'),width:wp('90%'), borderRadius:10}}
+                                    resizeMode="cover"
+                                    source={require('../img/noImage.jpeg')}
+                                  />
+                                  }
                                 </ScrollView>
                               </CardItem>
                               <CardItem cardBody style={{marginLeft:10,marginTop:10, marginBottom:10, backgroundColor:'white'}}>
@@ -303,5 +310,12 @@ const styles = StyleSheet.create({
     borderWidth:1, 
     borderColor:'white',
     marginTop:50
-  }
+  },
+  image: {
+      // flex: 1,
+      borderRadius: 18,
+      width:'100%',
+      flex: 1,
+      height: hp('40%'),
+  },
 })
