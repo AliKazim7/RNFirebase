@@ -18,7 +18,7 @@ import Loader from '../../components/Loader';
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import StarRating from 'react-native-star-rating';
-import { addOrder, getUSERDATA, getUSERID,SaveItemData } from '../../services/service';
+import { addOrder, getUSERDATA, getUSERID,RemoveSaved,SaveItemData } from '../../services/service';
 export default class SelectedItem extends React.Component{
     static navigationOptions = ({ navigation }) => ({
         headerLeft: (
@@ -128,7 +128,6 @@ export default class SelectedItem extends React.Component{
 
     saveData =  async() =>{
         const {listing} = this.state
-        console.log("lisitng come here", listing.favourite)
         if(listing.favourite === false || listing.favourite === undefined){
             listing.favourite = true
             this.setState({
@@ -139,16 +138,27 @@ export default class SelectedItem extends React.Component{
             userID.then(response =>{
                 const saveItem = SaveItemData(response, this.state.listing.id)
                 saveItem.then(res =>{
-                    console.log(res)
                     this.setState({
                         loadingVisible: false
                     })
                 })
             })
         } else if(listing.favourite === true){
-            listing.favourite = false
             this.setState({
-                listing: listing
+                loadingVisible: true
+            })
+            const userID = getUSERID()
+            userID.then(response =>{
+                this.state.listing.favourite = false
+                const removeItem = RemoveSaved(response, this.state.listing.id)
+                removeItem.then(()=>{
+                    setTimeout(() => {
+                        this.setState({
+                            loadingVisible:false,
+                            listing: this.state.listing
+                        })
+                    }, 2000);
+                })
             })
         }
     } 
@@ -162,7 +172,6 @@ export default class SelectedItem extends React.Component{
 
     render(){
         const { listing,isModalVisible, userDetails } = this.state
-        console.log("listing", listing)
         return(
             <Container style={{backgroundColor: "white"}}>
                 <Loader
@@ -171,22 +180,11 @@ export default class SelectedItem extends React.Component{
                 />
             <ScrollView>
                 <View style={{width:'100%'}}>
-                    {/* <TouchableOpacity onPress={() => this.props.navigation.navigate("ImageGallery")} >
-                        <Image 
-                        style={{width:'100%'}}
-                        // resizeMode="stretch"
-                        source={listing.photo}
-                        />
-                    </TouchableOpacity> */}
                     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                         {
                             listing.photo !== undefined && listing.photo.length > 0
                             ?
                             listing.photo.map((i,ind)=>(
-                                // <TouchableOpacity 
-                                // key={ind} onPress={() => this.props.navigation.navigate("ImageGallery",{
-                                //     photo: listing.photo
-                                // })} >
                                     <FastImage
                                         key={ind}
                                         resizeMode="cover"
@@ -194,7 +192,6 @@ export default class SelectedItem extends React.Component{
                                         style={{width:widthPercentageToDP('100%'),flex:1, height: heightPercentageToDP('40%')}}
                                         source={i && {uri: i}}
                                     />
-                                // </TouchableOpacity>
                             ))
                             :
                             <Image 

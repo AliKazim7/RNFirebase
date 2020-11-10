@@ -21,7 +21,7 @@ import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import CategoriesList from '../components/explore/CategoriesList';
 import CategoriesArray from '../components/explore/CategoriesList1'
-import { getCategories, getItemList, getSavedItem, getUSERID, mergeList } from '../services/service';
+import { getCategories, getItemList, getSavedItem, getUSERID, mergeList,mergeSaved } from '../services/service';
 class ExploreContainer extends Component {
   constructor(props) {
     super(props);
@@ -64,19 +64,28 @@ class ExploreContainer extends Component {
     const itemLists = getItemList()
     itemLists.then(res =>{
       if(res.length > 0){
-        const data = mergeList(res)
-        data.then(response=>{
-          if(response){
-            this.setState({
-              segmentList: response,
-              listing: response,
-              searchAbleList:res,
-              loadingVisible: false
+        const saveItem = getSavedItem(UID)
+        saveItem.then(arr =>{
+          if(arr[0].saved.length > 0){
+            const mergeSave = mergeSaved(arr[0].saved, res)
+            mergeSave.then(arries =>{
+              const data = mergeList(arries)
+              data.then(response=>{
+                if(response){
+                  this.setState({
+                    segmentList: response,
+                    listing: response,
+                    searchAbleList:res,
+                    loadingVisible: false
+                  })
+                } else {
+                  this.setState({
+                    loadingVisible: false
+                  })
+                }
+              })
             })
           } else {
-            this.setState({
-              loadingVisible: false
-            })
           }
         })
       } else {

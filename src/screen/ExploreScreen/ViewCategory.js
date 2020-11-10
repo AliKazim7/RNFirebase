@@ -35,11 +35,9 @@ export default class ViewCategory extends React.Component{
         this.setState({
           loadingVisible:true
         })
-        console.log("props come here", this.props.route.params.listing)
-        const getCategories = getSegmentData(this.props.route.params.listing.title)
-        getCategories.then(res =>{
-          console.log("props come here", res)
-        })
+        // const getCategories = getSegmentData(this.props.route.params.listing.title)
+        // getCategories.then(res =>{
+        // })
         this.setState({
             listing: this.props.route.params.listing.Listing,
             searchAbleList:this.props.route.params.listing.Listing,
@@ -82,7 +80,6 @@ export default class ViewCategory extends React.Component{
       }
 
       handleAddToFav = (listing) =>{
-        console.log("listing",listing)
         if(listing.favourite === false){
           listing.favourite = true
           this.setState({
