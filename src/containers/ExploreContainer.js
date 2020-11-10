@@ -67,13 +67,6 @@ class ExploreContainer extends Component {
         const data = mergeList(res)
         data.then(response=>{
           if(response){
-            const getSaved = getSavedItem(UID)
-            getSaved.then(arr =>{
-              console.log("array value come here", arr[0].saved, response)
-              arr[0].saved.map((item, index)=>{
-
-              })
-            })
             this.setState({
               segmentList: response,
               listing: response,
