@@ -118,7 +118,8 @@ export default class InputField extends Component {
           secureTextEntry={secureInput}
           onChangeText={this.onChangeText}
           keyboardType={keyboardType}
-          autoFocus={autoFocus}
+          // autoFocus={autoFocus}
+          autoFocus={false}
           autoCapitalize={autoCapitalize}
           autoCorrect={false}
           placeholderTextColor={placeholderTextColor}
