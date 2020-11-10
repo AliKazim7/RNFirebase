@@ -128,7 +128,8 @@ export default class SelectedItem extends React.Component{
 
     saveData =  async() =>{
         const {listing} = this.state
-        if(listing.favourite === false){
+        console.log("lisitng come here", listing.favourite)
+        if(listing.favourite === false || listing.favourite === undefined){
             listing.favourite = true
             this.setState({
                 loadingVisible: true,
@@ -143,6 +144,11 @@ export default class SelectedItem extends React.Component{
                         loadingVisible: false
                     })
                 })
+            })
+        } else if(listing.favourite === true){
+            listing.favourite = false
+            this.setState({
+                listing: listing
             })
         }
     } 

@@ -148,7 +148,7 @@ export default class HostProfile extends React.Component{
                                 Joined in {this.state.accountCreate}
                             </Text>
                             <View style={styles.ViewStyle}>
-                              <Icon type="MaterialIcons" name="verified-user" fontSize={20} style={{fontSize:20, color:'green'}} />
+                              <Icon type="MaterialIcons" name="verified-user" fontSize={20} style={{fontSize:20, color:colors.saagColor}} />
                               <Text style={styles.TextStyle}>Identity not verified</Text>
                             </View>
                             <View style={styles.ViewStyle}>

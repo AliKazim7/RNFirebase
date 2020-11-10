@@ -67,6 +67,13 @@ class ExploreContainer extends Component {
         const data = mergeList(res)
         data.then(response=>{
           if(response){
+            const getSaved = getSavedItem(UID)
+            getSaved.then(arr =>{
+              console.log("array value come here", arr[0].saved, response)
+              arr[0].saved.map((item, index)=>{
+
+              })
+            })
             this.setState({
               segmentList: response,
               listing: response,
@@ -138,14 +145,22 @@ handleBackButton() {
   }
 
   seeAllData = (item) => {
+    console.log("items come here", item)
     const result = this.state.listing.filter((value) =>{
       if(value.title === item){
         return value
       }
     })
-    this.props.navigation.navigate("ViewCategory", {
-      listing: result[0]
-    })
+    console.log("items come here", result[0].title === "All Listings")
+    if(result[0].title === "All Listings"){
+      this.props.navigation.navigate("AllItems", {
+        listing: result[0]
+      })
+    } else {
+      this.props.navigation.navigate("ViewCategory", {
+        listing: result[0]
+      })
+    }
   }
 
   onCreateListClose(listingId, listCreated) {

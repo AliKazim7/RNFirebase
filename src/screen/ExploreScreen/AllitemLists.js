@@ -17,9 +17,9 @@ import colors from '../../styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import Loader from '../../components/Loader';
 import StarRating from 'react-native-star-rating';
-import { getSegmentData, getUSERID, SaveItemData } from '../../services/service';
+import { getAllItems, getUSERID, SaveItemData, getListedItem } from '../../services/service';
 
-export default class ViewCategory extends React.Component{
+export default class AllitemLists extends React.Component{
     constructor(props){
         super(props)
         this.state ={
@@ -35,16 +35,14 @@ export default class ViewCategory extends React.Component{
         this.setState({
           loadingVisible:true
         })
-        console.log("props come here", this.props.route.params.listing)
-        const getCategories = getSegmentData(this.props.route.params.listing.title)
+        const getCategories = getListedItem(this.props.route.params.listing.Listing.length)
         getCategories.then(res =>{
-          console.log("props come here", res)
-        })
-        this.setState({
-            listing: this.props.route.params.listing.Listing,
-            searchAbleList:this.props.route.params.listing.Listing,
-            title: this.props.route.params.listing.title,
-            loadingVisible: false
+          this.setState({
+              listing: res,
+              searchAbleList:res,
+              title: this.props.route.params.listing.title,
+              loadingVisible: false
+          })
         })
       }
 
@@ -82,7 +80,6 @@ export default class ViewCategory extends React.Component{
       }
 
       handleAddToFav = (listing) =>{
-        console.log("listing",listing)
         if(listing.favourite === false){
           listing.favourite = true
           this.setState({
@@ -138,6 +135,23 @@ export default class ViewCategory extends React.Component{
         this.setState({
           listing: this.state.searchAbleList,
           filtered:[]
+        })
+      }
+    
+      getMore = () =>{
+          this.setState({
+              loadingVisible:true
+          })
+        const getItems = getListedItem(this.state.listing.length + 20)
+        getItems.then(response =>{
+            setTimeout(() => {
+                this.setState({
+                    listing: response,
+                    searchAbleList:response,
+                    title: this.props.route.params.listing.title,
+                    loadingVisible: false
+                }) 
+            }, 2000);
         })
       }
 
@@ -212,18 +226,13 @@ export default class ViewCategory extends React.Component{
                         key={index}
                       >
                         <View>
-                          {/* {showAddToFav
-                              ? ( */}
                             <View style={styles.addToFavoriteBtn}>
                               <HeartButton
                                 color={colors.black}
                                 selectedColor={colors.saagColor}
-                                // selected={favouriteListings.indexOf(listing.id) > -1}
                                 onPress={() => this.handleAddToFav(listing)}
                               />
                             </View>
-                            {/* // )
-                            // : null} */}
                           {
                             listing.photo !== undefined
                             ?
@@ -275,6 +284,13 @@ export default class ViewCategory extends React.Component{
                         </View>
                       </TouchableHighlight>
                     ))}
+                    <View style={{alignSelf:'center', marginBottom:20}}>
+                        <Button onPress={this.getMore} style={{backgroundColor:colors.saagColor, color:'white'}}>
+                            <Text>
+                                Get More
+                            </Text>
+                        </Button>
+                    </View>
                 </ScrollView>
                 {
                   this.state.filtered.Location !== undefined

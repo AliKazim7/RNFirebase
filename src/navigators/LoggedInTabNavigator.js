@@ -56,6 +56,7 @@ import GetFiltered from '../screen/ExploreScreen/GetFiltered';
 import AddListItem from '../screen/ListingScreens/AddDetails';
 import AddListPhoto from '../screen/ListingScreens/ListPhoto';
 import AddPreviewItem from '../screen/ListingScreens/PreviewItem';
+import AllitemLists from '../screen/ExploreScreen/AllitemLists';
 const Tabs = createBottomTabNavigator()
 const Stack = createStackNavigator()
 const RootStack = createStackNavigator()
@@ -115,6 +116,7 @@ function ExploreTab(){
       <Stack.Screen options={{headerShown: false}} name="Messages" component={Messages} />
       <Stack.Screen options={{headerShown: false}} name="HostProfile" component={HostProfile} />
       <Stack.Screen options={{headerShown: false}} name="ImageGallery" component={ImageList} />
+      <Stack.Screen options={{headerShown: false}} name="AllItems" component={AllitemLists} />
       <Stack.Screen options={{headerShown: false}} name="HostSelected" component={HostSelected} />
       <Stack.Screen options={{headerShown: false}} name="MainSearch" component={Home} />
     </Stack.Navigator>

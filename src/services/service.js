@@ -323,6 +323,39 @@ export async function getSegmentData(type){
   })
 }
 
+export async function getAllItems(){
+  const result = []
+  return new Promise((resolve, reject)=>{
+      firestore().
+      collection('ItemList')
+      .limit(20)
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          result.push(doc.data())
+      });
+      resolve(result)
+    })
+  })
+}
+
+export async function getListedItem(num){
+  const result = []
+  return new Promise((resolve, reject)=>{
+      firestore().
+      collection('ItemList')
+      .limit(num)
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          result.push(doc.data())
+      });
+      resolve(result)
+    })
+  })
+}
+
+
 export async function SaveItemData(userID, listing){
   return new Promise((resolve, reject)=>{
     firestore().
