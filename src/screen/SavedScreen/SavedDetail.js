@@ -115,7 +115,7 @@ export default class SavedDetail extends React.Component{
                   modalVisible={this.state.loading}
                   animationType="fade"
                 />
-                <Header transparent style={{marginTop: Platform.OS === "android" ? 30 : 5}}>
+                <Header transparent style={{marginTop: Platform.OS === "android" ? 30 : 20}}>
                     <View style={styles.leftHeader}>
                         <Icon type="AntDesign" onPress={() => this.goBack()} style={{color:'black', marginTop:12.5, marginLeft:12.5, fontSize:25}} name="arrowleft" />
                     </View>
@@ -129,9 +129,9 @@ export default class SavedDetail extends React.Component{
                 <ScrollView>
                     <View style={styles.TitleView}>
                       <H1 style={{marginBottom:5}}>{this.state.title}</H1>
-                        <Button onPress={() => this.showFilter()} transparent style={{borderColor:colors.saagColor,width:wp('30%'), borderWidth:1,marginTop:10, marginBottom:20}}>
-                          <Icon style={{fontSize:20,color:'black'}} type="Octicons" name="settings" />
-                          <Text style={{color:'black',fontSize:16, marginLeft:-20}}>Filters</Text>
+                        <Button onPress={() => this.showFilter()} style={{backgroundColor:colors.saagColor,width:wp('30%'), marginTop:10, marginBottom:20}}>
+                          <Icon style={{fontSize:20,color:'white'}} type="Octicons" name="settings" />
+                          <Text style={{color:'white',fontSize:16, marginLeft:-20}}>Filters</Text>
                         </Button>
                     </View>
                         <TouchableHighlight
@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
     listingTitle: {
       fontSize: 14,
       fontWeight: '700',
-      color: colors.gray04,
+      color: colors.saagColor,
       marginTop: 5,
     },
     listingType: {
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
       zIndex: 2,
     },
     listingPrice: {
-      color: colors.gray04,
+      color: colors.saagColor,
       marginTop: 4,
       marginBottom: 2,
       fontSize: 12,
