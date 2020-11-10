@@ -220,7 +220,6 @@ const styles = StyleSheet.create({
 
 const CardView = (props) =>{
   const result = props.result
-  console.log("resultws here", result)
   return(
     <View style={{flex:1}}>
       <FlatList

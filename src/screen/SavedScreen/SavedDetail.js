@@ -37,10 +37,6 @@ export default class SavedDetail extends React.Component{
       }
 
       async componentDidMount(){
-      //  this.setState({
-      //    loading: true
-      //  })
-      console.log("props come here", this.props.route.params.result)
        const listed = await this.sectionFilter(this.props.route.params.result.segmentType)
        this.setState({
            listing: this.props.route.params.result,
@@ -113,7 +109,6 @@ export default class SavedDetail extends React.Component{
 
     render(){
         const { listing,similarArray } = this.state
-        console.log("lisitng", listing, similarArray)
         return(
             <Container>
                 <Loader 

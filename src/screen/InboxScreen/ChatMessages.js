@@ -32,7 +32,6 @@ export default class ChatMessages extends Component {
 }
   
   getTotalMessages = async() =>{
-    console.log("all will come here")
   }
 
 async componentDidMount(){
@@ -43,10 +42,8 @@ async componentDidMount(){
 apiCall = async() =>{
   const userID = await this.getUSERID()
   const getUSER = await this.getUSERDATA(userID)
-  console.log("props messages",  this.props.route.params.listing)
   if(userID && getUSER){
       const getMessages = this.getMessages(this.props.route.params.listing.messages)
-      console.log("props messages", this.props.route.params.listing, userID)
       const user ={
         _id: getUSER.uid,
         name: getUSER.firstName,
@@ -76,7 +73,6 @@ getUSERDATA = userID =>{
 }
 
 getMessages = (ID) =>{
-    console.log("messages",ID)
     this.setState({
       messages:ID
     })
@@ -84,7 +80,6 @@ getMessages = (ID) =>{
 
 docID = async() =>{
     const { lisitng } = this.state
-    console.log("userID, supplierID, itemID",this.state.lisitng)
     return new Promise((resolve, reject)=>{
       firestore()
       .collection('Chats')
@@ -92,7 +87,6 @@ docID = async() =>{
       .get()
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-        console.log("docs", doc)
         resolve(doc)
       });
     })
@@ -126,7 +120,6 @@ handleIndexChange = (values) =>{
 
 sendDATA = async (value) =>{
   const docID = await this.docID()
-    console.log("DATA check", docID)
     if(docID){
         var documentID = docID.id;
         var previous = docID.data().messages
@@ -135,7 +128,6 @@ sendDATA = async (value) =>{
           messages: previous
         })
         .then((response)=>{
-            console.log("Updated", response)
           this.setState({
             messages: previous
           })
@@ -151,7 +143,6 @@ onRefresh = () =>{
 }
 
   render() {
-      console.log("user id", this.state.messages)
     return (
       <Container>
        <ScrollView refreshControl={

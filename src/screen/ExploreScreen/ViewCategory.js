@@ -120,7 +120,6 @@ export default class ViewCategory extends React.Component{
                 array.push()
               }
             })
-            console.log('array value ', array)
           if(array.length > 0){
             this.setState({
               listing: array

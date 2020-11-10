@@ -96,7 +96,6 @@ export default class OrderDetails extends React.Component{
 
     orderNow = async () =>{
         const {listing} = this.state
-        console.log("lisitng items", listing)
         this.props.navigation.navigate('ProfileTab')
         const settingRating = setItemRating(listing, this.state.newRatingProd)
         const comments = addComments(listing,this.state.renterData, this.state.itemComment)

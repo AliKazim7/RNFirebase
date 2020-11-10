@@ -121,18 +121,6 @@ async componentWillReceiveProps(nextProps){
 
     handleChange = async() => {
         var validationArray = []
-        console.log(
-            this.state.location,
-            this.state.title,
-            this.state.price1,
-            this.state.NotfixedPrice,
-            this.state.priceResT,
-            this.state.userName,
-            this.state.type,
-            this.state.details,
-            this.state.priceType,
-            this.state.userID
-        )
         if(this.state.location === ""){
             validationArray.push("locationError")
             this.state.locationError = true
@@ -189,7 +177,6 @@ async componentWillReceiveProps(nextProps){
     }
 
     addCategory = value =>{
-        console.log(value)
         this.setState({
             type:value
         })

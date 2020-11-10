@@ -82,7 +82,6 @@ apiCall = async() =>{
           result.map((i, ind)=>{
             if(item.itemID === i.id){
               if(item.isCompleted === false){
-                console.log("to be completed",i)
                 i.price1 = item.totalPrice
                 i.supplierID = item.supplierID
                 i.startDate = item.startDate
@@ -94,7 +93,6 @@ apiCall = async() =>{
                   notcompletedArray:[i,...this.state.notcompletedArray]
                 })
               } else {
-                console.log("completed",i)
                 i.price1 = item.totalPrice
                 i.supplierID = item.supplierID
                 i.startDate = item.startDate
@@ -168,7 +166,6 @@ orderHistory = () =>{
   }
 
   render() {
-    console.log(this.state.notcompletedArray)
     return (
       <Container>
         <Header transparent>

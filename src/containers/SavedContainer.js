@@ -58,7 +58,6 @@ export default class SavedContainer extends Component {
           res[0].saved.map((item, index)=>{
             const savedItems = getSavedValues(item)
             savedItems.then(array =>{
-              console.log("querySnapshot",array)
               this.setState({
                 listing: [...this.state.listing, array],
                 loading: false
@@ -83,18 +82,14 @@ export default class SavedContainer extends Component {
   }
 
   goBack = () =>{
-    console.log("value")
     this.props.navigation.navigate('ExploreContainer')
   }
 
   goExplore = () =>{
-    console.log("goExplore")
     this.props.navigation.navigate('ExploreContainer')
   }
 
   onReferesh = () => {
-    console.log("On Refresh")
-    console.log("value")
     this.setState({
       loading:true
     })
@@ -138,7 +133,6 @@ const styles = StyleSheet.create({
 
 const CardView = (props) =>{
   const result = props.result
-  console.log("results", result)
   return(
     <View style={{flex:1}}>
       <FlatList

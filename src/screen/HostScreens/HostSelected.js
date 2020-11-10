@@ -50,7 +50,6 @@ export default class HostSelected extends React.Component{
     async componentDidMount(){
         const getItem = getItemID(this.props.route.params.ID)
         getItem.then(response =>{
-            console.log("Dasd adasda",response)
             this.setState({
                 listing: response[0],
                 photo: response[0].photo
@@ -80,8 +79,6 @@ export default class HostSelected extends React.Component{
 
     render(){
         const { listing,isModalVisible } = this.state
-        console.log("listed", listing.photo)
-        // CreateList
         return(
             <Container style={{backgroundColor: "white"}}>
                 <ScrollView>

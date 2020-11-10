@@ -33,17 +33,13 @@ export default class RenterMessage extends Component {
 }
 
 getTotalMessages = async() =>{
-  console.log("all will come here")
 }
 
 async componentDidMount(){
   const userID = await this.getUSERID()
   const getUSER = await this.getUSERDATA(userID)
-
-  console.log("props messages",  getUSER)
   if(userID && getUSER){
       const getMessages = this.getMessages(this.props.route.params.listing.messages)
-      console.log("props messages", this.props.route.params.listing, userID)
       // setTimeout(()=>{
 
       const reloadApp = this.reloadEverytime(this.props.route.params.listing.ChatID)
@@ -60,7 +56,6 @@ async componentDidMount(){
 }
 
 reloadEverytime = async (ID) =>{
-  console.log("reload condition", ID)
   const docID = await this.docID1(ID)
   setTimeout(() => {
   if(docID){
@@ -78,7 +73,6 @@ docID1 = async(ID) =>{
     .get()
     .then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
-      console.log("docs", doc)
       resolve(doc)
     });
   })
@@ -102,7 +96,6 @@ getUSERDATA = userID =>{
 }
 
 getMessages = (previousMessages) =>{
-    console.log("messages",previousMessages)
     // const { messages } = this.state
     this.setState({
         messages: previousMessages
@@ -121,7 +114,6 @@ getMessages = (previousMessages) =>{
 
 docID = async() =>{
     const { lisitng } = this.state
-    console.log("userID, supplierID, itemID",this.state.lisitng)
     return new Promise((resolve, reject)=>{
       firestore()
       .collection('Chats')
@@ -129,7 +121,6 @@ docID = async() =>{
       .get()
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-        console.log("docs", doc)
         resolve(doc)
       });
     })
@@ -163,7 +154,6 @@ handleIndexChange = (values) =>{
 
 sendDATA = async (value) =>{
   const docID = await this.docID()
-    console.log("DATA check", docID)
   if(docID){
       var documentID = docID.id;
       var previous = docID.data().messages
@@ -172,7 +162,6 @@ sendDATA = async (value) =>{
         messages: previous
       })
       .then((response)=>{
-          console.log("Updated", response)
         this.setState({
           messages: previous
         })
@@ -181,11 +170,9 @@ sendDATA = async (value) =>{
 }
 
 onRefresh = () =>{
-  console.log("supp bro")
 }
 
   render() {
-      console.log("user id", this.state.userID)
     return (
       <Container>
         {/* <ScrollView refreshControl={

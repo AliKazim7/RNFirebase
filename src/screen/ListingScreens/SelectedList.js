@@ -117,7 +117,6 @@ export default class SelectedListItem extends React.Component{
 
     getDoc = async() =>{
         const { listing } = this.state
-        console.log("here", listing.id)
         return new Promise((resolve, reject)=>{
             firestore().collection('ItemList').where('id', '==', listing.id).get()
             .then(function(querySnapshot) {
@@ -164,7 +163,6 @@ export default class SelectedListItem extends React.Component{
 
     render(){
         const { listing,isModalVisible, renterData } = this.state
-        console.log('renterData',renterData, listing.photo)
         return(
             <Container style={{backgroundColor: "white"}}>
               {

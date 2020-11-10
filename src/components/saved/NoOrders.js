@@ -22,7 +22,6 @@ export default class NoOrders extends Component {
   }
 
   componentDidMount(){
-    console.log("props come here", this.props.listing)
     if(this.props.listing.length > 0){
       this.setState({
         listing: this.props.listing
@@ -35,7 +34,6 @@ export default class NoOrders extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    console.log("nextProps come here", nextProps.listing)
     if(nextProps.listing.length > 0){
       this.setState({
         listing: nextProps.listing

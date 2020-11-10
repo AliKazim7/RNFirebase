@@ -172,7 +172,6 @@ export default class SelectedItem extends React.Component{
 
     render(){
         const { listing,isModalVisible, userDetails } = this.state
-        console.log("listing come here", listing)
         return(
             <Container style={{backgroundColor: "white"}}>
                 <Loader

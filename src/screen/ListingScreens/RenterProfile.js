@@ -30,7 +30,6 @@ export default class RenterProfile extends React.Component{
         this.setState({
           loadingVisible: true
         })
-        console.log("props params", this.props.route.params.renterID)
         const userID = await this.getUserID()
         if(userID){
           const getName = await this.getUSERDATA(this.props.route.params.renterID)
