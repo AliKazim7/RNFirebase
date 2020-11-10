@@ -35,10 +35,8 @@ export default class GetFiltered extends React.Component{
         this.setState({
           loadingVisible:true
         })
-        console.log("Response of filtered", this.props.route.params.category)
         const getData = getAllCategoryItems(this.props.route.params.category)
         getData.then(response =>{
-            console.log("Response of", response)
             this.setState({
                 listing: response,
                 searchAbleList:response,

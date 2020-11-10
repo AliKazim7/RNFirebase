@@ -92,9 +92,7 @@ export async function getSavedItem(ID){
       .where('userID', '==', ID)
       .get()
       .then(querySnapshot => {
-        console.log("querySnapshot",querySnapshot)
         querySnapshot.forEach(documentSnapshot => {
-          console.log("documentSnapshot.data()",documentSnapshot.data())
           result.push(documentSnapshot.data())
         });
         resolve(result)
@@ -462,7 +460,6 @@ export async function getRenterOrder(ID){
 }
 
 export async function setItemRating(itemData, newRatingProd){
-  console.log("itemData, newRatingProd",itemData, newRatingProd)
     // if(itemData.totalRating > 0){
     //     const newRAT = ((itemData.totalRating * 5) + newRatingProd)/(5 + 1)
     //     return new Promise((resolve, reject)=>{
@@ -496,5 +493,47 @@ export async function addComments(itemData,renterData, Comments){
       .then(()=>{
           resolve(true)
       })
+  })
+}
+
+export async function mergeSaved(saved,lists){
+  return new Promise((resolve, reject)=>{
+    lists.forEach((item, index)=>{
+      saved.forEach((i)=>{
+        if(item.id === i){
+          lists[index].favourite = true
+        } else{
+          lists[index].favourite = false
+        }
+      })
+    })
+    resolve(lists)
+  })
+}
+
+export async function RemoveSaved(userID,itemID){
+  return new Promise((resolve, reject)=>{
+    firestore().
+    collection("SavedItems").
+    where("userID",'==',userID).
+    get().
+    then(querySnapshot =>{
+      querySnapshot.forEach(documentSnapshot => {
+        const array = documentSnapshot.data().saved
+        const docID = documentSnapshot.data().savedID
+        const result = array.filter((item,index)=>{
+          return item !== itemID
+        })
+        firestore().
+        collection('SavedItems').
+        doc(docID).
+        update({
+          saved: result
+        })
+        .then(response =>{
+          resolve(true)
+        })
+      });
+    })
   })
 }

@@ -41,7 +41,8 @@ export default class Listings extends Component {
               <HeartButton
                 color={colors.black}
                 selectedColor={colors.saagColor}
-                selected={favouriteListings.indexOf(listing.id) > -1}
+                // selected={favouriteListings.indexOf(listing.id) > -1}
+                selected={listing.favourite}
                 onPress={() => handleAddToFav(listing)}
               />
             </View>
