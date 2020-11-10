@@ -64,13 +64,10 @@ getUSERDATA = userID =>{
 }
 
 docID = async(userID, supplierID, itemID) =>{
-    console.log("userID, supplierID, itemID",userID, supplierID, itemID)
     return new Promise((resolve, reject)=>{
         firestore().collection('Chats').get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
-                console.log(doc.data());
                 if(doc.data().renterID === userID && doc.data().supplierID === supplierID && doc.data().itemID === itemID){
-                    console.log("docs", doc)
                     resolve(doc)
                 } else {
                     resolve(false)
@@ -109,7 +106,6 @@ sendDATA = async (value) =>{
   const { lisitng, supplierID } = this.state
   const DataCheck = await this.checkData()
   const ID = Math.random()
-  console.log("DataCheck",DataCheck,this.state.userID._id)
     if(DataCheck){
       const uploadData = await this.uploadData(ID, value)
       if(uploadData){
@@ -119,7 +115,6 @@ sendDATA = async (value) =>{
             ChatID: getDoc
         })
         .then((response)=>{
-            console.log("Updated", response)
             this.setState({
                 messages: value
             })
@@ -133,12 +128,10 @@ sendDATA = async (value) =>{
                 var previous = docID.data().messages
                 previous.splice(0,0,value[0])
             }
-            console.log("DATA check", documentID, previous, value)
         firestore().collection('Chats').doc(documentID).update({
             messages: previous
         })
         .then((response)=>{
-            console.log("Updated", response)
             this.setState({
                 messages: previous
             })
@@ -160,7 +153,6 @@ uploadData = async(ID, value) =>{
           renterID: this.state.userID._id
         })
         .then((response)=>{
-          console.log("Updated", response)
         //   this.setState({
         //     messages:[...this.state.messages, value[0]]
         // })
@@ -204,7 +196,6 @@ checkData = async() =>{
 }
 
   render() {
-    console.log("here", this.state.userID)
     return (
       <Container>
           <Header transparent>

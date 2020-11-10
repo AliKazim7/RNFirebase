@@ -16,7 +16,6 @@ export default class UpdateListItem extends React.Component{
 
     async componentDidMount(){
         const id = AsyncStorage.getItem("ID")
-        console.log(id)
     }
 
     handleChange = (key, value) =>{

@@ -99,31 +99,36 @@ export default class ViewCategory extends React.Component{
 
       changingText = text =>{
           const array = []
-          const result = this.state.searchAbleList.filter((item)=>{
-            if(item.title.match(text)){
-              array.push(item)
-            }
-            if(item.type.match(text)){
-              array.push(item)
-            }
-            if(item.location.match(text)){
-              array.push(item)
-            }
-            // if(item.price1.match(text)){
-            //   array.push(item)
-            // }
-            if(item.price1 === text){
-              array.push(item)
-            }
-            if(item.title !== text && item.location !== text && item.type !== text){
-              array.push()
-            }
-          })
-
-        if(array.length > 0){
-          this.setState({
-            listing: array
-          })
+          if(text !== ''){
+            const result = this.state.searchAbleList.filter((item)=>{
+              if(item.title.match(text)){
+                array.push(item)
+              }
+              if(item.type.match(text)){
+                array.push(item)
+              }
+              if(item.location.match(text)){
+                array.push(item)
+              }
+              // if(item.price1.match(text)){
+              //   array.push(item)
+              // }
+              if(item.price1 === text){
+                array.push(item)
+              }
+              if(item.title !== text && item.location !== text && item.type !== text){
+                array.push()
+              }
+            })
+          if(array.length > 0){
+            this.setState({
+              listing: array
+            })
+          } else {
+            this.setState({
+              listing: this.state.searchAbleList
+            })
+          }
         } else {
           this.setState({
             listing: this.state.searchAbleList
@@ -239,7 +244,7 @@ export default class ViewCategory extends React.Component{
                           }
                           {listing.totalRating > 0
                             ? (
-                              <View style={{marginTop:10}}>
+                              <View style={{marginTop:10, width: wp('20%')}}>
                                 <StarRating
                                     maxStars={5}
                                     starSize={20}

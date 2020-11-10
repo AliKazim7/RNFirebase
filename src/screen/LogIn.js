@@ -81,8 +81,6 @@ export default class LogIn extends Component {
         formValid: false
       })
     }
-    // const userSigning = LoginUser(this.state.emailAddress, this.state.password)
-    // console.log("userSigning",userSigning)
   }
 
   signUser = async() =>{

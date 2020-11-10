@@ -47,7 +47,6 @@ export default class SelectedSavedItem extends React.Component{
         })
     }
     async componentWillReceiveProps(nextProps){
-        console.log("nxtProps", nextProps)
         if(nextProps.route.params.Date !== undefined){
             const result = await this.checkData(nextProps.route.params.Date, nextProps.route.params.startDate,nextProps.route.params.endDate)
         }
@@ -58,7 +57,6 @@ export default class SelectedSavedItem extends React.Component{
             loadingVisible: true
         })
         const totalPrice = Days*this.state.listing.price1
-        console.log("Days", Days,totalPrice)
         this.setState({
             totalPrice: totalPrice,
             startDate:SD,
@@ -72,13 +70,10 @@ export default class SelectedSavedItem extends React.Component{
     }
 
     getUSER = async(UID) =>{
-        console.log("user OD", UID)
         return new Promise((resolve, reject)=>{
             firestore().collection('Users').where('uid', '==',UID).get()
             .then(querySnapshot =>{
-                console.log("here",querySnapshot)
                 querySnapshot.forEach(documentSnapshot => {
-                    console.log(documentSnapshot)
                     resolve(documentSnapshot.data())
                 });
             })
@@ -92,7 +87,6 @@ export default class SelectedSavedItem extends React.Component{
         const { endDate, startDate, totalPrice, listing  } = this.state
         const userID = await this.getData()
         if(userID){
-            console.log("Order Now", endDate, startDate, totalPrice, listing.userID)
             firestore().collection('Orders').add({
                 renterID: userID,
                 supplierID: listing.userID,

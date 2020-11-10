@@ -74,7 +74,7 @@ export default class SelectedItem extends React.Component{
         this.setState({
             loadingVisible: true
         })
-        const totalPrice = Days*this.state.listing.price1
+        const totalPrice = (Days + 1)*this.state.listing.price1
         this.setState({
             totalPrice: totalPrice,
             startDate:SD,

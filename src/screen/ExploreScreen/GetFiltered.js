@@ -241,7 +241,7 @@ export default class GetFiltered extends React.Component{
                           }
                           {listing.totalRating > 0
                             ? (
-                              <View style={{marginTop:10}}>
+                              <View style={{marginTop:10, width:wp('20%')}}>
                                 <StarRating
                                     maxStars={5}
                                     starSize={20}

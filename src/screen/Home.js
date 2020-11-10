@@ -39,7 +39,6 @@ class Home extends Component {
     })
     const userData = getUSERID()
     const userID = await this.getUserID()
-    console.log("User DATA", userData)
     const itemList = await this.getApi()
     if(itemList.length > 0){
       const data = await this.mergeList(itemList)

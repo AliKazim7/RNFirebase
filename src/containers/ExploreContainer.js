@@ -86,6 +86,24 @@ class ExploreContainer extends Component {
               })
             })
           } else {
+            const mergeSave = mergeSaved(arr[0].saved, res)
+            mergeSave.then(arries =>{
+              const data = mergeList(arries)
+              data.then(response=>{
+                if(response){
+                  this.setState({
+                    segmentList: response,
+                    listing: response,
+                    searchAbleList:res,
+                    loadingVisible: false
+                  })
+                } else {
+                  this.setState({
+                    loadingVisible: false
+                  })
+                }
+              })
+            })
           }
         })
       } else {
@@ -147,13 +165,11 @@ handleBackButton() {
   }
 
   seeAllData = (item) => {
-    console.log("items come here", item)
     const result = this.state.listing.filter((value) =>{
       if(value.title === item){
         return value
       }
     })
-    console.log("items come here", result[0].title === "All Listings")
     if(result[0].title === "All Listings"){
       this.props.navigation.navigate("AllItems", {
         listing: result[0]
@@ -251,7 +267,6 @@ showSelected = (value) => {
   }
 
   onReferesh = () => {
-    console.log("On Refresh")
     this.setState({
       loadingVisible:true
     })

@@ -110,7 +110,6 @@ export default class AddListPhoto extends React.Component{
         loadingVisible: true,
         Isdisabled:true
       })
-      console.log("photoArray1", this.state.photoArray1)
       this.props.navigation.navigate('AddListDetail',{photo: this.state.photoArray1})
       // if(this.state.docID && this.state.docID){
       //   firestore().collection('ItemList').doc(this.state.docID).update({

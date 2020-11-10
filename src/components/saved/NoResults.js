@@ -19,12 +19,10 @@ export default class NoResults extends Component {
   }
 
   onRefresh=()=>{
-    console.log("refreshing")
     this.props.onReferesh()
   }
 
   render() {
-    console.log("props come here", this.props)
   	return (
 //     <View>
 //       <ScrollView style={styles.scrollView}>
