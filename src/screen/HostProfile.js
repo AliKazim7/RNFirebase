@@ -159,7 +159,7 @@ export default class HostProfile extends React.Component{
                                 fullStarColor={colors.saagColor}
                                 rating={this.state.supplierRating}
                               />
-                              <Text style={styles.TextStyle}>{this.state.supplierRating} Rating as Supplier</Text>
+                              <Text style={styles.TextStyle}>{Math.round(this.state.supplierRating)} Rating as Supplier</Text>
                             </View>
                             <View style={styles.ViewStyle}>
                               <StarRating
@@ -169,7 +169,7 @@ export default class HostProfile extends React.Component{
                                 fullStarColor={colors.saagColor}
                                 rating={this.state.renterRating}
                               />
-                              <Text style={styles.TextStyle}>{this.state.renterRating} Rating as Renter</Text>
+                              <Text style={styles.TextStyle}>{Math.round(this.state.renterRating)} Rating as Renter</Text>
                             </View>
                         </Body>
                         <Right>
@@ -211,10 +211,10 @@ export default class HostProfile extends React.Component{
                               <Icon type="EvilIcons" name="check" fontSize={20} style={{fontSize:20}} />
                               <Text style={styles.CheckText}>Email Address</Text>
                             </View>
-                            <View style={styles.CheckView}>
+                            {/* <View style={styles.CheckView}>
                               <Icon type="EvilIcons" name="check" fontSize={20} style={{fontSize:20}} />
                               <Text style={styles.CheckText}>Phone number</Text>
-                            </View>
+                            </View> */}
                       </Body>
                     </ListItem>
                     <ListItem 
@@ -255,15 +255,12 @@ export default class HostProfile extends React.Component{
                                   }
                                 </ScrollView>
                               </CardItem>
-                              <CardItem cardBody style={{marginLeft:10,marginTop:10, marginBottom:10, backgroundColor:'white'}}>
-                                <View style={{marginTop:10, marginBottom:10}}>
-                                  <Text note>
-                                    Anytime
-                                  </Text>
+                              <CardItem cardBody style={{marginLeft:10,marginBottom:10, backgroundColor:'white'}}>
+                                <View style={{marginBottom:10}}>
                                   <H2 style={styles.contentType}>
-                                    {item.location}
+                                    {item.title}
                                   </H2>
-                                  <Text style={styles.contentType}>1 stay</Text>
+                                  <Text style={styles.contentType}>{item.location}</Text>
                                 </View>
                               </CardItem>
                             </Card>

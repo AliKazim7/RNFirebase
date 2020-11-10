@@ -37,6 +37,7 @@ export default class GetFiltered extends React.Component{
         })
         const getData = getAllCategoryItems(this.props.route.params.category)
         getData.then(response =>{
+          console.log("listing come here", response)
             this.setState({
                 listing: response,
                 searchAbleList:response,
@@ -241,7 +242,7 @@ export default class GetFiltered extends React.Component{
                           }
                           {listing.totalRating > 0
                             ? (
-                              <View style={{marginTop:10}}>
+                              <View style={{marginTop:10, width:wp('20%')}}>
                                 <StarRating
                                     maxStars={5}
                                     starSize={20}

@@ -74,7 +74,7 @@ export default class SelectedItem extends React.Component{
         this.setState({
             loadingVisible: true
         })
-        const totalPrice = Days*this.state.listing.price1
+        const totalPrice = (Days + 1)*this.state.listing.price1
         this.setState({
             totalPrice: totalPrice,
             startDate:SD,
@@ -172,6 +172,7 @@ export default class SelectedItem extends React.Component{
 
     render(){
         const { listing,isModalVisible, userDetails } = this.state
+        console.log("listing come here", listing)
         return(
             <Container style={{backgroundColor: "white"}}>
                 <Loader

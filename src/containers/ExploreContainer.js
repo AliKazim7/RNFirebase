@@ -63,12 +63,15 @@ class ExploreContainer extends Component {
     })
     const itemLists = getItemList()
     itemLists.then(res =>{
+      console.log("item list items", res)
       if(res.length > 0){
         const saveItem = getSavedItem(UID)
         saveItem.then(arr =>{
+          console.log("saved items", arr)
           if(arr[0].saved.length > 0){
             const mergeSave = mergeSaved(arr[0].saved, res)
             mergeSave.then(arries =>{
+              console.log("merge items", arries)
               const data = mergeList(arries)
               data.then(response=>{
                 if(response){
@@ -86,6 +89,25 @@ class ExploreContainer extends Component {
               })
             })
           } else {
+            const mergeSave = mergeSaved(arr[0].saved, res)
+            mergeSave.then(arries =>{
+              console.log("merge items", arries)
+              const data = mergeList(arries)
+              data.then(response=>{
+                if(response){
+                  this.setState({
+                    segmentList: response,
+                    listing: response,
+                    searchAbleList:res,
+                    loadingVisible: false
+                  })
+                } else {
+                  this.setState({
+                    loadingVisible: false
+                  })
+                }
+              })
+            })
           }
         })
       } else {
@@ -251,7 +273,6 @@ showSelected = (value) => {
   }
 
   onReferesh = () => {
-    console.log("On Refresh")
     this.setState({
       loadingVisible:true
     })
