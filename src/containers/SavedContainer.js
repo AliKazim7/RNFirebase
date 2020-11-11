@@ -172,8 +172,8 @@ const CardView = (props) =>{
                 <H2 style={styles.contentType}>
                   {item.title}
                 </H2>
-                <Text style={styles.contentType}>{item.location}</Text>
-                <Text style={styles.contentType}>{item.type}</Text>
+                <Text note style={styles.contentType}>{item.location}</Text>
+                <Text note style={styles.contentType}>{item.type}</Text>
               </View>
             </CardItem>
           </Card>

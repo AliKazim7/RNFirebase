@@ -222,18 +222,18 @@ async componentWillReceiveProps(nextProps){
                             inputType="email"
                             placeholderTextColor='rgba(0,0,0,0.6)'
                             placeholder="Statue of Liberty"
-                            customStyle={{ marginBottom: 30 }}
+                            customStyle={{ marginBottom: 20 }}
                             onChangeText={(text) => this.dataHandle('title', text)}
                             value={this.state.title}
                         />
                         <Picker
                             mode="dropdown"
-                            placeholderStyle={{ color: "white", borderBottomColor:'black', borderBottomWidth:1 }}
-                            placeholder="Type"
+                            placeholderStyle={this.state.typeError ? { color: "black", textAlign:'left' } : { color: "white", textAlign:'left', justifyContent:'flex-start', paddingLeft:'-5%'}}
+                            placeholder="Category"
                             textStyle={{ color: "white" }}
                             itemTextStyle={{ color: 'black' }}
                             placeholderIconColor="#007aff"
-                            style={{ width: wp('100%'), textAlign:'left', marginLeft:'-5%', marginBottom:30 }}
+                            style={{ width: wp('100%'), textAlign:'left', marginBottom:30,borderBottomColor:'white', borderBottomWidth:1  }}
                             selectedValue={this.state.type}
                             onValueChange={this.addCategory.bind(this)}
                         >

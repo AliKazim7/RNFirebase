@@ -228,12 +228,12 @@ async componentWillReceiveProps(nextProps){
                         />
                         <Picker
                             mode="dropdown"
-                            placeholderStyle={this.state.typeError ? { color: "black", borderBottomColor:'black', borderBottomWidth:1 } : { color: "white", borderBottomColor:'black', borderBottomWidth:1 }}
-                            placeholder="Type"
+                            placeholderStyle={this.state.typeError ? { color: "black", textAlign:'left' } : { color: "white", textAlign:'left', justifyContent:'flex-start', paddingLeft:'-5%'}}
+                            placeholder="Category"
                             textStyle={{ color: "white" }}
                             itemTextStyle={{ color: 'black' }}
                             placeholderIconColor="#007aff"
-                            style={{ width: wp('100%'), textAlign:'left', marginLeft:'-5%', marginBottom:30 }}
+                            style={{ width: wp('100%'), textAlign:'left', marginBottom:30,borderBottomColor:'white', borderBottomWidth:1  }}
                             selectedValue={this.state.type}
                             onValueChange={this.addCategory.bind(this)}
                         >

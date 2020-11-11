@@ -21,6 +21,7 @@ import colors from '../screen/styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import NoImage from '../components/explore/NoImage';
 import headStyle from '../screen/styles/HeaderSetting';
+import { getSupplierItem, getUSERID, getOrderSupplier } from '../services/service';
 export default class TripsContainer extends Component {
   constructor(props){
     super(props)
@@ -41,88 +42,31 @@ export default class TripsContainer extends Component {
     this.setState({
       listing:[]
     })
-    const userID = await this.getApi()
-    if(userID){
-      const getName = await this.getUSERDATA(userID)
-      if(getName){
-        const filterOrdered = await this.getOrder(userID)
-        if(filterOrdered){
-          const result = []
-          getName.filter((item, index)=>{
-            filterOrdered.filter((i, ind)=>{
-              if(item.title === i.listItem.title){
-                return (item.Ordered = true, item.renterID = i.renterID)
-                // result.push(item)
-              }
-            })
+    const userID = getUSERID()
+    userID.then(response =>{
+      const supplierItems = getSupplierItem(response)
+      supplierItems.then(supplier =>{
+        console.log("supplier",supplier.length)
+        if(supplier.length > 0){
+          const getOrder = getOrderSupplier(response)
+          getOrder.then(orders=>{
+            console.log("filterOrdered",orders)
+            if(orders.length > 0){
+              console.log("dasdasd ad", supplier, orders)
+            } else {
+              this.setState({
+                listing: supplier,
+                loading:false
+              })
+            }
           })
-          this.setState({
-            listing: getName,
-            loading: false
-          })
-        }
-      } else {
-        this.setState({
-          loading: false
-        })
-      }
-    }
-  }
-
-  mergedList = (MainArray, orderArray) =>{
-    return new Promise((resolve, reject)=>{
-      MainArray.map((item, index)=>{
-        orderArray.map((i, ind)=>{
-          if(item.title === i.listItem.title){
-            item.Ordered = true
-            item.renterID = i.renterID
-            resolve(item)
-          }
-        })
-      })
-    })
-  }
-
-  getOrder = value =>{
-    const result = []
-    return new Promise((resolve, reject)=>{
-      firestore().collection('Orders').where('supplierID','==', value)
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(documentSnapshot => {
-          // resolve(documentSnapshot.data())
-          result.push(documentSnapshot.data())
-        });
-        resolve(result)
-      })
-    })
-  }
-
-  getApi = async() =>{
-    return new Promise((resolve, reject)=>{
-      auth().onAuthStateChanged(user => {
-        if (!user) {
         } else {
-          resolve(user.uid)
+          this.setState({
+            listing: [],
+            loading:false
+          })
         }
       })
-    })
-  }
-
-  getUSERDATA = async(userID) =>{
-    let result = []
-    return new Promise((resolve, reject)=>{
-      firestore()
-        .collection('ItemList')
-        .where('userID', '==', userID)
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(documentSnapshot => {
-            // resolve(documentSnapshot.data())
-            result.push(documentSnapshot.data())
-          });
-          resolve(result)
-        });
     })
   }
 
@@ -147,29 +91,36 @@ export default class TripsContainer extends Component {
   render() {
     return (
       <Container>
-        {/* <ScrollView refreshControl={
-          <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.loading} />
-        }> */}
           <Loader 
             modalVisible={this.state.loading}
             animationType="fade"
           />
-          {this.state.listing.length > 0 && this.state.listing ? <H1 style={{marginTop:hp('5%'), marginLeft:wp('5%')}}>Listing</H1> : null}
-          {this.state.listing.length > 0 && this.state.listing  ? <CardView onRefresh={this.onRefresh} loading={this.state.loading} navigation={this.navigationRoute} result={this.state.listing} /> : <NoLists onRefresh={this.onRefresh} loading={this.state.loading} goBack={this.goBack} />}
-          {
-            this.state.listing.length > 0 && this.state.listing
-            ?
-            <View style={styles.footer}>
-              <TouchableHighlight onPress={this.goBack} style={styles.findHomesButton}>
-                <Text style={styles.findHomesButtonText}>
-      New Listing
-                </Text>
-              </TouchableHighlight>
-            </View>
-            :
+          {this.state.listing.length > 0 && this.state.listing
+          ? 
+            <H1 
+              style={{marginTop:hp('5%'), marginLeft:wp('5%')}}>
+              Listing
+            </H1> 
+          : 
             null
           }
-        {/* </ScrollView> */}
+          {
+          this.state.listing.length > 0 && this.state.listing  
+          ? 
+            <CardView 
+              onRefresh={this.onRefresh} 
+              loading={this.state.loading} 
+              navigation={this.navigationRoute} 
+              goBack={this.goBack} 
+              result={this.state.listing} 
+            /> 
+          : 
+            <NoLists 
+              onRefresh={this.onRefresh} 
+              loading={this.state.loading} 
+              goBack={this.goBack} 
+            />
+          }
       </Container>
     );
   }
@@ -195,12 +146,11 @@ const styles = StyleSheet.create({
     marginTop:50
   },
   footer: {
-  	position: 'absolute',
-  	width: '100%',
-  	height: 80,
-  	bottom: 0,
-  	borderTopWidth: 1,
-  	borderTopColor: colors.gray05,
+  	// width: '60%',
+  	// height: 80,
+  	// bottom: 0,
+  	// borderTopWidth: 1,
+  	// borderTopColor: colors.gray05,
   	paddingLeft: 20,
   	paddingRight: 20,
   },
@@ -218,11 +168,28 @@ const styles = StyleSheet.create({
   },
 });
 
+const FooterButton = (props) =>{
+  return(
+    <View style={styles.footer}>
+      <TouchableHighlight
+       onPress={props.goBack} 
+       style={styles.findHomesButton}>
+        <Text style={styles.findHomesButtonText}>
+      New Listing
+        </Text>
+      </TouchableHighlight>
+    </View>
+  )
+}
+
 const CardView = (props) =>{
   const result = props.result
   return(
     <View style={{flex:1}}>
       <FlatList
+        ListFooterComponent={
+          <FooterButton goBack={props.goBack} />
+        }
         data={result}
         refreshControl={
           <RefreshControl onRefresh={props.onRefresh} refreshing={props.loading} />

@@ -579,3 +579,32 @@ export async function searchItems(category,location){
     }
   })
 }
+
+export async function getSupplierItem(ID){
+  const result = []
+  return new Promise((resolve, reject)=>{
+    firestore().collection('ItemList')
+    .where('userID', '==', ID)
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(documentSnapshot => {
+        result.push(documentSnapshot.data())
+      });
+      resolve(result)
+    });
+  })
+}
+
+export async function getOrderSupplier(value){
+  const result = []
+    return new Promise((resolve, reject)=>{
+      firestore().collection('OrderItems').where('supplierID','==', value)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          result.push(documentSnapshot.data())
+        });
+        resolve(result)
+      })
+    })
+}
