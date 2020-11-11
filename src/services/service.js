@@ -537,3 +537,45 @@ export async function RemoveSaved(userID,itemID){
     })
   })
 }
+
+export async function searchItems(category,location){
+  const result = []
+  return new Promise((resolve, reject)=>{
+    if(location !== ''){
+      firestore().
+      collection("ItemList").
+      where("location",'==',location).
+      get().
+      then(querySnapshot =>{
+        querySnapshot.forEach(documentSnapshot => {
+          if(category !== ''){
+            if(documentSnapshot.data().type === category){
+              result.push(documentSnapshot.data())
+            } else {
+            }
+          } else {
+            result.push(documentSnapshot.data()) 
+          }
+        });
+        resolve(result)
+      })
+    } else {
+      firestore().
+      collection("ItemList").
+      get().
+      then(querySnapshot =>{
+        querySnapshot.forEach(documentSnapshot => {
+          if(category !== ''){
+            if(documentSnapshot.data().type === category){
+              result.push(documentSnapshot.data())
+            } else {
+            }
+          } else {
+            result.push(documentSnapshot.data()) 
+          }
+        });
+        resolve(result)
+      })
+    }
+  })
+}

@@ -50,6 +50,7 @@ export default class HostSelected extends React.Component{
     async componentDidMount(){
         const getItem = getItemID(this.props.route.params.ID)
         getItem.then(response =>{
+            console.log("response come here", response)
             this.setState({
                 listing: response[0],
                 photo: response[0].photo

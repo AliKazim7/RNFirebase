@@ -17,7 +17,7 @@ import colors from '../../styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import Loader from '../../components/Loader';
 import StarRating from 'react-native-star-rating';
-import { getSegmentData, getUSERID, SaveItemData } from '../../services/service';
+import { getSegmentData, getUSERID, SaveItemData, searchItems } from '../../services/service';
 
 export default class ViewCategory extends React.Component{
     constructor(props){
@@ -53,18 +53,17 @@ export default class ViewCategory extends React.Component{
       }
 
       filterResult = async(list) =>{
+        console.log("listing", list.Location === '')
         this.setState({
           loadingVisible:true
         })
-        const result = this.state.searchAbleList.filter((item,index)=>{
-          if(item.location.match(list.Location) && (list.multiSliderValue[0] < item.price1 && list.multiSliderValue[1] > item.price1) ){
-            return item
-          }
-        })
-        this.setState({
-          listing:result,
-          loadingVisible:false,
-          filtered:list
+        const getItems = searchItems(list.category, list.Location)
+        getItems.then(response =>{
+          this.setState({
+            listing: response,
+            loadingVisible:false,
+            filtered:list
+          })
         })
       }
 
@@ -176,7 +175,7 @@ export default class ViewCategory extends React.Component{
                           ?
                           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
                               {
-                                this.state.filtered.Location !== undefined ?
+                                this.state.filtered.Location !== undefined && this.state.filtered.Location !== "" ?
                                 <Button style={{backgroundColor:colors.saagColor, marginBottom:10}} transparent rounded>
                                   <Text style={{color:'white'}} >{this.state.filtered.Location}</Text>
                                   <Text style={{color:'white'}}>X</Text>

@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="44305107-d178-49f2-872e-a4b060ae247a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/6.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.2/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/components/Modals/FilterModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/components/Modals/FilterModal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/screen/ExploreScreen/ViewCategory.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/screen/ExploreScreen/ViewCategory.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../src/screen/HostScreens/HostSelected.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/screen/HostScreens/HostSelected.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
