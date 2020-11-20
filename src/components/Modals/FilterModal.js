@@ -166,22 +166,22 @@ function FilterModal ({ navigation }){
                                 inputType="email"
                                 placeholderTextColor={colors.white}
                                 placeholder="New York, USA"
-                                customStyle={{ marginBottom: 30,marginTop:20,marginLeft:10 }}
+                                customStyle={{ marginBottom: 30,marginTop:20,marginLeft:10, marginRight:15 }}
                                 onChangeText={(text) => setLocation(text)}
                                 value={location}
                                 autoFocus
                             />
                         </View>
                         <View style={{marginLeft:'2%'}}>
-                            <Text style={{color:'white', marginBottom:5}} >Categories:</Text>
+                            {/* <Text style={{color:'white', marginBottom:5}} >Categories:</Text> */}
                             <Picker
                                 mode="dropdown"
-                                placeholderStyle={{ color: "white"}}
-                                placeholder="Type"
+                                placeholderStyle={{ color: "white", textAlign:'left', justifyContent:'flex-start', paddingLeft:'-5%', paddingBottom:40}}
+                                placeholder="Category"
                                 textStyle={{ color: "white" }}
-                                itemTextStyle={{ color: 'black' }}
-                                placeholderIconColor="#007aff"
-                                style={{ width: wp('100%'), textAlign:'left', marginLeft:'-5%', marginBottom:30, borderBottomColor:'white', borderBottomWidth:1 }}
+                                itemTextStyle={{ color: 'white' }}
+                                placeholderIconColor="white"
+                                style={{ width: wp('90%'), textAlign:'left', marginBottom:30,borderBottomColor:'white', borderBottomWidth:1  }}
                                 selectedValue={category}
                                 // onValueChange={this.addCategory.bind(this)}
                                 onValueChange={changeCategory}

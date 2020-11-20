@@ -445,13 +445,16 @@ export async function getRenterOrder(ID){
   return new Promise((resolve, reject)=>{
     firestore().collection('OrderItems')
     .where('renterID', '==', ID)
-    .get()
-    .then(querySnapshot => {
-      querySnapshot.forEach(documentSnapshot => {
-        result.push(documentSnapshot.data())
-      });
-      resolve(result)
-    });
+    .onSnapshot(function(doc){
+      if(doc.docs.length > 0){
+        doc.docs.forEach((item)=>{
+          result.push(item.data())
+        })
+        resolve(result)
+      } else {
+        resolve(result)
+      }
+    })
   })
 }
 
@@ -691,5 +694,47 @@ export async function getOrderItems(ID){
           resolve([])
         }
       });
+  })
+}
+
+
+export async function completeOrder(ID){
+  const result = []
+  return new Promise((resolve,reject)=>{
+      firestore()
+      .collection('OrderItems')
+      .doc(ID)
+      .update({
+        isCompleted:true
+      }).then(res =>{
+        resolve(true)
+      })
+  })
+}
+
+export async function addComplain(userID, complainAgainst, description, itemID){
+  const result = []
+  return new Promise((resolve,reject)=>{
+    firestore()
+    .collection('Complaints')
+    .add({
+      userID:userID,
+      complainAgainst:complainAgainst,
+      description:description,
+      itemID:itemID,
+      complainAs:'renter',
+      photo:[]
+    })
+    .then(querySnapshot => {
+      firestore()
+      .collection('Complaints')
+      .doc(querySnapshot.id)
+      .update({
+        complainID: querySnapshot.id
+      })
+      .then(querySnapshot =>{
+        resolve(true)
+      })
+    });
   })
 }

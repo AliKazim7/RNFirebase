@@ -75,7 +75,7 @@ async componentDidMount(){
     resp =>{
     const getName = getUSERDATA(resp)
         getName.then(response =>{
-        const firstName = response[0].firstName
+        const firstName = response.firstName
         this.setState({
             userName: firstName,
             userID: resp

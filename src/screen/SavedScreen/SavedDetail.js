@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
       color: colors.gray02,
     },
     TitleView:{
-      paddingLeft:20,
+      // paddingLeft:20,
       marginTop:10, 
       marginBottom:40, 
       borderBottomColor:'black', 

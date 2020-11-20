@@ -17,7 +17,7 @@ import colors from '../../styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import Loader from '../../components/Loader';
 import StarRating from 'react-native-star-rating';
-import { getSegmentData, getUSERID, SaveItemData, searchItems } from '../../services/service';
+import { getSegmentData, getUSERID, RemoveSaved, SaveItemData, searchItems } from '../../services/service';
 
 export default class ViewCategory extends React.Component{
     constructor(props){
@@ -80,19 +80,36 @@ export default class ViewCategory extends React.Component{
 
       handleAddToFav = (listing) =>{
         if(listing.favourite === false){
-          listing.favourite = true
-          this.setState({
-            loadingVisible: true
-          })
+          this.state.listing.favourite = true
+            this.setState({
+              loadingVisible: true
+            })
           const userID = getUSERID()
           userID.then(response =>{
-          const saveItem = SaveItemData(response, listing.id)
-          saveItem.then(res =>{
-          this.setState({
-            loadingVisible: false
+            const saveItem = SaveItemData(response, listing.id)
+            saveItem.then(res =>{
+              this.setState({
+                loadingVisible: false,
+                listing: this.state.listing
+              })
+            })
           })
+        }
+        if(listing.favourite === true){
+          this.state.listing.favourite = false
+            this.setState({
+              loadingVisible: true
+            })
+          const userID = getUSERID()
+          userID.then(response =>{
+            const saveItem = RemoveSaved(response, listing.id)
+            saveItem.then(res =>{
+              this.setState({
+                loadingVisible: false,
+                listing: this.state.listing
+              })
+            })
           })
-        })
         }
       }
 
@@ -143,6 +160,7 @@ export default class ViewCategory extends React.Component{
       }
 
     render(){
+      console.log("Listing items and value", this.state.listing)
         return(
             <Container>
                 <Header style={{marginTop:20}} transparent>
@@ -241,7 +259,7 @@ export default class ViewCategory extends React.Component{
                               source={require('../../img/noImage.jpeg')}
                             />
                           }
-                          {listing.totalRating > 0
+                          {/* {listing.totalRating > 0
                             ? (
                               <View style={{marginTop:10, width: wp('20%')}}>
                                 <StarRating
@@ -257,7 +275,7 @@ export default class ViewCategory extends React.Component{
                               <Text style={{color:colors.saagColor}} note>
                                 No reviews yet
                               </Text>
-                            }
+                            } */}
                           <Text
                             style={styles.listingTitle}
                             numberOfLines={2}

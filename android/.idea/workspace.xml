@@ -11,30 +11,12 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/-1306736036/react-native-community_masked-view.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-1306736036/react-native-community_masked-view.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/-331222114/react-native-firebase_app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/-331222114/react-native-firebase_app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/1622256123/react-native-gesture-handler.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1622256123/react-native-gesture-handler.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/1870091659/react-native-firebase_auth.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/1870091659/react-native-firebase_auth.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/199363772/react-native-screens.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/199363772/react-native-screens.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/283671080/react-native-firebase_firestore.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/283671080/react-native-firebase_firestore.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/287925057/react-native-reanimated.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/287925057/react-native-reanimated.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/354216824/react-native-firebase_storage.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/354216824/react-native-firebase_storage.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/containers/InboxContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/InboxContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/ProfileContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/ProfileContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/SavedContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/SavedContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/containers/TripsContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/containers/TripsContainer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/screen/AddListScreens/AddDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/screen/AddListScreens/AddDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/screen/AddListScreens/PreviewItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/screen/AddListScreens/PreviewItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/screen/ExploreScreen/Messages.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/screen/ExploreScreen/Messages.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/screen/InboxScreen/ChatMessages.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/screen/InboxScreen/ChatMessages.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/screen/InboxScreen/NoMessages.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/screen/InboxScreen/NoMessages.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/screen/ListingScreens/AddDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/screen/ListingScreens/AddDetails.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/screen/ProfileScreen/AddUserImg.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/screen/ProfileScreen/AddUserImg.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/screen/ProfileScreen/EditProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/screen/ProfileScreen/EditProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/screen/ProfileScreen/UserProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/screen/ProfileScreen/UserProfile.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../src/screen/SavedScreen/SavedDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/screen/SavedScreen/SavedDetail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/services/service.js" beforeDir="false" afterPath="$PROJECT_DIR$/../src/services/service.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -155,22 +137,22 @@
       <screen x="0" y="23" width="1280" height="723" />
     </state>
     <state x="349" y="24" key="#app/0.23.1280.723@0.23.1280.723" timestamp="1605855181199" />
-    <state width="1238" height="179" key="GridCell.Tab.0.bottom" timestamp="1604662973921">
+    <state width="1238" height="179" key="GridCell.Tab.0.bottom" timestamp="1605869477018">
       <screen x="0" y="23" width="1280" height="723" />
     </state>
-    <state width="1238" height="179" key="GridCell.Tab.0.bottom/0.23.1280.723@0.23.1280.723" timestamp="1604662973921" />
-    <state width="1238" height="179" key="GridCell.Tab.0.center" timestamp="1604662973920">
+    <state width="1238" height="179" key="GridCell.Tab.0.bottom/0.23.1280.723@0.23.1280.723" timestamp="1605869477005" />
+    <state width="1238" height="179" key="GridCell.Tab.0.center" timestamp="1605869476997">
       <screen x="0" y="23" width="1280" height="723" />
     </state>
-    <state width="1238" height="179" key="GridCell.Tab.0.center/0.23.1280.723@0.23.1280.723" timestamp="1604662973920" />
-    <state width="1238" height="179" key="GridCell.Tab.0.left" timestamp="1604662973920">
+    <state width="1238" height="179" key="GridCell.Tab.0.center/0.23.1280.723@0.23.1280.723" timestamp="1605869476997" />
+    <state width="1238" height="179" key="GridCell.Tab.0.left" timestamp="1605869476979">
       <screen x="0" y="23" width="1280" height="723" />
     </state>
-    <state width="1238" height="179" key="GridCell.Tab.0.left/0.23.1280.723@0.23.1280.723" timestamp="1604662973920" />
-    <state width="1238" height="179" key="GridCell.Tab.0.right" timestamp="1604662973921">
+    <state width="1238" height="179" key="GridCell.Tab.0.left/0.23.1280.723@0.23.1280.723" timestamp="1605869476979" />
+    <state width="1238" height="179" key="GridCell.Tab.0.right" timestamp="1605869476998">
       <screen x="0" y="23" width="1280" height="723" />
     </state>
-    <state width="1238" height="179" key="GridCell.Tab.0.right/0.23.1280.723@0.23.1280.723" timestamp="1604662973921" />
+    <state width="1238" height="179" key="GridCell.Tab.0.right/0.23.1280.723@0.23.1280.723" timestamp="1605869476998" />
     <state x="85" y="23" key="ScreenshotViewer.Dimensions" timestamp="1600353620208">
       <screen x="0" y="23" width="1280" height="723" />
     </state>
