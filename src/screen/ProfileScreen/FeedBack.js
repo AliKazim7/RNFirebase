@@ -14,11 +14,12 @@ import Notification from '../../components/Notification';
 import Loader from '../../components/Loader';
 import styles from '../styles/LogIn';
 import PickerForm from '../../components/form/PickerForm';
-import { Content, H1, Container, Left, Button, Header, Body, Right, Icon, Title, H3, Item, Label, Textarea } from 'native-base';
+import { Content, H1, Container, Left, Button, Header, Body, Right, Icon, Title, H3, Item, Label, Textarea, Toast } from 'native-base';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { addFeedBack, getUSERID } from '../../services/service';
+import FeedBackAlert from '../../components/Alerts/FeedBackAlert';
 
 export default class FeedBack extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -48,8 +49,10 @@ export default class FeedBack extends Component {
       validEmail: false,
       emailAddress: '',
       loadingVisible: false,
+      feedbackVisible: false,
       userID:'',
       feedBack:'',
+      showToast:false,
       isDisabled: true,
     };
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -73,14 +76,15 @@ export default class FeedBack extends Component {
       addFeed.then(response =>{
         if(response === true){
           this.setState({
-            loadingVisible: false
+            loadingVisible: false,
+            feedbackVisible:true
           })
-          this.props.navigation.navigate('ProfileTab')
+          // this.props.navigation.navigate('ProfileTab')
         } else {
           this.setState({
             loadingVisible: false
           })
-          this.props.navigation.navigate('ProfileTab')
+          // this.props.navigation.navigate('ProfileTab')
         }
       })
    }
@@ -97,16 +101,30 @@ export default class FeedBack extends Component {
     this.setState({ emailAddress: email });
   }
 
+  onClose = () =>{
+    console.log("item closed")
+    this.setState({
+      feedbackVisible: false
+    })
+    this.props.navigation.goBack()
+  }
+
   render() {
     const {
       formValid, loadingVisible, validEmail, validPassword,validFirstName, validLastName, validNewPass
     } = this.state;
     const showNotification = !formValid;
+    console.log("feedback visible", this.state.feedbackVisible)
     const background = formValid ? colors.green01 : colors.darkOrange;
     const notificationMarginTop = showNotification ? 10 : 0;
     return (
       <Container style={{backgroundColor: colors.saagColor}}>
        <Header transparent  style={{marginBottom:20}}>
+         <FeedBackAlert
+            modalVisible={this.state.feedbackVisible}
+            onClose={this.onClose}
+            animationType="fade"
+          />
           <Left >
             <Icon style={{color:'white'}} onPress={()  => this.props.navigation.goBack()} type="AntDesign" name="arrowleft" />
           </Left>
@@ -130,16 +148,15 @@ export default class FeedBack extends Component {
         </View>
           <ScrollView style={styles.scrollView}>
             <InputField
-              labelText="Topic"
-              labelTextSize={14}
-              labelColor={colors.white}
+              placeholder="Topic"
+              // placeholderTextColor={14}
+              placeholderTextColor={colors.white}
               textColor={colors.white}
               borderBottomColor={colors.white}
               inputType="email"
               customStyle={{ marginBottom: 30 }}
               onChangeText={this.handleEmailChange}
               showCheckmark={validEmail}
-              autoFocus
             />
             <Textarea rowSpan={5} value={this.state.feedBack} style={{color:'white'}} placeholder="Write the feedback" onChangeText={(text) => this.handleText(text)} placeholderTextColor="white" bordered />
           </ScrollView>

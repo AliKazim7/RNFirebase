@@ -75,7 +75,7 @@ async componentDidMount(){
     resp =>{
     const getName = getUSERDATA(resp)
         getName.then(response =>{
-        const firstName = response[0].firstName
+        const firstName = response.firstName
         this.setState({
             userName: firstName,
             userID: resp
@@ -137,12 +137,19 @@ async componentWillReceiveProps(nextProps){
             validationArray.push("locationError")
             this.state.typeError = true
         }
+        if(this.state.NotfixedPrice){
+            if(this.state.priceResT === ""){
+                validationArray.push("rest price error")
+                this.state.NotfixedPriceError = true
+            }
+        }
         if(validationArray.length > 0){
             this.setState({
                 locationError: this.state.locationError,
                 titleError: this.state.titleError,
                 price1Error:this.state.price1Error,
-                typeError: this.state.typeError
+                typeError: this.state.typeError,
+                NotfixedPriceError: this.state.NotfixedPriceError
             })
         } else {
         const addPlace = addOrderList(
@@ -281,13 +288,16 @@ async componentWillReceiveProps(nextProps){
                         {
                             this.state.type !== ''
                             ?
-                        <View style={{flexDirection:'row'}} >
+                        <View style={this.state.NotfixedPrice ? {flexDirection:'row'} : {flexDirection:'row', marginBottom:hp("5%")}} >
                             <Left style={{flex:0.5}}>
                                 <CheckBox color="white" onPress={() => this.changeCheck()} checked={this.state.NotfixedPrice} />
                             </Left>
                             <Body style={{flex:2, alignItems:'flex-start'}}>
                                 <Text style={{color:'white'}}>
-                                    Use different price for other days
+                                    Use different price
+                                </Text>
+                                <Text style={{color:'white'}}>
+                                    for other days
                                 </Text>
                             </Body>
                         </View>
@@ -297,13 +307,14 @@ async componentWillReceiveProps(nextProps){
                     {
                         this.state.NotfixedPrice
                         ?
-                        <View style={{flexDirection:'row', width: wp('100%'), marginTop:hp('3%')}}>
+                        <View style={{flexDirection:'row', width: wp('100%'), marginTop:hp('3%'), marginBottom:hp("3%")}}>
                         <InputField
                             labelText="Price For Other days"
                             labelTextSize={14}
                             labelColor={colors.white}
                             textColor={colors.white}
-                            borderBottomColor={colors.white}
+                            borderBottomColor={this.state.NotfixedPriceError ? colors.black : colors.white}
+                            // borderBottomColor={colors.white}
                             inputType="email"
                             placeholderTextColor="rgba(0,0,0,0.6)"
                             placeholder="70"

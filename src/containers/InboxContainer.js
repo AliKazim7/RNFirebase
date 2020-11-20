@@ -175,9 +175,7 @@ getAllChats = () =>{
   render() {
     return (
       <Container>
-        <ScrollView refreshControl={
-          <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.loading} />
-        }>
+        <ScrollView>
           {this.state.allChats.length > 0 && this.state.allChats
           ? 
             <H1 

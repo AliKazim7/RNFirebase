@@ -176,18 +176,6 @@ export default class SelectedSavedItem extends React.Component{
                     <ListItem>
                         <Body>
                             <H3>{listing.title}</H3>
-                            {listing.totalRating> 0
-                            ? (
-                                <StarRating
-                                    maxStars={5}
-                                    starSize={20}
-                                    starStyle={colors.saagColor}
-                                    fullStarColor={colors.saagColor}
-                                    containerStyle={{width:30}}
-                                    rating={listing.totalRating}
-                                />
-                                )
-                            : null}
                             <Text note style={{marginTop:10, marginBottom:10}}>{listing.location}</Text>
                         </Body>
                         <Right />

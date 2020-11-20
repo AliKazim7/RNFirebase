@@ -51,11 +51,11 @@ export default class AddUserImg extends React.Component{
         if(response){
           const getName = getUSERDATA(response)
           getName.then(res =>{
-            const photo = res[0].photo
-            const userWork = res[0].userWork
-            const userDetail = res[0].userDetail
-            const userLocation = res[0].userLocation
-            const userLanguage = res[0].userLanguage
+            const photo = res.photo
+            const userWork = res.userWork
+            const userDetail = res.userDetail
+            const userLocation = res.userLocation
+            const userLanguage = res.userLanguage
             this.setState({
               loadingVisible: false,
               userPhoto: photo,
@@ -241,9 +241,9 @@ export default class AddUserImg extends React.Component{
                 </TouchableOpacity>
                     <H3 style={{marginTop:20}}>Tell more about yourself</H3>
                     <Item fixedLabel style={{marginBottom:30, marginTop:10}}>
-                      <Label>Edit about me</Label>
                       <Input
                         onChangeText={this.handleChange}
+                        placeholder="About me"
                         value={this.state.userDetail}
                         style={{color:'black'}}
                       />
@@ -252,7 +252,7 @@ export default class AddUserImg extends React.Component{
                     <Item fixedLabel style={{marginBottom:30}}>
                       <Label>Language</Label>
                       <Input
-                        placeholder="e.g. English/ Spanish/ French "
+                        placeholder="e.g. English"
                         onChangeText={this.handleLanguage}
                         value={this.state.userLanguage}
                         style={{color:'black'}}
@@ -261,7 +261,7 @@ export default class AddUserImg extends React.Component{
                     <Item fixedLabel style={{marginBottom:30}}>
                       <Label>Location</Label>
                       <Input
-                        placeholder="e.g. Paris, FR/ Brooklyn, NY/ Chicago, IL"
+                        placeholder="e.g. San Francisco, California"
                         onChangeText={this.handleLocation}
                         value={this.state.userLocation}
                         style={{color:'black'}}
@@ -270,7 +270,7 @@ export default class AddUserImg extends React.Component{
                     <Item fixedLabel style={{marginBottom:30}}>
                       <Label>Work</Label>
                       <Input
-                        placeholder="e.g. SAG"
+                        placeholder="e.g. SAAG"
                         onChangeText={this.handleWork}
                         value={this.state.userWork}
                         style={{color:'black'}}

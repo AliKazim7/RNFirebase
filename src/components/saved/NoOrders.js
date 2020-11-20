@@ -72,7 +72,7 @@ Order Items
   
   TotalOrder = () =>{
     return(
-      <View>
+      <View style={{marginLeft:10, marginRight:10, marginTop:10}}>
         <FlatList
         data={this.state.listing}
         renderItem={({item, index})=>(

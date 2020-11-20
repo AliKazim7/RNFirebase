@@ -213,17 +213,6 @@ export default class SelectedListItem extends React.Component{
                         <ListItem>
                             <Body>
                                 <Text style={{fontSize:24}}>{this.state.showPreview === false ? listing.title : this.state.title}</Text>
-                                {listing.totalRating> 0
-                                ? (
-                                    <StarRating
-                                        maxStars={5}
-                                        starSize={20}
-                                        starStyle={colors.saagColor}
-                                        fullStarColor={colors.saagColor}
-                                        rating={listing.totalRating}
-                                    />
-                                    )
-                                : null}
                                 <Text style={{marginTop:10, marginBottom:10}}>{this.state.showPreview === false ? listing.location : this.state.location}</Text>
                             </Body>
                             <Right />

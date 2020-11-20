@@ -32,42 +32,6 @@ export default class MyOrders extends Component {
 
 async componentDidMount(){
   this.apiCall()
-  // this.setState({
-  //   loading: true
-  // })
-  // const completed = []
-  // const completedNot = []
-  // const userID = await this.getApi()
-  // if(userID){
-  //   const getOrders = await this.getOrders(userID)
-  //   if(getOrders){
-  //     const notCompleted = getOrders.filter((item)=>{
-  //       if(item.isCompleted === false){
-  //         completedNot.push(item)
-  //       }
-  //     })
-  //     const Completed = getOrders.filter((item)=>{
-  //       if(item.isCompleted === true){
-  //         completed.push(item)
-  //       }
-  //     })
-  //     if(completedNot.length > 0 || completed.length > 0){
-  //       this.setState({
-  //         completedArray : completed,
-  //         loading: false,
-  //         notcompletedArray : completedNot
-  //       })
-  //     } else {
-  //       this.setState({
-  //         loading: false
-  //       })
-  //     }
-  //   } else{
-  //     this.setState({
-  //       loading: false
-  //     })
-  //   }
-  // }
 }
 
 apiCall = async() =>{
@@ -76,6 +40,7 @@ apiCall = async() =>{
   userID.then(response =>{
     const getOrders = getRenterOrder(response)
     getOrders.then(res =>{
+      console.log("items come hre", res)
       res.map((item, index)=>{
         const getItems = getItemID(item.itemID)
         getItems.then(result=>{
@@ -113,32 +78,8 @@ apiCall = async() =>{
 }
 
 async componentWillReceiveProps(nextProps){
+  this.apiCall()
 }
-
-getApi = async() =>{
-  return new Promise((resolve, reject)=>{
-    auth().onAuthStateChanged(user => {
-      if (!user) {
-      } else {
-        resolve(user.uid)
-      }
-    })
-  })
-}
-
-getOrders = async(userID) =>{
-  const result = []
-  return new Promise((resolve, reject)=>{
-    firestore().collection('Orders').where('renterID','==',userID).get()
-    .then(querySnapshot => {
-      querySnapshot.forEach(documentSnapshot => {
-        result.push(documentSnapshot.data())
-      });
-      resolve(result)
-    });
-  })
-}
-
 handleIndexChange = (values) =>{
   this.setState({
     selectedIndex:values,
