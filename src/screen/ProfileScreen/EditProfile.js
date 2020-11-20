@@ -112,12 +112,12 @@ export default class EditProfile extends Component {
     userID.then(response =>{
       const getName = getUSERDATA(response)
       getName.then(res =>{
-        const emailAddress = res[0].email
-        const firstName = res[0].firstName
-        const receiveEmail = res[0].receiveEmail
-        const gender = res[0].Gender
-        const PhoneNumber = res[0].PhoneNumber
-        const DoB = res[0].DoB
+        const emailAddress = res.email
+        const firstName = res.firstName
+        const receiveEmail = res.receiveEmail
+        const gender = res.Gender
+        const PhoneNumber = res.PhoneNumber
+        const DoB = res.DoB
         this.setState({
           FirstName:firstName !== undefined ? firstName : '',
           Email: emailAddress !== undefined ? emailAddress : '',
@@ -195,13 +195,13 @@ export default class EditProfile extends Component {
     return (
       <Container style={{backgroundColor: background}}>
         <Header transparent>
-            <Left>
+            <Left style={{paddingLeft:10}}>
               {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('Profile')}> */}
                 <Icon style={{color:'white'}} onPress={() => this.props.navigation.goBack()} type="AntDesign" name="arrowleft" />
               {/* </TouchableOpacity> */}
             </Left>
             <Body />
-            <Right>
+            <Right style={{paddingRight:10}}>
               <TouchableOpacity disabled={this.toggleNextButtonState()} onPress={this.handleNextButton}>
                 <Text style={{color:colors.white, fontSize:16}}>Save</Text>
               </TouchableOpacity>
@@ -212,47 +212,15 @@ export default class EditProfile extends Component {
           <ScrollView style={styles.scrollView}>
             <Item style={styles.inputStyle} stackedLabel>
               <Label style={{ color: colors.white}}>User Name</Label>
-              <Input value={this.state.FirstName} style={{color:'white'}} onChangeText={(text) => this.handleLastName('FirstName', text)} />
+              <Input value={this.state.FirstName} style={{color:'white', fontSize:15}} onChangeText={(text) => this.handleLastName('FirstName', text)} />
             </Item>
-              {/* <Picker
-                mode="dropdown"
-                iosIcon={<Icon name="arrowdown" type="AntDesign" /> }
-                placeholder="Gender"
-                placeholderStyle={{ color: "white" }}
-                placeholder="Gender"
-                textStyle={{ color: "black" }}
-                itemTextStyle={{ color: 'black' }}
-                placeholderIconColor="#007aff"
-                style={{ width: wp('100%') }}
-                selectedValue={this.state.gender}
-                onValueChange={this.changeCheck.bind(this)}
-              >
-                <Picker.Item label="Male" value="Male" />
-                <Picker.Item label="Female" value="Female" />
-                <Picker.Item label="Other" value="Other" />
-              </Picker>
-              <DatePicker
-                locale={"en"}
-                timeZoneOffsetInMinutes={undefined}
-                modalTransparent={false}
-                animationType={"fade"}
-                androidMode={"default"}
-                placeHolderText="Select date"
-                textStyle={{ color: "green" }}
-                placeHolderTextStyle={{ color: "white" }}
-                onDateChange={this.setDate}
-                disabled={false}
-              />
-              <Text style={{color:'white', marginLeft:5, borderBottomColor:'white', borderBottomWidth:1}}>
-                Date: {this.state.DoB.toString()}
-              </Text> */}
             <Item style={styles.inputStyle} stackedLabel>
               <Label style={{ color: colors.white}}>Email</Label>
-              <Input value={this.state.Email} keyboardType="email-address" style={{color:'white'}} onChangeText={(text) => this.handleLastName('Email', text)} />
+              <Input value={this.state.Email} keyboardType="email-address" style={{color:'white', fontSize:15}} onChangeText={(text) => this.handleLastName('Email', text)} />
             </Item>
             <Item style={styles.inputStyle} stackedLabel>
               <Label style={{ color: colors.white}}>Phone Number</Label>
-              <Input keyboardType="phone-pad" value={this.state.PhoneNumber} style={{color:'white'}} onChangeText={(text) => this.handleLastName('PhoneNumber', text)} />
+              <Input keyboardType="phone-pad" value={this.state.PhoneNumber} style={{color:'white', fontSize:15}} onChangeText={(text) => this.handleLastName('PhoneNumber', text)} />
             </Item>
             <View style={{flexDirection:'row', marginTop:20}} >
               <Left style={{flex:0.3, justifyContent:'flex-start'}}>

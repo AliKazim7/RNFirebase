@@ -186,7 +186,7 @@ async componentWillReceiveProps(nextProps){
         return(
             <Container style={{backgroundColor:colors.saagColor}}>
                 <Header transparent>
-                    <Left>
+                    <Left style={{paddingLeft:10}}>
                         <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                             <Icon style={{color: 'white'}} name="arrowleft" type="AntDesign" />
                         </TouchableOpacity>
@@ -207,7 +207,7 @@ async componentWillReceiveProps(nextProps){
                             borderBottomColor={this.state.locationError ? colors.black : colors.white}
                             inputType="email"
                             placeholderTextColor='rgba(0,0,0,0.6)'
-                            placeholder="New York, America"
+                            placeholder="San Francisco, CA"
                             customStyle={{ marginBottom: 30 }}
                             onChangeText={(text) => this.dataHandle('location', text)}
                             value={this.state.location}
@@ -221,19 +221,19 @@ async componentWillReceiveProps(nextProps){
                             borderBottomColor={this.state.titleError ? colors.black : colors.white}
                             inputType="email"
                             placeholderTextColor='rgba(0,0,0,0.6)'
-                            placeholder="Statue of Liberty"
+                            placeholder="San Francisco Bay Area"
                             customStyle={{ marginBottom: 20 }}
                             onChangeText={(text) => this.dataHandle('title', text)}
                             value={this.state.title}
                         />
                         <Picker
                             mode="dropdown"
-                            placeholderStyle={this.state.typeError ? { color: "black", textAlign:'left' } : { color: "white", textAlign:'left', justifyContent:'flex-start', paddingLeft:'-5%'}}
+                            placeholderStyle={this.state.typeError ? { color: "black", textAlign:'left', justifyContent:'flex-start', paddingLeft:'-5%'} : { color: "white", textAlign:'left', justifyContent:'flex-start', paddingLeft:'-5%', paddingBottom:40}}
                             placeholder="Category"
                             textStyle={{ color: "white" }}
                             itemTextStyle={{ color: 'black' }}
-                            placeholderIconColor="#007aff"
-                            style={{ width: wp('100%'), textAlign:'left', marginBottom:30,borderBottomColor:'white', borderBottomWidth:1  }}
+                            placeholderIconColor="white"
+                            style={{ width: wp('90%'), textAlign:'left', marginBottom:30,borderBottomColor:'white', borderBottomWidth:1  }}
                             selectedValue={this.state.type}
                             onValueChange={this.addCategory.bind(this)}
                         >
@@ -244,7 +244,7 @@ async componentWillReceiveProps(nextProps){
                         }
                         </Picker>
                         <View style={{flexDirection:'row', marginBottom:30}} >
-                            <Left style={{flex:0.5}}>
+                            <Left style={{flex:0.5,paddingLeft:'-5%'}}>
                                 <CheckBox color="white" onPress={() => this.changeImage()} checked={this.state.checkedImage} />
                             </Left>
                             <Body style={{flex:2, alignItems:'flex-start'}}>

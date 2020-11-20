@@ -149,13 +149,18 @@ handleIndexChange = (values) =>{
 
 currentOrders = () =>{
     return(
-      <NoOrders onPress={this.displayDetail} listing={this.state.notcompletedArray} />
+      <NoOrders onPress={this.displayDetail} orderItems={this.orderItems} listing={this.state.notcompletedArray} />
     )
+}
+
+orderItems = () =>{
+  console.log("order items ")
+  this.props.navigation.navigate('MainContainer')
 }
 
 orderHistory = () =>{
   return(
-    <NoHistory onPress={this.displayDetail} listing={this.state.completedArray} />
+    <NoHistory onPress={this.displayDetail} orderItems={this.orderItems} listing={this.state.completedArray} />
   )
 }
 

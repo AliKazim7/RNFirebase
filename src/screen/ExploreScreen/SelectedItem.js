@@ -18,7 +18,7 @@ import Loader from '../../components/Loader';
 import firestore from '@react-native-firebase/firestore'
 import auth from '@react-native-firebase/auth'
 import StarRating from 'react-native-star-rating';
-import { addOrder, getUSERDATA, getUSERID,RemoveSaved,SaveItemData } from '../../services/service';
+import { addOrder, getOrderItems, getUSERDATA, getUSERID,RemoveSaved,SaveItemData } from '../../services/service';
 export default class SelectedItem extends React.Component{
     static navigationOptions = ({ navigation }) => ({
         headerLeft: (
@@ -46,7 +46,8 @@ export default class SelectedItem extends React.Component{
             startDate:'',
             endDate:'',
             userID:'',
-            loadingVisible:false
+            loadingVisible:false,
+            notAvailEndDate: ''
         }
       }
 
@@ -58,9 +59,24 @@ export default class SelectedItem extends React.Component{
         getDetails.then(response =>{
             this.setState({
                 listing: this.props.route.params.listing,
-                userDetails: response[0],
+                userDetails: response,
                 loadingVisible: false
             })
+            // const getOrders = getOrderItems(this.props.route.params.listing.id)
+            // getOrders.then(res =>{
+            //     if(res.length > 0){
+            //         console.log("data checking", res)
+            //         this.setState({
+            //             notAvailEndDate:res.endDate
+            //         })
+            //     } else {
+            //         this.setState({
+            //             listing: this.props.route.params.listing,
+            //             userDetails: response,
+            //             loadingVisible: false
+            //         })
+            //     }
+            // })
         })
     }
 
@@ -218,18 +234,6 @@ export default class SelectedItem extends React.Component{
                     <ListItem>
                         <Body>
                             <H3>{listing.title}</H3>
-                            {listing.totalRating> 0
-                            ? (
-                                <StarRating
-                                    maxStars={5}
-                                    starSize={20}
-                                    starStyle={colors.saagColor}
-                                    containerStyle={{width:30}}
-                                    fullStarColor={colors.saagColor}
-                                    rating={listing.totalRating}
-                                />
-                                )
-                            : null}
                             <Text note style={{marginTop:10, marginBottom:10}}>{listing.location}</Text>
                         </Body>
                         <Right />

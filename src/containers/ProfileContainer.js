@@ -42,10 +42,11 @@ export default class ProfileContainer extends Component {
       if(response){
         const getName = getUSERDATA(response)
         getName.then(res =>{
-          const emailAddress = res[0].email
-          const firstName = res[0].firstName
-          const photo = res[0].photo
-          const password = res[0].password
+          console.log("respomse come here", res)
+          const emailAddress = res.email
+          const firstName = res.firstName
+          const photo = res.photo
+          const password = res.password
           this.setState({
             userName:firstName,
             email: emailAddress,

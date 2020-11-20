@@ -12,7 +12,7 @@ export default class NoMessages extends React.Component{
 
     render(){
         return(
-            <View style={{ backgroundColor: colors.gray05, flex:1}}>
+            <View style={{ backgroundColor: colors.white, flex:1}}>
                 <Text style={{fontWeight:'bold', marginBottom:10,fontSize:16, marginTop:20,marginLeft:20,}}>
                     You have no unread messages
                 </Text>

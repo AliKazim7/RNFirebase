@@ -146,10 +146,8 @@ uploadData = async(ID, value) =>{
         .add({
           supplierID: supplierID,
           itemID: lisitng.id,
-          title: lisitng.title,
           messages:value,
           ChatID: ID,
-          listing: lisitng,
           renterID: this.state.userID._id
         })
         .then((response)=>{

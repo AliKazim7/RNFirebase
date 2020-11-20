@@ -65,11 +65,11 @@ export default class UserProfile extends Component {
       if(response){
         const getName = getUSERDATA(response)
         getName.then(res =>{
-          const emailAddress = res[0].email
-          const firstName = res[0].firstName
-          const photo = res[0].photo
-          const password = res[0].password
-          const accountCreate = res[0].accountCreate
+          const emailAddress = res.email
+          const firstName = res.firstName
+          const photo = res.photo
+          const password = res.password
+          const accountCreate = res.accountCreate
           this.setState({
             userName:firstName,
             email: emailAddress,

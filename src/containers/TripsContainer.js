@@ -21,7 +21,7 @@ import colors from '../screen/styles/colors';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import NoImage from '../components/explore/NoImage';
 import headStyle from '../screen/styles/HeaderSetting';
-import { getSupplierItem, getUSERID, getOrderSupplier } from '../services/service';
+import { getSupplierItem, getUSERID, getOrderSupplier, displayRented } from '../services/service';
 export default class TripsContainer extends Component {
   constructor(props){
     super(props)
@@ -46,13 +46,17 @@ export default class TripsContainer extends Component {
     userID.then(response =>{
       const supplierItems = getSupplierItem(response)
       supplierItems.then(supplier =>{
-        console.log("supplier",supplier.length)
         if(supplier.length > 0){
           const getOrder = getOrderSupplier(response)
           getOrder.then(orders=>{
-            console.log("filterOrdered",orders)
             if(orders.length > 0){
-              console.log("dasdasd ad", supplier, orders)
+              const rentedItem = displayRented(supplier, orders)
+              rentedItem.then(rent =>{
+                this.setState({
+                  listing: rent,
+                  loading:false
+                })
+              })
             } else {
               this.setState({
                 listing: supplier,
@@ -151,8 +155,8 @@ const styles = StyleSheet.create({
   	// bottom: 0,
   	// borderTopWidth: 1,
   	// borderTopColor: colors.gray05,
-  	paddingLeft: 20,
-  	paddingRight: 20,
+  	// paddingLeft: 20,
+  	// paddingRight: 20,
   },
   findHomesButton: {
   	paddingTop: 15,
@@ -185,7 +189,7 @@ const FooterButton = (props) =>{
 const CardView = (props) =>{
   const result = props.result
   return(
-    <View style={{flex:1}}>
+    <View style={{flex:1,marginLeft:20, marginRight:20}}>
       <FlatList
         ListFooterComponent={
           <FooterButton goBack={props.goBack} />
@@ -215,7 +219,7 @@ const CardView = (props) =>{
                   <NoImage />
               }
               {
-                item.Ordered === true 
+                item.rented === true 
                 ?
                 <View style={headStyle.leftHeader1} >
                   <Text style={{color:'white'}}>Rented</Text>

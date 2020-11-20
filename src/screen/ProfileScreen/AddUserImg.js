@@ -207,12 +207,12 @@ export default class AddUserImg extends React.Component{
                   animationType="fade"
                 />
                 <Header transparent>
-                    <Left>
+                    <Left style={{paddingLeft:10}}>
                         <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                             <Text>X</Text>
                         </TouchableOpacity>
                     </Left>
-                    <Right>
+                    <Right style={{paddingRight:10}}>
                         <TouchableOpacity onPress={() => this.handleSave()}>
                             <Text style={{color:colors.saagColor}} note={this.state.disAbled} >Save</Text>
                         </TouchableOpacity>
@@ -227,10 +227,10 @@ export default class AddUserImg extends React.Component{
                           this.state.userPhoto ? 
                             <Thumbnail source={this.state.userPhoto  ? {uri: this.state.userPhoto} : null} square resizeMode="cover" style={{width:wp('100%'), height:hp('50%')}} /> 
                             : 
-                            <Image style={{flex:1, height:hp('60%'), width:wp('100%')}} resizeMode='cover' source={require('../../img/images.png')} />
+                            <Image style={{flex:1, height:hp('50%'), width:wp('100%')}} resizeMode='cover' source={require('../../img/images.png')} />
                         }
                         <View style={styles.addToFavoriteBtn}>
-                            <Icon type='FontAwesome5' name="camera-retro" />
+                            <Icon style={{color:'white'}} type='FontAwesome5' name="camera-retro" />
                         </View>
                     </View>
                     :
@@ -239,7 +239,8 @@ export default class AddUserImg extends React.Component{
                     </View>
                     }
                 </TouchableOpacity>
-                    <Item fixedLabel style={{marginBottom:30, marginTop:20}}>
+                    <H3 style={{marginTop:20}}>Tell more about yourself</H3>
+                    <Item fixedLabel style={{marginBottom:30, marginTop:10}}>
                       <Label>Edit about me</Label>
                       <Input
                         onChangeText={this.handleChange}

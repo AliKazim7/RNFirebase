@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
-  StyleSheet, ScrollView, RefreshControl
+  StyleSheet,
+  ScrollView,
+  // Image,
+  TouchableOpacity, FlatList, RefreshControl, TouchableHighlight
 } from 'react-native';
-import { Body, Container, H1, H3, Header, Icon, Left, List, ListItem, Right, Title } from 'native-base';
+import { Body, Container, H1, H3, Header, Icon, Left, List, ListItem,Text, Right, Title,Card, CardItem,H2 } from 'native-base';
 import SegmentedControlTab from 'react-native-segmented-control-tab'
 import NoMessages from '../screen/InboxScreen/NoMessages';
 import NotificationNot from '../screen/InboxScreen/NotifcationNot';
@@ -13,6 +15,8 @@ import firestore from '@react-native-firebase/firestore'
 import { GiftedChat } from 'react-native-gifted-chat';
 import Loader from '../components/Loader';
 import colors from '../styles/colors';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
+import { getItemDetail, getRenterChat,getSupplierChat, getUSERID } from '../services/service';
 
 export default class InboxContainer extends Component {
   constructor(props){
@@ -20,10 +24,7 @@ export default class InboxContainer extends Component {
     this.state = {
       showMessages: true,
       messages:[],
-      selectedIndex:0,
-      renterChat:[],
-      supplierChat:[],
-      segmentTab:["Supplier Chat", "Renter Chat"],
+      allChats:[],
       loading: false,
       userID:''
     }
@@ -37,26 +38,50 @@ apiCall = async() =>{
   this.setState({
     loading: true
   })
-  const userID = await this.getUSERID()
-  if(userID){
-    const renterChat = await this.getRenterID(userID)
-    const supplierChat = await this.getSupplierID(userID)
-    if(renterChat.length > 0){
-      this.setState({
-        userID: userID,
-        renterChat: renterChat,
-        selectedIndex:1,
-        loading: false
+  const result = []
+  const userID = getUSERID()
+  userID.then(response =>{
+    const renterChats = getRenterChat(response)
+    renterChats.then(reChat =>{
+      console.log("renter chats come here", reChat)
+      if(reChat.length > 0){
+        reChat.forEach(element => {
+          result.push(element)
+        });
+      }
+      const supplierchats = getSupplierChat(response)
+      supplierchats.then(supChat =>{
+        console.log("supplier chats come here", supChat)
+        if(reChat.length > 0){
+          supChat.forEach(element => {
+            result.push(element)
+          });
+        }
+        if(result.length > 0){
+        result.forEach((item,index) =>{
+          console.log("supplier chats come here", result)
+          const getDetail = getItemDetail(item.itemID)
+          getDetail.then(res =>{
+            console.log("supplier chats come here", res)
+            if(item.itemID === res.id){
+              result[index].title = res.title
+              result[index].type = res.type
+            }
+            this.setState({
+              allChats: result,
+              loading: false
+            })
+          })
+        })
+        } else {
+          this.setState({
+            allChats: result,
+            loading: false
+          })
+        }
       })
-    } else {
-      this.setState({
-        userID: userID,
-        supplierChat: supplierChat,
-        selectedIndex:0,
-        loading: false
-      })
-    }
-  }
+    })
+  })
 }
 
 componentWillUnmount(){
@@ -67,57 +92,6 @@ componentWillReceiveProps(nextProps){
     this.apiCall()
   }
 
-}
-
-getUSERID = async ()=>{
-  return new Promise((resolve, reject)=>{
-    auth().onAuthStateChanged(user => {
-      if (!user) {
-      } else {
-        resolve(user.uid)
-      }
-    })
-  })
-}
-
-getRenterID = async (ID)=>{
-  const result = []
-  return new Promise((resolve, reject)=>{
-    firestore().collection('Chats').where('renterID','==',ID).get()
-    .then(querySnapshot => {
-        if(querySnapshot.docs.length > 0){
-          querySnapshot.forEach(documentSnapshot => {
-            result.push(documentSnapshot.data())
-          });
-          resolve(result)
-        } else{
-          resolve(result)
-        }
-    });
-  })
-}
-
-getSupplierID = async (ID)=>{
-  const result = []
-  return new Promise((resolve, reject)=>{
-    firestore().collection('Chats').where('supplierID','==',ID).get()
-    .then(querySnapshot => {
-        if(querySnapshot.docs.length > 0){
-          querySnapshot.forEach(documentSnapshot => {
-            result.push(documentSnapshot.data())
-          });
-          resolve(result)
-        } else{
-          resolve(result)
-        }
-    });
-  })
-}
-
-handleIndexChange = (values) =>{
-  this.setState({
-    selectedIndex:values
-  })
 }
 
 showSupplier = () =>{
@@ -147,26 +121,31 @@ showSupplier = () =>{
   )  
 }
 
-showRenter = () =>{
+getAllChats = () =>{
   return(
-    <ScrollView style={{marginTop:30}}>
+    <ScrollView>
       {
-        this.state.renterChat
+        this.state.allChats
         ?
-        this.state.renterChat.map((item,index)=>(
+        this.state.allChats.map((item,index)=>(
           <List key={index}>
             <ListItem>
               <Left>
-                <Text>
-                  {item.title}
-                </Text>
+                <Body>
+                  <Text>
+                    {item.title}
+                  </Text>
+                  <Text note>
+                    {item.type}
+                  </Text>
+                </Body>
               </Left>
               <Right>
                 <Icon type="FontAwesome" name="send-o" onPress={() => this.chatbubleRent(item)} />
               </Right>
             </ListItem>
           </List>
-            ))
+          ))
         :
         <NotificationNot />
       }
@@ -181,7 +160,7 @@ showRenter = () =>{
   }
 
   chatbubleRent = value =>{
-    this.props.navigation.navigate("RenterChat",{
+    this.props.navigation.navigate("ChatBubble",{
       listing: value
     })
   }
@@ -199,38 +178,30 @@ showRenter = () =>{
         <ScrollView refreshControl={
           <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.loading} />
         }>
-          <Header transparent>
-            <Left>
-              <H3>Inbox</H3>
-            </Left>
-            <Body />
-            <Right />
-          </Header>
-          <SegmentedControlTab
-            borderRadius={0}
-            tabsContainerStyle={{ height: 50, backgroundColor: '#F2F2F2',marginLeft:10, marginRight:10 }}
-            tabStyle={{ backgroundColor: 'white',fontSize:16, borderWidth: 0, borderColor: 'transparent', alignItems:'baseline' }}
-            activeTabStyle={{ backgroundColor: 'white',borderBottomColor:colors.saagColor, marginBottom: 2, borderBottomWidth:2, textAlign:'left' }}
-            tabTextStyle={{ color: 'black', }}
-            activeTabTextStyle={{ color: 'black' }}
-            values={this.state.segmentTab}
-            selectedIndex={this.state.selectedIndex}
-            onTabPress={this.handleIndexChange}
-          />
-          {
-            this.state.supplierChat.length > 0
-            ? 
-              this.showSupplier() 
-            :
-            null
+          {this.state.allChats.length > 0 && this.state.allChats
+          ? 
+            <H1 
+              style={{marginTop:hp('5%'), marginLeft:wp('5%')}}>
+              Inbox
+            </H1> 
+          : 
+            <H1 
+              style={{marginTop:hp('5%'), marginLeft:wp('5%')}}>
+              Inbox
+            </H1>
           }
           {
-            this.state.renterChat.length > 0
-            ?
-            // <NotificationNot />
-              this.showRenter()
-            :
-            null
+          this.state.allChats.length > 0 && this.state.allChats  
+          ? 
+            <CardView 
+              onRefresh={this.onRefresh} 
+              loading={this.state.loading} 
+              navigation={this.chatbubleRent} 
+              goBack={this.goBack} 
+              result={this.state.allChats} 
+            /> 
+          : 
+            <NoMessages />
           }
         </ScrollView>
         <Loader
@@ -241,10 +212,83 @@ showRenter = () =>{
     );
   }
 }
-
 const styles = StyleSheet.create({
   wrapper: {
     display: 'flex',
-    padding: 50,
+    flex:1
+    // backgroundColor: colors.white,
+  },
+  contentType:{
+    marginTop:5,
+    fontSize:14
+  },
+  CardStyle:{
+    borderRadius:10,
+    flex:1,
+    width:wp('100%'),
+    // marginLeft:wp('5%'), 
+    borderWidth:1, 
+    borderColor:'white',
+    backgroundColor:'red',
+    marginTop:50
+  },
+  footer: {
+  	// width: '60%',
+  	// height: 80,
+  	// bottom: 0,
+  	// borderTopWidth: 1,
+  	// borderTopColor: colors.gray05,
+  	paddingLeft: 20,
+  	paddingRight: 20,
+  },
+  findHomesButton: {
+  	paddingTop: 15,
+  	paddingBottom: 15,
+  	marginTop: 16,
+  	borderRadius: 3,
+  	backgroundColor: colors.saagColor,
+  },
+  findHomesButtonText: {
+    color: colors.white,
+    textAlign: 'center',
+    fontWeight: '600',
   },
 });
+
+const CardView = (props) =>{
+  const result = props.result
+  return(
+    <View style={{flex:1,marginTop:20}}>
+      <FlatList
+        data={result}
+        refreshControl={
+          <RefreshControl onRefresh={props.onRefresh} refreshing={props.loading} />
+        }
+        renderItem={({item, index})=>(
+          <TouchableOpacity 
+            onPress={() => props.navigation(item)} 
+            key={index}
+          >
+            <List>
+              <ListItem>
+                <Left>
+                  <Body>
+                    <Text>
+                      {item.title}
+                    </Text>
+                    <Text note>
+                      {item.type}
+                    </Text>
+                  </Body>
+                </Left>
+                <Right>
+                  <Icon type="FontAwesome" name="send-o" onPress={() => props.navigation(item)} />
+                </Right>
+              </ListItem>
+            </List>
+          </TouchableOpacity>
+        )}
+        />
+    </View>
+  )
+}

@@ -60,7 +60,7 @@ You can orders item from the Home Page.
         </Text>
       </ScrollView>
       <View style={styles.footer}>
-        <TouchableHighlight style={styles.findHomesButton}>
+        <TouchableHighlight onPress={this.props.orderItems} style={styles.findHomesButton}>
           <Text style={styles.findHomesButtonText}>
 Order Items
           </Text>

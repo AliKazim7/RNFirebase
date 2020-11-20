@@ -151,11 +151,6 @@ export default class PreviewItem extends React.Component{
                     <View>
                         <Text style={{marginTop:0, marginLeft:10}}> ${listing.price1}</Text>
                     </View>
-                    <View style={{position:'absolute', bottom:0, right:widthPercentageToDP('5%')}}>
-                        <Button style={{marginLeft:40, marginBottom:5, marginTop:5}} danger>
-                            <Text>Check availablility</Text>
-                        </Button>
-                    </View>
                 </View>
             </Container>
         )

@@ -14,6 +14,7 @@ import { Body, Container, H1, H3, Header, Icon, Left, Right, Title } from 'nativ
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import { GiftedChat } from 'react-native-gifted-chat';
+import { getAllMessages, getUSERID } from '../../services/service'
 
 export default class ChatMessages extends Component {
   constructor(props){
@@ -28,32 +29,42 @@ export default class ChatMessages extends Component {
       supplierID:'',
       listItems:''
     }
-  this.getTotalMessages()
-}
-  
-  getTotalMessages = async() =>{
-  }
+ }
 
 async componentDidMount(){
-  this.getTotalMessages()
   this.apiCall()
 }
 
 apiCall = async() =>{
-  const userID = await this.getUSERID()
-  const getUSER = await this.getUSERDATA(userID)
-  if(userID && getUSER){
-      const getMessages = this.getMessages(this.props.route.params.listing.messages)
+  const userid = getUSERID()
+  userid.then(USERID =>{
+    const getMessages = getAllMessages(this.props.route.params.listing.ChatID)
+    getMessages.then(response=>{
+      console.log("this.props ", response,USERID)
       const user ={
-        _id: getUSER.uid,
-        name: getUSER.firstName,
-        loading: false
+        _id: USERID
       }
-    this.setState({
-      userID: user,
-      lisitng: this.props.route.params.listing,
+      this.setState({
+        messages:response.messages,
+        userID: user,
+        loading: false,
+        lisitng: this.props.route.params.listing
+      })
     })
-  }
+  })
+  // const userID = await this.getUSERID()
+  // const getUSER = await this.getUSERDATA(userID)
+  // if(userID && getUSER){
+  //     const getMessages = this.getMessages(this.props.route.params.listing.messages)
+  //     const user ={
+  //       _id: getUSER.uid,
+  //     }
+  //   this.setState({
+  //     userID: user,
+  //     lisitng: this.props.route.params.listing,
+  //     loading: false
+  //   })
+  // }
 }
 
 getUSERDATA = userID =>{
@@ -93,37 +104,13 @@ docID = async() =>{
   })
 }
 
-getUSERID = async ()=>{
-  return new Promise((resolve, reject)=>{
-    auth().onAuthStateChanged(user => {
-      if (!user) {
-      } else {
-        // this.setState({
-        //   userID: user.uid
-        // })
-        resolve(user.uid)
-      }
-    })
-  })
-}
-
-componentWillUnmount() {
-  // Fire.shared.off();
-}
-
-handleIndexChange = (values) =>{
-  this.setState({
-    selectedIndex:values
-  })
-}
-
-
 sendDATA = async (value) =>{
   const docID = await this.docID()
     if(docID){
         var documentID = docID.id;
         var previous = docID.data().messages
-        previous.splice(0,0,value[0])
+        previous.push(value[0])
+        console.log("documentID", previous)
         firestore().collection('Chats').doc(documentID).update({
           messages: previous
         })
@@ -145,10 +132,7 @@ onRefresh = () =>{
   render() {
     return (
       <Container>
-       <ScrollView refreshControl={
-         <RefreshControl onRefresh={this.onRefresh} refreshing={this.state.loading} />
-       }>
-        <Header transparent>
+        <Header  transparent>
             <Left>
               <Icon type="AntDesign" name="arrowleft" onPress={() => this.props.navigation.navigate('InboxTab',{userID: this.state.userID})} />
             </Left>
@@ -158,13 +142,12 @@ onRefresh = () =>{
               </Title>
             </Body>
           <Right />
-          </Header>
-            <GiftedChat
-              messages={this.state.messages}
-              user={this.state.userID}
-              onSend={newMessage => this.sendDATA(newMessage)}
-            />
-       </ScrollView>
+        </Header>
+      <GiftedChat
+        messages={this.state.messages}
+        user={this.state.userID}
+        onSend={newMessage => this.sendDATA(newMessage)}
+      />
       </Container>
     );
   }

@@ -126,7 +126,7 @@ export default class SavedDetail extends React.Component{
                         <Icon type="Entypo" style={headStyle.rightIcon} name="dots-three-vertical" />
                     </View>
                 </Header>
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false} style={styles.mainContainer}>
                     <View style={styles.TitleView}>
                       <H1 style={{marginBottom:5}}>{this.state.title}</H1>
                         <Button onPress={() => this.showFilter()} style={{backgroundColor:colors.saagColor,width:wp('30%'), marginTop:10, marginBottom:20}}>
@@ -428,5 +428,9 @@ const styles = StyleSheet.create({
     width:50, 
     backgroundColor:'white', 
     borderRadius:40
-},
-  });
+  },
+  mainContainer:{
+    marginLeft:20,
+    marginRight:20
+  }
+});

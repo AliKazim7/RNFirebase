@@ -134,12 +134,8 @@ export async function getUSERDATA(userID){
         firestore()
           .collection('Users')
           .where('uid', '==', userID)
-          .get()
-          .then(querySnapshot => {
-            querySnapshot.forEach(documentSnapshot => {
-              result.push(documentSnapshot.data())
-            });
-            resolve(result)
+          .onSnapshot(function(doc) {
+            resolve(doc.docs[0].data())
           });
       })
 }
@@ -607,4 +603,93 @@ export async function getOrderSupplier(value){
         resolve(result)
       })
     })
+}
+export async function displayRented(mainArray, orderArray){
+  return new Promise((resolve, reject) =>{
+    mainArray.forEach((item ,index)=>{
+      orderArray.forEach((listing)=>{
+        if(item.id === listing.itemID){
+          mainArray[index].rented = true
+        } else{
+          mainArray[index].rented = false
+        }
+      })
+    })
+    resolve(mainArray)
+  })
+}
+
+export async function getRenterChat(userID){
+  const result = []
+    return new Promise((resolve, reject)=>{
+      firestore().collection('Chats').where('renterID','==', userID)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          result.push(documentSnapshot.data())
+        });
+        resolve(result)
+      })
+    })
+}
+
+export async function getSupplierChat(userID){
+  const result = []
+    return new Promise((resolve, reject)=>{
+      firestore().collection('Chats').where('supplierID','==', userID)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(documentSnapshot => {
+          result.push(documentSnapshot.data())
+        });
+        resolve(result)
+      })
+    })
+}
+
+export async function getItemDetail(userID){
+  return new Promise((resolve, reject)=>{
+    firestore().collection('ItemList')
+    .where('id', '==', userID)
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(documentSnapshot => {
+        resolve(documentSnapshot.data())
+        // result.push(documentSnapshot.data())
+      });
+      // resolve(result)
+    });
+  })
+}
+
+
+export async function getAllMessages(chatID){
+  return new Promise((resolve, reject)=>{
+    firestore()
+    .collection("Chats")
+    .doc(chatID)
+    .onSnapshot(function(doc) {
+      resolve(doc.data())
+    });
+  })
+}
+
+export async function getOrderItems(ID){
+  const result = []
+  return new Promise((resolve,reject)=>{
+      firestore()
+      .collection('OrderItems')
+      .where('itemID','==', ID)
+      .get()
+      .then(querySnapshot => {
+        if(querySnapshot.docs.length > 0){
+          querySnapshot.forEach(documentSnapshot => {
+            result.push(documentSnapshot.data())
+          });
+          resolve(result)
+        } else {
+          resolve([])
+        }
+      });
+  })
 }

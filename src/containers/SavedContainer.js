@@ -133,8 +133,12 @@ const styles = StyleSheet.create({
 
 const CardView = (props) =>{
   const result = props.result
+  const result1 = result.filter((item, index)=>{
+    return item.id !== item.id
+  })
+  console.log("item and id", result1)
   return(
-    <View style={{flex:1}}>
+    <View style={{flex:1, marginLeft:20, marginRight:20}}>
       <FlatList
         data={result}
         refreshControl={
